@@ -64,16 +64,21 @@
     "aleksandeR": {
       "Package": "aleksandeR",
       "Version": "0.0.0.9000",
-      "Source": "Local",
-      "RemoteType": "local",
-      "RemoteUrl": "/Users/aleksanderbang-larsen/Tinker/aleksandeR",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "aleksandeR",
+      "RemoteUsername": "aleksanderbl29",
+      "RemotePkgRef": "aleksanderbl29/aleksandeR",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "c14a33f07687f42a7ea460c91af8ce26204923c0",
       "Requirements": [
         "cli",
         "ggplot2",
         "ggthemes",
         "stringr"
       ],
-      "Hash": "643b4eb6d3c74a04a56f658081bf5a6f"
+      "Hash": "fc3469d5c1c97039bcfdad622b4226a2"
     },
     "base64enc": {
       "Package": "base64enc",
