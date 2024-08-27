@@ -1,3 +1,18 @@
+prepare_classes <- function(classes) {
+  if (!exists("classes")) {
+    cli::cli_abort("Please provide classes")
+  }
+  classes <- paste(seq_along(classes), "-", classes)
+
+  classes <- stringr::str_replace_all(classes, ": ", " - ")
+  classes <- stringr::str_replace_all(classes, ":", "-")
+  classes <- stringr::str_replace_all(classes, " :", " -")
+
+  for (i in seq_along(classes)) {
+    dir.create(paste0("../", classes[i]))
+  }
+}
+
 classes <- c(
   "Introduktion til kurset og R",
   "Datahåndtering og manipulation i R",
@@ -15,7 +30,7 @@ classes <- c(
   "Projekt-præsentationer"
 )
 
-aleksandeR::prepare_classes(c(
+prepare_classes(c(
   "Introduktion til kurset og R",
   "Datahåndtering og manipulation i R",
   "Geo-data",
