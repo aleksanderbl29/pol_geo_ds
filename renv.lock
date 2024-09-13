@@ -1691,6 +1691,26 @@
       ],
       "Hash": "4f50122dc256b1b6996a4703fecea821"
     },
+    "modelsummary": {
+      "Package": "modelsummary",
+      "Version": "2.1.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "checkmate",
+        "data.table",
+        "generics",
+        "glue",
+        "insight",
+        "methods",
+        "parameters",
+        "performance",
+        "tables",
+        "tinytable"
+      ],
+      "Hash": "6f1176965cb534c9ee6c2898a902921b"
+    },
     "munsell": {
       "Package": "munsell",
       "Version": "0.5.1",
@@ -2463,6 +2483,20 @@
       ],
       "Hash": "213b6b8ed5afbf934843e6c3b090d418"
     },
+    "tables": {
+      "Package": "tables",
+      "Version": "0.9.28",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "htmltools",
+        "knitr",
+        "stats",
+        "utils"
+      ],
+      "Hash": "10ff380f6d1d37faf6084523b45f1083"
+    },
     "terra": {
       "Package": "terra",
       "Version": "1.7-78",
@@ -2767,6 +2801,16 @@
         "mice"
       ],
       "Hash": "d174704180ec2634a0b4a573ca554fec"
+    },
+    "wesanderson": {
+      "Package": "wesanderson",
+      "Version": "0.3.7",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "f0d5ebcc72b5d6d2f338be8d80d39004"
     },
     "withr": {
       "Package": "withr",
