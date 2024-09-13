@@ -2041,9 +2041,14 @@
     },
     "raster": {
       "Package": "raster",
-      "Version": "3.6-26",
-      "Source": "Repository",
-      "Repository": "CRAN",
+      "Version": "3.6-28",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "raster",
+      "RemoteUsername": "rspatial",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "285d44400d1a631f2fc182db22a510709040b6f8",
       "Requirements": [
         "R",
         "Rcpp",
@@ -2051,7 +2056,7 @@
         "sp",
         "terra"
       ],
-      "Hash": "7d6eda494f34a644420ac1bfd2a8023a"
+      "Hash": "cb5452c7a056a385fdd8d4e167f369dc"
     },
     "readr": {
       "Package": "readr",
@@ -2333,9 +2338,14 @@
     },
     "sf": {
       "Package": "sf",
-      "Version": "1.0-16",
-      "Source": "Repository",
-      "Repository": "RSPM",
+      "Version": "1.0-18",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "sf",
+      "RemoteUsername": "r-spatial",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "a07adc642096c14bbddd417cc34646f850efd10b",
       "Requirements": [
         "DBI",
         "R",
@@ -2352,7 +2362,7 @@
         "units",
         "utils"
       ],
-      "Hash": "ad57b543f7c3fca05213ba78ff63df9b"
+      "Hash": "466932ef25c654d306766d85aa32f330"
     },
     "shape": {
       "Package": "shape",
@@ -2826,13 +2836,13 @@
     },
     "wk": {
       "Package": "wk",
-      "Version": "0.9.2",
+      "Version": "0.9.3",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Requirements": [
         "R"
       ],
-      "Hash": "877644b9b942d429f3708e12c98d1a22"
+      "Hash": "9ca478d7cb1450b42dcb8af2ea5681cc"
     },
     "writexl": {
       "Package": "writexl",
