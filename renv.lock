@@ -4,7 +4,11 @@
     "Repositories": [
       {
         "Name": "CRAN",
-        "URL": "https://packagemanager.posit.co/cran/latest"
+        "URL": "https://cran.rstudio.com"
+      },
+      {
+        "Name": "aleksanderbl29",
+        "URL": "https://aleksanderbl29.r-universe.dev"
       }
     ]
   },
@@ -250,7 +254,7 @@
       "Package": "anytime",
       "Version": "0.3.9",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "https://packagemanager.posit.co/cran/latest",
       "Requirements": [
         "BH",
         "R",
@@ -702,14 +706,9 @@
     },
     "dawaR": {
       "Package": "dawaR",
-      "Version": "0.0.0.9000",
-      "Source": "GitHub",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteRepo": "dawaR",
-      "RemoteUsername": "aleksanderbl29",
-      "RemoteRef": "HEAD",
-      "RemoteSha": "d516469b67746ca228e20707a5ab42b2b89cde99",
+      "Version": "0.1.0",
+      "Source": "Repository",
+      "Repository": "aleksanderbl29",
       "Requirements": [
         "R",
         "cli",
@@ -717,7 +716,7 @@
         "sf",
         "tidyRSS"
       ],
-      "Hash": "3d9f9eae07378c068b9f514752874f61"
+      "Hash": "ed974653f095cb8b052e7a0b012228dc"
     },
     "dbplyr": {
       "Package": "dbplyr",
@@ -842,7 +841,7 @@
       "Package": "e1071",
       "Version": "1.7-14",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "https://packagemanager.posit.co/cran/latest",
       "Requirements": [
         "class",
         "grDevices",
@@ -2276,7 +2275,7 @@
       "Package": "s2",
       "Version": "1.1.7",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "https://packagemanager.posit.co/cran/latest",
       "Requirements": [
         "R",
         "Rcpp",
@@ -2338,14 +2337,9 @@
     },
     "sf": {
       "Package": "sf",
-      "Version": "1.0-18",
-      "Source": "GitHub",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteRepo": "sf",
-      "RemoteUsername": "r-spatial",
-      "RemoteRef": "HEAD",
-      "RemoteSha": "a07adc642096c14bbddd417cc34646f850efd10b",
+      "Version": "1.0-17",
+      "Source": "Repository",
+      "Repository": "CRAN",
       "Requirements": [
         "DBI",
         "R",
@@ -2362,7 +2356,7 @@
         "units",
         "utils"
       ],
-      "Hash": "466932ef25c654d306766d85aa32f330"
+      "Hash": "453a7d0263eae87a7831242a74fe9b60"
     },
     "shape": {
       "Package": "shape",
@@ -2709,7 +2703,7 @@
       "Package": "units",
       "Version": "0.8-5",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "https://packagemanager.posit.co/cran/latest",
       "Requirements": [
         "R",
         "Rcpp"
