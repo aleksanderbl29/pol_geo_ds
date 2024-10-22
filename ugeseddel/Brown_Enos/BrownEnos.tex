@@ -1,0 +1,368 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  a4paper,
+  DIV=11,
+  numbers=noendperiod]{scrartcl}
+
+\usepackage{amsmath,amssymb}
+\usepackage{setspace}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else  
+    % xetex/luatex font selection
+    \setmainfont[]{Times New Roman}
+    \setsansfont[]{Times New Roman}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[top=2cm,bottom=4cm,left=2cm,right=2cm,heightrounded]{geometry}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\setcounter{secnumdepth}{5}
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+ % allow citations to break across lines
+ \let\@cite@ofmt\@firstofone
+ % avoid brackets around text for \cite:
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
+  \fi
+  % set entry spacing
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+\usepackage{float}
+\usepackage{tabularray}
+\usepackage[normalem]{ulem}
+\usepackage{graphicx}
+\UseTblrLibrary{booktabs}
+\UseTblrLibrary{rotating}
+\UseTblrLibrary{siunitx}
+\NewTableCommand{\tinytableDefineColor}[3]{\definecolor{#1}{#2}{#3}}
+\newcommand{\tinytableTabularrayUnderline}[1]{\underline{#1}}
+\newcommand{\tinytableTabularrayStrikeout}[1]{\sout{#1}}
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\fancypagestyle{fancy}{
+ \fancyhf{} % clear all header and footer fields
+ \fancyfoot[C]{Side \thepage\ af \pageref*{LastPage}}
+ \renewcommand{\headrulewidth}{0pt}
+ \renewcommand{\footrulewidth}{0pt}
+}
+\fancypagestyle{plain}{
+ \fancyhf{}
+ \fancyfoot[C]{Side \thepage\ af \pageref*{LastPage}}
+ \renewcommand{\headrulewidth}{0pt}
+ \renewcommand{\footrulewidth}{0pt}
+}
+\pagestyle{fancy}
+\KOMAoption{captions}{tableheading,figureheading}
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Indholdsfortegnelse}
+\else
+  \newcommand\contentsname{Indholdsfortegnelse}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{Figuroversigt}
+\else
+  \newcommand\listfigurename{Figuroversigt}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{Tabeloversigt}
+\else
+  \newcommand\listtablename{Tabeloversigt}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figur}
+\else
+  \newcommand\figurename{Figur}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Tabel}
+\else
+  \newcommand\tablename{Tabel}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Liste}
+\newcommand*\listoflistings{\listof{codelisting}{Listeoversigt}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+
+\ifLuaTeX
+\usepackage[bidi=basic]{babel}
+\else
+\usepackage[bidi=default]{babel}
+\fi
+\babelprovide[main,import]{danish}
+\ifPDFTeX
+\else
+\babelfont{rm}[]{Times New Roman}
+\fi
+% get rid of language-specific shorthands (see #6817):
+\let\LanguageShortHands\languageshorthands
+\def\languageshorthands#1{}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Brown \& Enos i Danmark},
+  pdfauthor={Aleksander Bang-Larsen},
+  pdflang={da},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Brown \& Enos i Danmark}
+\author{Aleksander Bang-Larsen}
+\date{22. oktober 2024}
+
+\begin{document}
+\maketitle
+
+
+\setstretch{1.25}
+\section{Motivation}\label{motivation}
+
+Brown og Enos (\citeproc{ref-brown2021}{2021}) undersøger den lokale
+geografiske politiske opdeling (segregering) og hvordan den er
+forskellig på tværs af geografiske områder og grader af
+befolkningstæthed. Geografisk politisk opdeling beskriver det fænomen,
+hvor individer med forskellige politiske orienteringer bosætter sig
+adskilt fra hinanden. Dette taler ind i litteraturen om socialisering,
+gruppekonflikt og kan skabe problemer for hvordan vi optimalt fordeler
+ressourcer i vores samfund (\citeproc{ref-brown2021}{ibid.}).
+
+\textbf{Hvorfor er det vigtigt at undersøge i Danmark?} Det er super
+interessant at vide, hvordan lokalområder i Danmark påvirkes af deres
+naboer. Det giver også god intuitiv mening at en landmand har nogenlunde
+samme holdninger som sin nabolandmand, eller at en
+universitetsstuderende kan have lignende holdninger som sin nabo der
+også er studerende. Det kan særligt have relevans for forskellene mellem
+land og by, men i mine øjne har det også stor indvirkning på, hvordan
+lokalvalg (kommunal- og regionsrådsvalg) ender.
+
+Brown og Enos (\citeproc{ref-brown2021}{ibid.}) undersøger de
+geografiske forskelle mellem \emph{clustering} af demokrater og
+republikanere i USA. På samme måde er det relevant at undersøge hvordan
+danske politiske tilhængere placerer sig i \emph{clusters}. Der er i
+Danmark rimelige forskelle mellem land- og by, både i politisk og
+åndelig forstand, men også rent geografisk og naturmæssigt.
+
+\section{Målingsstrategi}\label{muxe5lingsstrategi}
+
+For at fremlægge hvordan jeg vil måle den geografiske opdeling i Danmark
+vil jeg først gennemgå min konceptualisering af selve fænomenet. Herfra
+vil jeg teoretisk beskrive, hvordan det kan måles; både i den mest
+optimale situation og hvordan jeg realistisk vil måle det. Sidstnævnte
+vil drive udfordringsafsnittet nedenfor.
+
+Jeg forstår den geografiske politiske opdeling som den mængde
+eksponering hvert individ har med andre individer i sit lokalområde
+(eller i sin hverdag) der har både ensrettede og modsatrettede politiske
+overbevisninger. Fordelingen af partier beskrives i afsnittet nedenfor.
+Udover fordelingen af partier vil jeg i en optimal situation opnå
+stemmeadfærdsdata for hvert individ i et givent område (f.eks.
+kommunerne Aarhus og Herning). Disse individ-niveau data vil jeg kode
+sammen med bopælsoplysninger for hvert individ og gennemgå analysen fra
+Brown og Enos (\citeproc{ref-brown2021}{ibid.}). Det er dog urealistisk
+at opnå vælgeradfærdsdata for hele kommuner med stor grad sikkerhed i
+Danmark, da alle stemmer er anonyme og der introduceres hukommelsesbias
+i et survey. Det survey vil udover at være meget omfattende også være
+meget dyrt - hvis der skulle indsamles data for hele kommuner. Derfor
+vil jeg undersøge stemmefordelingen på valgstedsniveau, hvorfra der
+opnås stemmeadfærd på alle opstillede partier i relativt små områder.
+Her kan der tilfædigt placeres et punkt for hver stemme på hvert parti i
+et given afstemningsområde. Alternativt kan disse punkter placeres i
+centroiden for området som beskrevet af Logan
+(\citeproc{ref-logan2012}{2012: 5}), hvilket også er den tilgang jeg vil
+hælde til. Herfra kan analysen fra Brown og Enos
+(\citeproc{ref-brown2021}{2021}) kan gennemføres.
+
+De politiske overbevisninger er i Danmark mere spredte end i USA, hvor
+der er \(11 (+4)\) partier i folketinget. Det giver en udfordring i,
+hvordan man skal inddele individernes orientering. Jeg ser det mest
+fordelagtigt at inddele \(4\) grupperinger; Venstrefløjen,
+centrum-venstre, højrefløjen og den yderste højrefløj. Jeg vil gruppere
+partierne på en skala som ses i Tabel~\ref{tbl-1}.
+
+\begin{table}
+
+\caption{\label{tbl-1}Partiernes inddeling i fire grupper}
+
+\centering{
+
+\centering
+\begin{tblr}[         %% tabularray outer open
+]                     %% tabularray outer close
+{                     %% tabularray inner open
+colspec={Q[]Q[]Q[]Q[]},
+}                     %% tabularray inner close
+\toprule
+Venstrefløjen & Centrum-venstre & Højre & Yderste højrefløj \\ \midrule %% TinyTableHeader
+Alternativet & Socialistisk Folkeparti & Venstre                     & Danmarksdemokraterne \\
+Frie Grønne  & Socialdemokraterne      & Det Konservative Folkeparti & Dansk Folkeparti     \\
+Enhedslisten & Det Radikale Venstre    & Liberal Alliance            & Nye Borgerlige       \\
+& Moderaterne             &                             &                      \\
+\bottomrule
+\end{tblr}
+
+}
+
+\end{table}%
+
+\section{Udfordringer}\label{udfordringer}
+
+Ovenfor har jeg beskrevet en metode til at måle de politiske
+tilknytninger for borgere på valgstedsniveau. Det kan være problematisk
+hvis man vil måle eksponeringen på lavere niveau. Dog synes det
+fordelagtigt at vi kan afgrænse eksponeringen til dette lukkede (og
+relativt lille) område. Derudover synes det at være den mest
+tilgængelige metode at opnå data der ligner vælgerregistrene der bruges
+i Brown og Enos (\citeproc{ref-brown2021}{2021}).
+
+Ved at tilskrive alle punkterne enten tilfældige placeringer eller
+afstemningsområdets centroide som placering vil vi indføre støj der i en
+optimal verden ikke var til stede. Hvis det var muligt at tilegne sig
+vælgerregistre eller udføre stor-skala survey med repræsentation af alle
+områder ville disse muligheder være at foretrække.
+
+Min tilgang kan være teoretisk begrænset i det, at der ikke reelt
+måles/spørges til vælgerens politiske overbevisning, eller den
+overbevisning de udtrykker i deres lokalsamfund, men blot måles
+vælgeradfærd tilbage i tiden. Dog ser jeg ikke koblingen fra politisk
+overbevisning til vælgeradfærd som værende et stort problem.
+
+\section{Litteratur}\label{litteratur}
+
+\phantomsection\label{refs}
+\begin{CSLReferences}{1}{1}
+\bibitem[\citeproctext]{ref-brown2021}
+Brown, Jacob R. og Ryan D. Enos (2021).
+\href{https://doi.org/10.1038/s41562-021-01066-z}{The Measurement of
+Partisan Sorting for 180 Million Voters}. \emph{Nature Human Behaviour}
+5 (8): 998--1008.
+
+\bibitem[\citeproctext]{ref-logan2012}
+Logan, John R. (2012).
+\href{https://doi.org/10.1146/annurev-soc-071811-145531}{Making a
+{Place} for {Space}: {Spatial Thinking} in {Social Science}}.
+\emph{Annual review of sociology} 38.
+
+\end{CSLReferences}
+
+
+
+
+\end{document}

@@ -1,0 +1,74 @@
+---
+title: "Brown & Enos i Danmark"
+author:
+  - name: Aleksander Bang-Larsen
+date: 10-22-2024
+date-format: D. MMMM YYYY
+lang: da
+format:
+  pdf:
+    fig-pos: "thb"
+    latex-auto-install: true
+    include-in-header:
+      - file: tex/pagenumbers.tex
+    link-citations: true
+    colorlinks: false
+    keep-tex: true
+    geometry:
+      - top=2cm
+      - bottom=4cm
+      - left=2cm
+      - right=2cm
+      - heightrounded
+    linestretch: 1.25
+    papersize: a4
+    mainfont: "Times New Roman"
+    sansfont: "Times New Roman"
+cap-location: top
+numbersections: true
+bibliography: ../../references.bib
+csl: ../../politica-w-ibid.csl
+---
+# Motivation
+
+@brown2021 undersøger den lokale geografiske politiske opdeling (segregering) og hvordan den er forskellig på tværs af geografiske områder og grader af befolkningstæthed.
+Geografisk politisk opdeling beskriver det fænomen, hvor individer med forskellige politiske orienteringer bosætter sig adskilt fra hinanden. Dette taler ind i litteraturen om socialisering, gruppekonflikt og kan skabe problemer for hvordan vi optimalt fordeler ressourcer i vores samfund [@brown2021].
+
+**Hvorfor er det vigtigt at undersøge i Danmark?** Det er super interessant at vide, hvordan lokalområder i Danmark påvirkes af deres naboer. Det giver også god intuitiv mening at en landmand har nogenlunde samme holdninger som sin nabolandmand, eller at en universitetsstuderende kan have lignende holdninger som sin nabo der også er studerende. Det kan særligt have relevans for forskellene mellem land og by, men i mine øjne har det også stor indvirkning på, hvordan lokalvalg (kommunal- og regionsrådsvalg) ender.
+
+@brown2021 undersøger de geografiske forskelle mellem *clustering* af demokrater og republikanere i USA. På samme måde er det relevant at undersøge hvordan danske politiske tilhængere placerer sig i *clusters*. Der er i Danmark rimelige forskelle mellem land- og by, både i politisk og åndelig forstand, men også rent geografisk og naturmæssigt.
+
+# Målingsstrategi
+
+For at fremlægge hvordan jeg vil måle den geografiske opdeling i Danmark vil jeg først gennemgå min konceptualisering af selve fænomenet. Herfra vil jeg teoretisk beskrive, hvordan det kan måles; både i den mest optimale situation og hvordan jeg realistisk vil måle det. Sidstnævnte vil drive udfordringsafsnittet nedenfor.
+
+Jeg forstår den geografiske politiske opdeling som den mængde eksponering hvert individ har med andre individer i sit lokalområde (eller i sin hverdag) der har både ensrettede og modsatrettede politiske overbevisninger. Fordelingen af partier beskrives i afsnittet nedenfor. Udover fordelingen af partier vil jeg i en optimal situation opnå stemmeadfærdsdata for hvert individ i et givent område (f.eks. kommunerne Aarhus og Herning). Disse individ-niveau data vil jeg kode sammen med bopælsoplysninger for hvert individ og gennemgå analysen fra @brown2021. Det er dog urealistisk at opnå vælgeradfærdsdata for hele kommuner med stor grad sikkerhed i Danmark, da alle stemmer er anonyme og der introduceres hukommelsesbias i et survey. Det survey vil udover at være meget omfattende også være meget dyrt - hvis der skulle indsamles data for hele kommuner. Derfor vil jeg undersøge stemmefordelingen på valgstedsniveau, hvorfra der opnås stemmeadfærd på alle opstillede partier i relativt små områder. Her kan der tilfædigt placeres et punkt for hver stemme på hvert parti i et given afstemningsområde. Alternativt kan disse punkter placeres i centroiden for området som beskrevet af @logan2012[5], hvilket også er den tilgang jeg vil hælde til. Herfra kan analysen fra @brown2021 kan gennemføres.
+
+De politiske overbevisninger er i Danmark mere spredte end i USA, hvor der er $11 (+4)$ partier i folketinget. Det giver en udfordring i, hvordan man skal inddele individernes orientering. Jeg ser det mest fordelagtigt at inddele $4$ grupperinger; Venstrefløjen, centrum-venstre, højrefløjen og den yderste højrefløj. Jeg vil gruppere partierne på en skala som ses i @tbl-1.
+
+```{r}
+#| tbl-cap: "Partiernes inddeling i fire grupper"
+#| echo: false
+#| label: tbl-1
+
+tibble::tibble(
+  "Venstrefløjen" = c("Alternativet", "Frie Grønne", "Enhedslisten", ""),
+  "Centrum-venstre" = c("Socialistisk Folkeparti", "Socialdemokraterne", "Det Radikale Venstre", "Moderaterne"),
+  "Højre" = c("Venstre", "Det Konservative Folkeparti", "Liberal Alliance", ""),
+  "Yderste højrefløj" = c("Danmarksdemokraterne", "Dansk Folkeparti", "Nye Borgerlige", "")
+) |>
+  tinytable::tt()
+```
+
+# Udfordringer
+
+Ovenfor har jeg beskrevet en metode til at måle de politiske tilknytninger for borgere på valgstedsniveau. Det kan være problematisk hvis man vil måle eksponeringen på lavere niveau. Dog synes det fordelagtigt at vi kan afgrænse eksponeringen til dette lukkede (og relativt lille) område. Derudover synes det at være den mest tilgængelige metode at opnå data der ligner vælgerregistrene der bruges i @brown2021.
+
+Ved at tilskrive alle punkterne enten tilfældige placeringer eller afstemningsområdets centroide som placering vil vi indføre støj der i en optimal verden ikke var til stede. Hvis det var muligt at tilegne sig vælgerregistre eller udføre stor-skala survey med repræsentation af alle områder ville disse muligheder være at foretrække.
+
+Min tilgang kan være teoretisk begrænset i det, at der ikke reelt måles/spørges til vælgerens politiske overbevisning, eller den overbevisning de udtrykker i deres lokalsamfund, men blot måles vælgeradfærd tilbage i tiden. Dog ser jeg ikke koblingen fra politisk overbevisning til vælgeradfærd som værende et stort problem.
+
+# Litteratur
+
+::: {#refs}
+:::
