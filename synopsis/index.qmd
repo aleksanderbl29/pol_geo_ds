@@ -1,0 +1,45 @@
+---
+title: Klassifikaiton af satellitbilleder til geokodning af vindmøllekonstruktion
+authors:
+  - name: Aleksander Bang-Larsen
+    affiliation: Aarhus Universitet
+    roles: writing
+    corresponding: true
+---
+# Motivation
+
+I analyser af de politiske effekter af konstruktionen af vedvarende energianlæg er det vigtigt at kunne registrere selve konstruktionen. Med det ment, at for at kunne gennemføre en analyse som @stokes2016 skal man præcist kunne placere anlæg, f.eks. vindmøller eller solcelleanlæg. Ikke alle lande eller regioner har udtømmende optegnelser over konstruktioner af anlæggene med præcise koordinater. Selv Energidatastyrelsen offentlige optegnelser har mangler i koordinat-kolonnen. Det er derfor relevant at undersøge alternative metoder til at registrere konstruktionerne for at kunne gennemføre disse analyser.
+
+# Problemformulering
+
+::: {.callout}
+Hvordan registrerer, og geokoder, man mest optimalt vindmølle- og/eller solcelleanlæg ud fra satellitbilleder?
+:::
+
+# Data
+
+Copernicus-projektet har et stort datasæt med både true-color billeder over hele Europa i høj opløsning (raster 2m) og multispektrale billeder. Landsat programmet (NASA) tilbyder historiske multispektrale satellitbilleder helt tilbage til 1970. Begge datasæt opdateres ofte og kan findes i historiske udgaver så det er muligt at måle ændringer.
+
+## Trænings- og valideringsdata
+
+Som nævnt findes der optegnelser hos Energistyrelsen [@energistyrelsen2024] over vindmøller med deres tilslutningsdato og koordinater for langt de fleste. @apidawa har i ***DAWA*** optegnelser over alle solcelleparkerne i Danmark. Derudover har OpenStreetMap også registreringer for mange vindmøller.
+
+# Design og analyse
+
+Ved hjælp af de ovennævnte datasæt vil jeg forsøge at klassificere billederne så der kan geokodes specifikke koordinater for hver vindmølle observeret. Jeg vil prøve at følge tilgangen til at træne modellen som @tertre2022 bruger og derefter applicere den på hele Danmark.
+
+Modellen skal derefter evalueres gennem et par faktorer. Jeg forestiller mig på forhånd at opstille en procentsats for hvor mange vindmøller modellen skal kunne klassificere. Derudover vil jeg evaluere den på baggrund f.eks. performance på samme område i en anden opløsning (eks. 20m resolution i stedet for 10m) samt hvor pålidelig den er ved gentagne kørsler.
+
+I opgaven vil jeg gennemføre billedanalysen for vindmøller og muligvis solcelleanlæg, hvis det viser sig at være svært med vindmøller.
+
+# Visualiseringer
+
+For at formidle analysen forestiller jeg mig en række visualiseringer. Naturligvis.
+
+1. Point-kort med alle registrerede vindmøller
+   * OSM vs. modellen vs. DAWA
+2. En line-graph der viser hvordan en *scene* med en vindmølle ser ud i forhold til en nærliggende scene, f.eks. den mark den står på.
+
+# Litteratur
+::: {#refs}
+:::

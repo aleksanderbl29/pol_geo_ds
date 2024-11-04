@@ -1,0 +1,44 @@
+project:
+  type: manuscript
+
+manuscript:
+  article: index.qmd
+
+format:
+  html: default
+  docx: default
+  jats: default
+  pdf:
+    fig-pos: "thb"
+    latex-auto-install: true
+    include-in-header:
+      - file: pagenumbers.tex
+      - file: in-header.tex
+    geometry:
+      - top=2cm
+      - bottom=4cm
+      - left=2cm
+      - right=2cm
+      - heightrounded
+    linestretch: 1.5
+    papersize: a4
+
+number-sections: true
+cap-location: top
+date: 11-05-2024
+lang: da
+date-format: D. MMMM YYYY
+mainfont: "Arial"
+sansfont: "Arial"
+
+execute:
+  freeze: true
+
+csl: politica-w-ibid.csl
+bibliography:
+  - ../references.bib
+  - ../packages.bib
+  - bachelor.bib
+link-citations: true
+colorlinks: false
+
