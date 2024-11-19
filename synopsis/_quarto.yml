@@ -12,8 +12,8 @@ format:
     fig-pos: "thb"
     latex-auto-install: true
     include-in-header:
-      - file: pagenumbers.tex
-      - file: in-header.tex
+      - file: ../tex/pagenumbers.tex
+      - file: ../tex/in-header.tex
     geometry:
       - top=2cm
       - bottom=4cm
