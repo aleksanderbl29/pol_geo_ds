@@ -1,0 +1,59 @@
+---
+project:
+  type: default
+  preview:
+    port: 4200
+  # output-dir: _output
+  render:
+    - "*.qmd"
+    - "!forberedelse/"
+    - "!jss/"
+    - "!timer/"
+    - "!ugeseddel/"
+    - "!synopsis/"
+
+no-browse: true
+
+title: Klassifikation og geokodning af vindmøller med Sentinel-2 billeder
+
+authors:
+  - name: Aleksander Bang-Larsen
+    affiliation: Aarhus Universitet
+
+format:
+  html: default
+  pdf:
+    fig-pos: "tbh"
+    tbl-pos: "tb"
+    latex-auto-install: true
+    keep-tex: true
+    include-in-header:
+      - file: tex/pagenumbers.tex
+      - file: tex/in-header.tex
+    geometry:
+      - top=2cm
+      - bottom=4cm
+      - left=2cm
+      - right=2cm
+      - heightrounded
+    linestretch: 1.5
+    papersize: a4
+
+cap-location: top
+number-sections: true
+
+sansfont: Times New Roman
+mainfont: Times New Roman
+
+execute:
+  echo: false
+
+lang: da
+
+link-citations: true
+colorlinks: false
+csl: politica-w-ibid.csl
+
+bibliography:
+  - references.bib
+  - packages.bib

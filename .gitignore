@@ -11,3 +11,6 @@ timer
 /.quarto/
 
 index_files
+
+index.*
+!index.qmd
