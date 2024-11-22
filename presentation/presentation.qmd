@@ -1,0 +1,45 @@
+---
+title: Klassifikation af vindmøller i Sentinel-2 billeder
+authors: 
+  - name: Aleksander Bang-Larsen
+format: 
+  revealjs:
+    theme: simple
+    # height: 1080
+    # width: 1500
+    # output-location: fragment
+    slide-number: c/t
+execute: 
+  echo: true
+  output: true
+---
+
+```{r}
+#| echo: false
+library(targets)
+library(tarchetypes)
+```
+
+# Pipeline
+
+```{r}
+targets::tar_glimpse()
+```
+
+# Raster
+
+```{r}
+tar_read(v_rast) |> 
+  terra::unwrap() |>
+  terra::plot()
+```
+
+# Import
+
+```{r}
+
+{{< include ../R/import_images.R >}}
+
+```
+
+
