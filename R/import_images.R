@@ -1,45 +1,22 @@
-import_images <- function() {
-  url <- "https://image.discomap.eea.europa.eu/arcgis/rest/services/GioLand/VHR_2021_LAEA/ImageServer/exportImage"
+import_images <- function(b02, b03, b04, b08) {
+  # Importerer rasters
+  b2_rast <- rast(b02)
+  b3_rast <- rast(b03)
+  b4_rast <- rast(b04)
+  b8_rast <- rast(b08)
 
-  query_params <- list(bbox = c(938758.000000712,936655.9999994207,7350008.0000007115,5420981.999999421))
-  bbox_param <- "938758.000000712,936655.9999994207,7350008.0000007115,5420981.999999421"
 
-  paste0(url, query_params$bbox[1:4])
-  paste0(url, param)
+  raster <- b2_rast
 
-  request(url) |>
-    req_url_query(
-      bbox = bbox_param,
-      format = "tiff",
-      bandIds = "0,1,2"
-    ) |>
-    req_perform() |>
-    resp_raw()
-    req_dry_run()
+  add(raster) <- b3_rast
+  add(raster) <- b4_rast
+  add(raster) <- b8_rast
+    # Projicer til WGS 84 - EPSG:4326
+    # project("EPSG:4326")
 
-  elaborate_url <- "https://image.discomap.eea.europa.eu/arcgis/rest/services/GioLand/VHR_2021_LAEA/ImageServer/exportImage?bbox=938758.000000712%2C936655.9999994207%2C7350008.0000007115%2C5420981.999999421&bboxSR=&size=&imageSR=&time=&format=tiff&pixelType=U8&noData=&noDataInterpretation=esriNoDataMatchAny&interpolation=RSP_BilinearInterpolation&compression=&compressionQuality=&bandIds=&sliceId=&mosaicRule=&renderingRule=&adjustAspectRatio=true&validateExtent=false&lercVersion=1&compressionTolerance=&f=image"
-  request(elaborate_url) |>
-    req_perform() |>
-    resp_raw()
-
+  raster |>
+    wrap()
 }
-
-
-#
-# library(terra)
-#
-# b1 <- raster('taycrop.tif', band=1)
-# b2 <- raster('taycrop.tif', band=2)
-# b3 <- raster('taycrop.tif', band=3)
-# b4 <- raster('taycrop.tif', band=4)
-# b5 <- raster('taycrop.tif', band=5)
-# b6 <- raster('taycrop.tif', band=6)
-# b7 <- raster('taycrop.tif', band=7)
-# b8 <- raster('taycrop.tif', band=8)
-# b9 <- raster('taycrop.tif', band=9)
-# b10 <- raster('taycrop.tif', band=10)
-# b11 <- raster('taycrop.tif', band=11)
-# b12 <- raster('taycrop.tif', band=12)
 #
 # r <- rast(nrows = 10, ncols = 10, xmin = 0, xmax = 5, ymin = 0, ymax = 5)  # Using rast() from terra
 #
@@ -50,50 +27,14 @@ import_images <- function() {
 # dk = rast("_ags_5519d335_f334_4577_8a91_7bf9e531284e.tif")
 # plot(dk)
 
+# dk <- rast("data/import.tif")
+# plot(dk)
+#
+# dk <- rast("data/_ags_8dc53064_bbda_4fac_99e7_f0756daf6011.tif")
+# plot(dk)
 
-
-
-
-
-
-
-
-get_laby <- function() {
-
-  laby <- dst_meta("LABY06", lang = "da")
-  laby$variables
-  laby$values
-
-  dst_get_data(
-    table = "LABY06",
-    KOMGRP = laby$values$KOMGRP$text,
-    Tid = "*",
-    ALDER = laby$values$ALDER$text,
-    lang = "da"
-  )
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# vest <- rast("/Volumes/T7 Shield/Remote sensing/S2A_MSIL2A_20241003T103901_N0511_R008_T32VMH_20241003T151806.SAFE/GRANULE/L2A_T32VMH_A048482_20241003T104015/IMG_DATA/R10m/T32VMH_20241003T103901_B02_10m.jp2")
+# plot(vest)
 
 
 
