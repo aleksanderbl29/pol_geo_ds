@@ -1,13 +1,4 @@
 
-```{r metadata}
-#| echo: false
-yaml <- yaml::read_yaml("_quarto.yaml")
-# yaml$mainfont
-sysfonts::font_add_google("Radley")
-showtext::showtext_auto()
-```
-
-
 # Evaluering
 
 For at evaluere modellen vil jeg vurdere hvor præcist der geokodes i forhold til den *sande* værdi fra registerdata hos @energistyrelsen2024. Det gør jeg ved, som fremvist i @fig-eval-exmpl, at indplacere alle geokodninger i en afstand fra det *sande* punkt. Afstanden hertil er en klassifikation af, hvor godt modellen har klaret sig.
