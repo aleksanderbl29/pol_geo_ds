@@ -1,6 +1,6 @@
-plot_example_raster <- function(t_rast, windmills) {
+plot_example_raster <- function(raster, windmills) {
 
-  raster <- t_rast |> terra::unwrap()
+  raster <- raster |> terra::unwrap()
 
   raster |> terra::map_extent()
 

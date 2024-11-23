@@ -23,15 +23,21 @@ new_layer <- rasterize(points,
                        field = "d_wind",
                        fun = "first")
 
+# Giver nyt lag navn
 names(new_layer) <- "Vindmølle"
 
+# Lægger lag oveni raster
 add(output_raster) <- new_layer
 
-output_raster <- output_raster |>
-  mutate(Vindmølle = if_else(Vindmølle == 1, 1, 0))
+# Ændrer NaN (ingen vindmølle) til 0
+output_raster <- subst(output_raster, NaN, 0)
 
 values(output_raster, dataframe = TRUE) |> pull(Vindmølle) |> unique()
 
 terra::plot(output_raster)
+
+output_raster[[4]] |> terra::plot()
+output_raster[["Vindmølle"]] |> terra::plot()
+
 # Returnerer raster
 terra::wrap(output_raster)

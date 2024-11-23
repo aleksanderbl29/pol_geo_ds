@@ -19,4 +19,4 @@ UseNativePipeOperator: Yes
 
 PythonType: virtualenv
 PythonVersion: 3.10.15
-PythonPath: ~/.virtualenvs/r-keras/bin/python
+PythonPath: ~/.virtualenvs/r-keras/bin/python3.10

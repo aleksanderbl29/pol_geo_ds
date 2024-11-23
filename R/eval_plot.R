@@ -1,22 +1,26 @@
 eval_score_plot_example_render <- function(
     point, cat_1_m, cat_2_m, cat_3_m, eval_cat_table
 ) {
+  # Udregn buffer for hver kategori fra punkt
   buffer_1 <- st_buffer(point, cat_1_m)
   buffer_2 <- st_buffer(point, cat_2_m)
   buffer_3 <- st_buffer(point, cat_3_m)
 
+  # Definer farver og navne til kategorier
   fills <- c(
     "Ringe" = "red",
     "Okay" = "orange",
     "God" = "lightgreen"
   )
 
+  # Definer design til patchwork plot
   design <- "
     111#
     1112
     111#
   "
 
+  # Lav skydeskive plot
   plot <- ggplot() +
     geom_sf(data = buffer_3, aes(fill = "Ringe"), color = "black", linewidth = 1) +
     geom_sf(data = buffer_2, aes(fill = "Okay"), color = "black", linewidth = 1) +
@@ -31,16 +35,19 @@ eval_score_plot_example_render <- function(
       axis.text = element_blank()
     )
 
+  # Sammensæt plot og tabel
   plot + wrap_table(eval_cat_table) +
     plot_layout(design = design)
 }
 
 eval_cat_table_render <- function(cat_1_m, cat_2_m, cat_3_m) {
+  # Definer labels
   v1 <- god <- glue("< {cat_1_m}")
   v2 <- okay <- glue("{cat_1_m} - {cat_2_m}")
   v3 <- bad <- glue("{cat_2_m} - {cat_3_m}")
   v4 <- ringe <- glue("> {cat_3_m}")
 
+  # Start med tibble og lav tabel
   tibble(
     "God" = 1,
     "Okay" = 2,

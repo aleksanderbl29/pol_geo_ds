@@ -1,18 +1,20 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-.Random.seed|object|edab9fc3dc2324e0|||||||||||||||
-assign_windmills|function|2439f3a85debfabb|||||||||||||||
+.Random.seed|object|d912e2f88c21b45d|||||||||||||||
+assign_windmills|function|7cba9989a2388682|||||||||||||||
+base_folder|stem|fb5fdb02a7d1a032|eb5a6f76e33ec09e|2c530c1562a7fbd1|1378533773||t20050.6942799427s|96f99064b4288aae|87|rds|local|vector|||1.004||
 calc_centroids|function|c777d76690f8a94c|||||||||||||||
-cat_1_m|stem|b095941ea1d522c2|beb1d74a05152147|2c530c1562a7fbd1|1739834260||t20049.9553543547s|948ebae6388656f3|51|rds|local|vector|||2.595||
-cat_2_m|stem|d2dcc5de1f302739|78a518db3ab7ecd7|aacdce6ab29cfafd|-1361269256||t20049.9553546139s|948ebae6388656f3|51|rds|local|vector|||0||
-cat_3_m|stem|826336fc5645678c|88362928e8a25c87|6408624ddef980f0|-616881755||t20049.9553549878s|948ebae6388656f3|51|rds|local|vector|||0||
+cat_1_m|stem|b095941ea1d522c2|beb1d74a05152147|2c530c1562a7fbd1|1739834260||t20050.694280124s|948ebae6388656f3|51|rds|local|vector|||0||
+cat_2_m|stem|d2dcc5de1f302739|78a518db3ab7ecd7|aacdce6ab29cfafd|-1361269256||t20050.6943206348s|948ebae6388656f3|51|rds|local|vector|||0||
+cat_3_m|stem|826336fc5645678c|88362928e8a25c87|6408624ddef980f0|-616881755||t20050.6949597671s|948ebae6388656f3|51|rds|local|vector|||0||
 crop_raster|function|684206c8844a80ae|||||||||||||||
+crs|stem|869804dcd80231e6|0471d5bd4d50b56d|0cfcc6d72c8297b7|-209532067||t20050.7003733192s|c0119327fdf11954|827|rds|local|vector|||0.027||
 download_windmills|function|a33e3f787082ce8b|||||||||||||||
 eval_cat_table_render|function|6fa5bf4dee5f2e61|||||||||||||||
-eval_score_plot|stem|5f05a2b699cb4110|ae6c6c48b2658462|a8917cc932bcd1b0|207272971||t20049.9991907545s|f971ecc3e4933402|237301|rds|local|vector|||7.275||
-eval_score_plot_example|stem|6bb4467b8813398b|6d96048842019fbd|824782b0cc7028f8|314507713||t20049.9991928574s|6a284d709eb2c044|159347|rds|local|vector|||6.943||
+eval_score_plot|stem|5f05a2b699cb4110|ae6c6c48b2658462|a8917cc932bcd1b0|207272971||t20050.6994700873s|f971ecc3e4933402|237301|rds|local|vector|||2.681||
+eval_score_plot_example|stem|6bb4467b8813398b|6d96048842019fbd|824782b0cc7028f8|314507713||t20050.6994731764s|6a284d709eb2c044|159347|rds|local|vector|||0.025||
 eval_score_plot_example_render|function|615cec30d927dc23|||||||||||||||
 eval_score_plot_render|function|9fdb04d03454af3a|||||||||||||||
-eval_table|stem|a978403d17f9be97|1d28de2265e4e7c2|6a57351beb777776|-1772908125||t20049.9553566087s|d0db46f204754f0f|2952|rds|local|vector|||2.289||
+eval_table|stem|a978403d17f9be97|1d28de2265e4e7c2|6a57351beb777776|-1772908125||t20050.6994716231s|d0db46f204754f0f|2952|rds|local|vector|||2.646||
 get_base_map|function|49a845f7ca67d46f|||||||||||||||
 get_bbox|function|a0c37de2a9fcbf08|||||||||||||||
 get_crs|function|ddcb2fd188a3e527|||||||||||||||
@@ -20,17 +22,20 @@ get_windmills|function|27c201273a578026|||||||||||||||
 import_images|function|1a79f73e7d3e4dd1|||||||||||||||
 plot_example_raster|function|6d2bcf18037d191e|||||||||||||||
 plot_sample_eval_map|function|ee432204f17977ec|||||||||||||||
-point|stem|07235b8da7048a0d|d3b8cac6c925abee|2c530c1562a7fbd1|-1668338535||t20049.9553605572s|ba51273727d9db07|90|rds|local|vector|||2.35||
-render|stem|dd8cc42fa4f8aecd|ea8b46ef57cf276f|953ffc6bb18b4732|-1846994106|index_files*index.html*index.pdf*index.qmd|t20049.9995476461s|2fbb37e2bcd43677|6042851|file|local|vector|||30.662||
+point|stem|07235b8da7048a0d|d3b8cac6c925abee|2c530c1562a7fbd1|-1668338535||t20050.6942801575s|ba51273727d9db07|90|rds|local|vector|||0||
+render|stem|9420b8ae0bc9d9b0|ea8b46ef57cf276f|953ffc6bb18b4732|-1846994106|index_files*index.html*index.pdf*index.qmd|t20050.6996186721s|e47130f67ad6f067|131322|file|local|vector|||12.578||
 sim_data|function|60709cd24aafc5c6|||||||||||||||
-simulated_data|stem|22cbb19ba817bee1|0fa7e47a684a4d58|a944d7fd10267c07|1727276764||t20049.9553549259s|03c6409eab2bd4fa|10569|rds|local|vector|||0.003||
-t_b02|stem|aa3c81984b8bf169|f0fb964b54ee31d0|2c530c1562a7fbd1|-1059592776|/Volumes/T7 Shield/Remote sensing/VESTJ/B02.jp2|t19984.6065972222s|8dea5cd802ed1f17|101492866|file|local|vector|||7.44||
-t_b03|stem|7567ac5539669bdb|7c08e5cf122cd490|2c530c1562a7fbd1|-2014730829|/Volumes/T7 Shield/Remote sensing/VESTJ/B03.jp2|t19984.6066203704s|05cafa7ba5defc28|99690624|file|local|vector|||7.556||
-t_b04|stem|79e3c7d0136209fd|f981d5d6a4d943bb|2c530c1562a7fbd1|1195076780|/Volumes/T7 Shield/Remote sensing/VESTJ/B04.jp2|t19984.6066203704s|6d5b8848631d6b55|96375803|file|local|vector|||7.569||
-t_b08|stem|cac187a150d147dd|b2a3ca83ccb0268c|2c530c1562a7fbd1|1011986951|/Volumes/T7 Shield/Remote sensing/VESTJ/B08.jp2|t19984.6066435185s|cc6dc03c480afe2f|108915936|file|local|vector|||7.429||
-t_rast|stem|c6e0f2c1a8145f78|af583eb1f7aa1d08|a29fafc5649291c6|-705515389||t20049.9995483063s|bb821286ff3840ed|431|rds|local|vector|||0.25||
-v_b02|stem|de255b6ecc2821ef|71b972031afc504e|2c530c1562a7fbd1|23826006|/Volumes/T7 Shield/Remote sensing/NRVST/B02.jp2|t19999.6006944444s|b42124ecb655ddea|103888669|file|local|vector|||6.691||
-v_b03|stem|c8cb7fe50bc8efb5|bdcf2830321bce23|2c530c1562a7fbd1|675973669|/Volumes/T7 Shield/Remote sensing/NRVST/B03.jp2|t19999.6007407407s|9ecc8dccd2489326|102014092|file|local|vector|||7.834||
-v_b04|stem|0ab343c2e3857883|1f06214d1e2cb15f|2c530c1562a7fbd1|59757806|/Volumes/T7 Shield/Remote sensing/NRVST/B04.jp2|t19999.6007638889s|d332d14049b02a51|98286805|file|local|vector|||7.663||
-v_b08|stem|c0aa3838781a6e2e|715ff8c9376aa2ef|2c530c1562a7fbd1|693633246|/Volumes/T7 Shield/Remote sensing/NRVST/B08.jp2|t19999.6007175926s|9c8c05bb011a5f7e|110164725|file|local|vector|||7.373||
-v_rast|stem|2f7a45dd833324e5|83d46b1ea1d9b438|35aa0e2b517e0c3f|-704285778||t20049.9996174367s|bb821286ff3840ed|431|rds|local|vector|||2.511||
+simulated_data|stem|22cbb19ba817bee1|0fa7e47a684a4d58|a944d7fd10267c07|1727276764||t20050.6943206864s|03c6409eab2bd4fa|10569|rds|local|vector|||0.002||
+t_b02|stem|aa3c81984b8bf169|b3b9685d7f2262e3|d8c4367085b2c795|-1059592776|/Volumes/T7 Shield/Remote sensing/VESTJ/B02.jp2|t19984.6065972222s|8dea5cd802ed1f17|101492866|file|local|vector|||0||
+t_b03|stem|7567ac5539669bdb|ae1a1a06277dd679|d8c4367085b2c795|-2014730829|/Volumes/T7 Shield/Remote sensing/VESTJ/B03.jp2|t19984.6066203704s|05cafa7ba5defc28|99690624|file|local|vector|||0||
+t_b04|stem|79e3c7d0136209fd|0bafd6a5f9e46a07|d8c4367085b2c795|1195076780|/Volumes/T7 Shield/Remote sensing/VESTJ/B04.jp2|t19984.6066203704s|6d5b8848631d6b55|96375803|file|local|vector|||0.001||
+t_b08|stem|cac187a150d147dd|c6f295ea86df22ca|d8c4367085b2c795|1011986951|/Volumes/T7 Shield/Remote sensing/VESTJ/B08.jp2|t19984.6066435185s|cc6dc03c480afe2f|108915936|file|local|vector|||0||
+t_rast|stem|f69e62864dfbde94|4974a1320bffa094|a44b873869f5bf75|-705515389||t20050.7004141552s|c721c6c41a71e87f|548|rds|local|vector|||3.499||
+t_rast_import|stem|c6e0f2c1a8145f78|af583eb1f7aa1d08|a29fafc5649291c6|511773633||t20050.7003706571s|bb821286ff3840ed|431|rds|local|vector|||2.558||
+v_b02|stem|de255b6ecc2821ef|e382a05505e95266|d8c4367085b2c795|23826006|/Volumes/T7 Shield/Remote sensing/NRVST/B02.jp2|t19999.6006944444s|b42124ecb655ddea|103888669|file|local|vector|||0||
+v_b03|stem|c8cb7fe50bc8efb5|700bd5743ee0b816|d8c4367085b2c795|675973669|/Volumes/T7 Shield/Remote sensing/NRVST/B03.jp2|t19999.6007407407s|9ecc8dccd2489326|102014092|file|local|vector|||0.001||
+v_b04|stem|0ab343c2e3857883|073cc55576493aa1|d8c4367085b2c795|59757806|/Volumes/T7 Shield/Remote sensing/NRVST/B04.jp2|t19999.6007638889s|d332d14049b02a51|98286805|file|local|vector|||0||
+v_b08|stem|c0aa3838781a6e2e|648b0efd44d5ce90|d8c4367085b2c795|693633246|/Volumes/T7 Shield/Remote sensing/NRVST/B08.jp2|t19999.6007175926s|9c8c05bb011a5f7e|110164725|file|local|vector|||0.001||
+v_rast|stem|2f7a45dd833324e5|83d46b1ea1d9b438|35aa0e2b517e0c3f|-704285778||t20050.7003729252s|bb821286ff3840ed|431|rds|local|vector|||2.511||
+windmill_file|stem|6fd1a30ee1aede8c|d827698a58f2dd8c|2c530c1562a7fbd1|1042864022|data/anlaeg_2.xlsx|t20049.5054315529s|aa2dfab5153aaab3|4649651|file|local|vector|||0.001||
+windmills|stem|99bd68416caac298|bcbc6b060713b84c|37225e638f5ce7a8|251864015||t20050.694320605s|d2a65dc54a990f6c|106608|rds|local|vector|||0.787|Expecting numeric in BK9  R9C63 got a date. Expecting numeric in BL9  R9C64 got a date. Expecting numeric in BM9  R9C65 got a date. Expecting numeric in BN9  R9C66 got a date. Expecting numeric in BP9  R9C68 got a date. Expecting numeric in BQ9  R9C69 got a date. Expecting numeric in BR9  R9C70 got a date. Expecting numeric in BK14  R14C63 got a date. Expecting numeric in BL14  R14C64 got a date. Expecting numeric in BM14  R14C65 got a date. Expecting numeric in BN14  R14C66 got a date. Expecting numeric in BP14  R14C68 got a date. Expecting numeric in BQ14  R14C69 got a date. Expecting numeric in BR14  R14C70 got a date. The value argument of names must be a character vector as of tibble3.0.0.|
