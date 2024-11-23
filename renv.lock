@@ -757,6 +757,21 @@
       ],
       "Hash": "15e9634c0fcd294799e9b2e929ed1b86"
     },
+    "geotargets": {
+      "Package": "geotargets",
+      "Version": "0.1.0.9000",
+      "Source": "Repository",
+      "Repository": "https://njtierney.r-universe.dev",
+      "Requirements": [
+        "cli",
+        "rlang",
+        "targets",
+        "terra",
+        "withr",
+        "zip"
+      ],
+      "Hash": "1bc3ebe8ec4924fea1ced521061d80d2"
+    },
     "getip": {
       "Package": "getip",
       "Version": "0.1-4",
@@ -2596,6 +2611,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "ee9b643aa8331c45d8d82eb3a137c9bc"
+    },
+    "zip": {
+      "Package": "zip",
+      "Version": "2.3.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "fcc4bd8e6da2d2011eb64a5e5cc685ab"
     }
   }
 }
