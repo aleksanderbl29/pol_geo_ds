@@ -26,10 +26,7 @@ assign_windmills <- function(raster, windmills, crs) {
   # Ændrer NaN (ingen vindmølle) til 0
   new_layer <- subst(new_layer, NaN, 0)
 
-  # Lægger lag oveni raster
-  add(output_raster) <- new_layer
-
   # Returnerer raster
-  terra::wrap(output_raster)
+  terra::wrap(new_layer)
 
 }
