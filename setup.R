@@ -11,7 +11,11 @@ if (config$pythonhome |> basename() == "r-keras") {
   print("TILFØJ TIL RSTUDIO PROJEKT PYTHON PATH")
 }
 
+reticulate::py_eval("1+1")
+
 library(keras3)
+keras3::config_backend()
+
 mnist <- keras3::dataset_mnist()
 x_train <- mnist$train$x
 y_train <- mnist$train$y
@@ -57,11 +61,3 @@ plot(history)
 
 model |>
   evaluate(x_test, y_test)
-
-probs <- model |>
-  predict(x_test)
-max.col(probs) - 1L
-
-
-
-

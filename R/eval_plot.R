@@ -113,3 +113,80 @@ eval_score_plot_render <- function(data, point, cat_1_m, cat_2_m, cat_3_m) {
     #         color = "black",
     #         linewidth = 2)
 }
+
+eval_raster_plot <- function(point, crs, eval_cat_table) {
+
+  # Definer farver og navne til kategorier
+  fills <- c(
+    "Ringe" = "red",
+    "Okay" = "orange",
+    "Noget andet" = "yellow",
+    "God" = "lightgreen"
+  )
+
+  # Definer design til patchwork plot
+  design <- "
+    111#
+    1112
+    111#
+  "
+
+  # Define resolution (side length of squares)
+  resolution <- 10
+
+  layers <- 3
+
+  # Define relative offsets for squares (up to 3 layers)
+  offsets <- expand.grid(dx = -layers:layers, dy = -layers:layers)
+  offsets$manhattan <- abs(offsets$dx) + abs(offsets$dy) # Manhattan distance
+
+  # Filter offsets to include only the required layers (direct adjacency logic)
+  # offsets <- offsets[offsets$manhattan <= layers, ]
+
+  # Create squares and assign values based on Manhattan distance
+  squares <- lapply(1:nrow(offsets), function(i) {
+    offset <- offsets[i, ]
+    center <- st_coordinates(point) + c(offset$dx, offset$dy) * resolution
+    polygon <- create_square(center, resolution)
+    data.frame(
+      value = 3 - offset$manhattan, # Green = 3, Yellow = 2, Orange = 1, Red = 0
+      geometry = st_sfc(polygon, crs = st_crs(point))
+    )
+  })
+
+  # Combine all squares into an sf object
+  squares_sf <- do.call(rbind, squares) |>
+    mutate(value = if_else(is.na(value), 99, value)) |>
+    mutate(value = factor(value, levels = c(0:layers), labels = names(fills)))
+  squares_sf <- st_as_sf(squares_sf) # Convert to sf object
+
+  # Plot using ggplot2
+  plot <- ggplot(squares_sf) +
+    geom_sf(aes(fill = factor(value)), color = "black") +
+    scale_fill_manual(
+      values = fills,
+      labels = c(names(fills), NULL),
+      name = "Proximity",
+      na.value = NA
+    ) +
+    theme_minimal() +
+    theme(legend.position = "none")
+
+  # Sammensæt plot og tabel
+  plot + wrap_table(eval_cat_table) +
+    plot_layout(design = design)
+}
+
+# Funktion der skaber firkantede sf polygoner omkring et centerpunkt
+create_square <- function(center, res) {
+  x <- center[1]
+  y <- center[2]
+  coords <- matrix(c(
+    x - res / 2, y - res / 2,
+    x + res / 2, y - res / 2,
+    x + res / 2, y + res / 2,
+    x - res / 2, y + res / 2,
+    x - res / 2, y - res / 2
+  ), ncol = 2, byrow = TRUE)
+  st_polygon(list(coords))
+}

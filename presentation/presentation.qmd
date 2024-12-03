@@ -1,14 +1,20 @@
 ---
-title: Klassifikation af vindmøller i Sentinel-2 billeder
+title: Klassifikation og geokodning af vindmøller i <br> Sentinel-2 billeder
 authors: 
   - name: Aleksander Bang-Larsen
+date: last-modified
 format: 
-  revealjs:
-    theme: simple
+  clean-revealjs:
+    title-slide-attributes: 
+      data-background-image: https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Sentinel_2-IMG_5873-white_%28crop%29.jpg/2560px-Sentinel_2-IMG_5873-white_%28crop%29.jpg
+      data-background-position: 75% 75%
+      data-background-size: 30%
+    # embed-resources: true          # Slå dette til når du er klar til at præsentere
     # height: 1080
     # width: 1500
-    # output-location: fragment
     slide-number: c/t
+# footer: Klassifikation og geokodning af vindmøller i Sentinel-2 billeder
+number-sections: false
 execute: 
   echo: true
   output: true
@@ -20,18 +26,52 @@ library(targets)
 library(tarchetypes)
 ```
 
-# Pipeline
+# Hvordan registrerer, og geokoder, man mest optimalt vindmølle- og/eller solcelleanlæg ud fra satellitbilleder?
+
+## Min to do liste {auto-animate=true}
+
+:::: {.columns}
+
+::: {.column width=45%}
+### Data 
+- [x] Find raster-billeder og vindmølledata
+- [x] Tilføj indikator til raster med vindmølle
+
+### Design
+- [ ] Beslut evalueringsstrategi
+
+:::
+::: {.column width=45%}
+
+### Visualiseringer
+- [ ] Tegn visualiseringer
+
+:::
+::::
+
+## Jeg mangler {auto-animate=true}
+
+### Data 
+- [ ] Lav slides til præsentation
+
+### Design
+- [ ] Beslut evalueringsstrategi
+
+### Visualiseringer
+- [ ] Tegn visualiseringer
+
+## Pipeline
 
 ```{r}
-targets::tar_glimpse()
+# targets::tar_glimpse()
 ```
 
-# Raster
+## Raster
 
 ```{r}
-tar_read(v_rast) |> 
-  terra::unwrap() |>
-  terra::plot()
+# tar_read(v_rast) |> 
+#   terra::unwrap() |>
+#   terra::plot()
 ```
 
 # Import
@@ -42,4 +82,13 @@ tar_read(v_rast) |>
 
 ```
 
+## Udfordringer
 
+- Resultater måske?
+
+![](content/Skærmbillede 2024-12-02 kl. 19.38.27.png)
+
+## Spørgsmål
+
+- Hvor reproducerbart skal script være?
+  - F.eks. authentication til API?

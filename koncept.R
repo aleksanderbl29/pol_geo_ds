@@ -1,43 +1,36 @@
 {
   source("_targets_packages.R")
-  targets::tar_load_everything()
+  # targets::tar_load_everything()
   targets::tar_source()
 }
 
-raster <- t_rast_import |> unwrap()
+library(openeo)
 
-# Transformerer til givet CRS
-# Laver sf vector til terra vector
-points <- windmills |>
-  st_transform(crs) |>
-  select(d_wind, geometry) |>
-  vect()
+connection <- connect(host = "https://openeo.dataspace.copernicus.eu")
 
-# Laver outputobjekt for ikke at overskrive input-rasteren
-output_raster <- raster
+login()
+capabilities()
 
-# Rasterizer punkterne. Giver værdier fra "d_wind" i windmill. Giver kun
-# værdien fra det første punkt der er i en given raster
-new_layer <- rasterize(points,
-                       output_raster,
-                       field = "d_wind",
-                       fun = "first")
+tar_load(crs)
 
-# Giver nyt lag navn
-names(new_layer) <- "Vindmølle"
+colls <- list_collections()
 
-# Lægger lag oveni raster
-add(output_raster) <- new_layer
+p <- processes()
 
-# Ændrer NaN (ingen vindmølle) til 0
-output_raster <- subst(output_raster, NaN, 0)
+graph <- p$load_collection(
+  id = colls$SENTINEL2_L2A,
+  spatial_extent = NULL,
+  temporal_extent = c("2024-01-01", "2024-12-31"),  # Adjust temporal extent
+  bands = c("B02", "B03", "B04", "B08")
+) |>
+  p$resample_spatial(projection = e)
+  p$save_result(format = "GTIFF")
 
-values(output_raster, dataframe = TRUE) |> pull(Vindmølle) |> unique()
+job <- create_job(graph, con = connection, title = "32VHM Export")
+as(job, "Process")
+start_job(job, log = TRUE)
 
-terra::plot(output_raster)
+result_obj <- list_results(job)
 
-output_raster[[4]] |> terra::plot()
-output_raster[["Vindmølle"]] |> terra::plot()
+download_results(job, folder = "/Volumes/T7 Shield/Remote sensing/openeo")
 
-# Returnerer raster
-terra::wrap(output_raster)

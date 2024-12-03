@@ -1,41 +1,62 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-.Random.seed|object|d912e2f88c21b45d|||||||||||||||
-assign_windmills|function|7cba9989a2388682|||||||||||||||
-base_folder|stem|fb5fdb02a7d1a032|eb5a6f76e33ec09e|2c530c1562a7fbd1|1378533773||t20050.6942799427s|96f99064b4288aae|87|rds|local|vector|||1.004||
-calc_centroids|function|c777d76690f8a94c|||||||||||||||
-cat_1_m|stem|b095941ea1d522c2|beb1d74a05152147|2c530c1562a7fbd1|1739834260||t20050.694280124s|948ebae6388656f3|51|rds|local|vector|||0||
-cat_2_m|stem|d2dcc5de1f302739|78a518db3ab7ecd7|aacdce6ab29cfafd|-1361269256||t20050.6943206348s|948ebae6388656f3|51|rds|local|vector|||0||
-cat_3_m|stem|826336fc5645678c|88362928e8a25c87|6408624ddef980f0|-616881755||t20050.6949597671s|948ebae6388656f3|51|rds|local|vector|||0||
+.Random.seed|object|b931c6bf4730a7cf|||||||||||||||
+assign_windmills|function|b6010d6860d6a96d|||||||||||||||
+base_folder|stem|100adeb093d6bef3|eb5a6f76e33ec09e|2c530c1562a7fbd1|-116420790||t20059.9128069196s|f2de2469be356334|110|qs|local|vector|||2.72||
+calc_centroids|function|ff1df59a6bd1b451|||||||||||||||
+cat_1_m|stem|a7bf2eb744740193|beb1d74a05152147|2c530c1562a7fbd1|-579163321||t20059.9128082216s|e12065d620e41fd5|76|qs|local|vector|||0||
+cat_2_m|stem|d1712187acc8105a|78a518db3ab7ecd7|c2964646cad916a6|-460632795||t20059.912864304s|e12065d620e41fd5|76|qs|local|vector|||0||
+cat_3_m|stem|48f23e7f42e34bab|88362928e8a25c87|956192dc89033762|-81144320||t20059.9128710401s|e12065d620e41fd5|76|qs|local|vector|||0||
+create_square|function|a6ddd04a258964f2|||||||||||||||
 crop_raster|function|684206c8844a80ae|||||||||||||||
-crs|stem|869804dcd80231e6|0471d5bd4d50b56d|0cfcc6d72c8297b7|-209532067||t20050.7003733192s|c0119327fdf11954|827|rds|local|vector|||0.027||
+crs|stem|cadc334f0f7c46c6|0471d5bd4d50b56d|c828decb8fff3763|1534946802||t20059.9398602552s|2872672c83db7872|914|qs|local|vector|||0.048||
+define_model|function|7b21b354fa3da26b|||||||||||||||
 download_windmills|function|a33e3f787082ce8b|||||||||||||||
 eval_cat_table_render|function|6fa5bf4dee5f2e61|||||||||||||||
-eval_score_plot|stem|5f05a2b699cb4110|ae6c6c48b2658462|a8917cc932bcd1b0|207272971||t20050.6994700873s|f971ecc3e4933402|237301|rds|local|vector|||2.681||
-eval_score_plot_example|stem|6bb4467b8813398b|6d96048842019fbd|824782b0cc7028f8|314507713||t20050.6994731764s|6a284d709eb2c044|159347|rds|local|vector|||0.025||
+eval_raster_plot|function|3a9b3ac324620880|||||||||||||||
+eval_raster_table|stem|0601d02ec5ab7cd0|6bfa6ab88082cace|ad4bbeeba96edd28|-1960677508||t20059.9128081464s|339ca8d733242b3c|3470|qs|local|vector|||0.085||
+eval_score_plot|stem|1fbf7ad4c379dd34|ae6c6c48b2658462|1b9e1348022536ee|430908857||t20059.9398615992s|14fec3ae064243fb|210817|qs|local|vector|||0.083||
+eval_score_plot_example|stem|06c48db4b783b4b8|6d96048842019fbd|0eebed1198bf8933|-370895366||t20059.9400787055s|3fba495812ff0c64|173441|qs|local|vector|||0.068||
 eval_score_plot_example_render|function|615cec30d927dc23|||||||||||||||
 eval_score_plot_render|function|9fdb04d03454af3a|||||||||||||||
-eval_table|stem|a978403d17f9be97|1d28de2265e4e7c2|6a57351beb777776|-1772908125||t20050.6994716231s|d0db46f204754f0f|2952|rds|local|vector|||2.646||
+eval_table|stem|27c1d9fd8723f0dd|1d28de2265e4e7c2|5a08fe126f27bf83|-1735996379||t20059.939862347s|00c3dc4556ff57eb|3471|qs|local|vector|||0.06||
+fit_model|function|e8a4fba05f853caa|||||||||||||||
 get_base_map|function|49a845f7ca67d46f|||||||||||||||
 get_bbox|function|a0c37de2a9fcbf08|||||||||||||||
 get_crs|function|ddcb2fd188a3e527|||||||||||||||
+get_input_shape|function|fb2501627aed05dc|||||||||||||||
+get_sentinel_tiles|function|6b7a4371dc4310ce|||||||||||||||
+get_train_indices|function|93a806f7780aa2bc|||||||||||||||
 get_windmills|function|27c201273a578026|||||||||||||||
 import_images|function|1a79f73e7d3e4dd1|||||||||||||||
-plot_example_raster|function|6d2bcf18037d191e|||||||||||||||
+input_shape|stem|1e21f638ea6473b8|d7dc134d440dbb40|a8ffe27ca99e817a|328532727||t20059.939957206s|e5403c57657c131e|84|qs|local|vector|||0.001||
+keras_fmt|object|7a2586f19f2a0de8|||||||||||||||
+model_definition|stem|5c9363defbf1de69|12cde9a76557f4b7|440e231c68eeed56|92327218||t20059.940183418s|d6211edf9ad84980|1160|qs|local|vector|||9.043||
+model_path|stem|13ca356da5a46dff|8a8e23159637008f|2c530c1562a7fbd1|995870406|data/model.keras|t20059.9401833998s|54556106e40c0063|1220918|file|local|vector|||2.912||
+plot_example_raster|function|bed23bd5036325f9|||||||||||||||
 plot_sample_eval_map|function|ee432204f17977ec|||||||||||||||
-point|stem|07235b8da7048a0d|d3b8cac6c925abee|2c530c1562a7fbd1|-1668338535||t20050.6942801575s|ba51273727d9db07|90|rds|local|vector|||0||
-render|stem|9420b8ae0bc9d9b0|ea8b46ef57cf276f|953ffc6bb18b4732|-1846994106|index_files*index.html*index.pdf*index.qmd|t20050.6996186721s|e47130f67ad6f067|131322|file|local|vector|||12.578||
+point|stem|a6e0e54b59523ab0|d3b8cac6c925abee|2c530c1562a7fbd1|-514165223||t20059.9128082551s|9598b4a3de987810|122|qs|local|vector|||0||
+raster_as_dataframe|function|41707610220908e6|||||||||||||||
+reshape|function|6c0af3b6b13d9fab|||||||||||||||
 sim_data|function|60709cd24aafc5c6|||||||||||||||
-simulated_data|stem|22cbb19ba817bee1|0fa7e47a684a4d58|a944d7fd10267c07|1727276764||t20050.6943206864s|03c6409eab2bd4fa|10569|rds|local|vector|||0.002||
-t_b02|stem|aa3c81984b8bf169|b3b9685d7f2262e3|d8c4367085b2c795|-1059592776|/Volumes/T7 Shield/Remote sensing/VESTJ/B02.jp2|t19984.6065972222s|8dea5cd802ed1f17|101492866|file|local|vector|||0||
-t_b03|stem|7567ac5539669bdb|ae1a1a06277dd679|d8c4367085b2c795|-2014730829|/Volumes/T7 Shield/Remote sensing/VESTJ/B03.jp2|t19984.6066203704s|05cafa7ba5defc28|99690624|file|local|vector|||0||
-t_b04|stem|79e3c7d0136209fd|0bafd6a5f9e46a07|d8c4367085b2c795|1195076780|/Volumes/T7 Shield/Remote sensing/VESTJ/B04.jp2|t19984.6066203704s|6d5b8848631d6b55|96375803|file|local|vector|||0.001||
-t_b08|stem|cac187a150d147dd|c6f295ea86df22ca|d8c4367085b2c795|1011986951|/Volumes/T7 Shield/Remote sensing/VESTJ/B08.jp2|t19984.6066435185s|cc6dc03c480afe2f|108915936|file|local|vector|||0||
-t_rast|stem|f69e62864dfbde94|4974a1320bffa094|a44b873869f5bf75|-705515389||t20050.7004141552s|c721c6c41a71e87f|548|rds|local|vector|||3.499||
-t_rast_import|stem|c6e0f2c1a8145f78|af583eb1f7aa1d08|a29fafc5649291c6|511773633||t20050.7003706571s|bb821286ff3840ed|431|rds|local|vector|||2.558||
-v_b02|stem|de255b6ecc2821ef|e382a05505e95266|d8c4367085b2c795|23826006|/Volumes/T7 Shield/Remote sensing/NRVST/B02.jp2|t19999.6006944444s|b42124ecb655ddea|103888669|file|local|vector|||0||
-v_b03|stem|c8cb7fe50bc8efb5|700bd5743ee0b816|d8c4367085b2c795|675973669|/Volumes/T7 Shield/Remote sensing/NRVST/B03.jp2|t19999.6007407407s|9ecc8dccd2489326|102014092|file|local|vector|||0.001||
-v_b04|stem|0ab343c2e3857883|073cc55576493aa1|d8c4367085b2c795|59757806|/Volumes/T7 Shield/Remote sensing/NRVST/B04.jp2|t19999.6007638889s|d332d14049b02a51|98286805|file|local|vector|||0||
-v_b08|stem|c0aa3838781a6e2e|648b0efd44d5ce90|d8c4367085b2c795|693633246|/Volumes/T7 Shield/Remote sensing/NRVST/B08.jp2|t19999.6007175926s|9c8c05bb011a5f7e|110164725|file|local|vector|||0.001||
-v_rast|stem|2f7a45dd833324e5|83d46b1ea1d9b438|35aa0e2b517e0c3f|-704285778||t20050.7003729252s|bb821286ff3840ed|431|rds|local|vector|||2.511||
-windmill_file|stem|6fd1a30ee1aede8c|d827698a58f2dd8c|2c530c1562a7fbd1|1042864022|data/anlaeg_2.xlsx|t20049.5054315529s|aa2dfab5153aaab3|4649651|file|local|vector|||0.001||
-windmills|stem|99bd68416caac298|bcbc6b060713b84c|37225e638f5ce7a8|251864015||t20050.694320605s|d2a65dc54a990f6c|106608|rds|local|vector|||0.787|Expecting numeric in BK9  R9C63 got a date. Expecting numeric in BL9  R9C64 got a date. Expecting numeric in BM9  R9C65 got a date. Expecting numeric in BN9  R9C66 got a date. Expecting numeric in BP9  R9C68 got a date. Expecting numeric in BQ9  R9C69 got a date. Expecting numeric in BR9  R9C70 got a date. Expecting numeric in BK14  R14C63 got a date. Expecting numeric in BL14  R14C64 got a date. Expecting numeric in BM14  R14C65 got a date. Expecting numeric in BN14  R14C66 got a date. Expecting numeric in BP14  R14C68 got a date. Expecting numeric in BQ14  R14C69 got a date. Expecting numeric in BR14  R14C70 got a date. The value argument of names must be a character vector as of tibble3.0.0.|
+simulated_data|stem|537d5501a2adc6ba|0fa7e47a684a4d58|68cf6bf05c9da2f8|-1025343106||t20059.9128643398s|7f39f3236f548464|10073|qs|local|vector|||0.001||
+t_b02|stem|482d2f31c84d983c|b3b9685d7f2262e3|c26d23ab1b061905|-235519635|/Volumes/T7 Shield/Remote sensing/VESTJ/B02.jp2|t19859.7207638889s|1e8cdffe274538f4|103361990|file|local|vector|||0||
+t_b03|stem|00d6f731469ce094|ae1a1a06277dd679|c26d23ab1b061905|393065325|/Volumes/T7 Shield/Remote sensing/VESTJ/B03.jp2|t19859.720787037s|bc10260c477a38ca|103372355|file|local|vector|||0.001||
+t_b04|stem|987f2f05c151671a|0bafd6a5f9e46a07|c26d23ab1b061905|-764953145|/Volumes/T7 Shield/Remote sensing/VESTJ/B04.jp2|t19859.7207407407s|c8390b2dc0a4e1d3|103343119|file|local|vector|||0||
+t_b08|stem|f8fbe4f793ae105e|c6f295ea86df22ca|c26d23ab1b061905|-1679434570|/Volumes/T7 Shield/Remote sensing/VESTJ/B08.jp2|t19859.7207638889s|eb2d371fa312c623|114776167|file|local|vector|||0||
+t_data|stem|d0217a393ccb89ab|dc2de3c72c789663|8b2c6bcf9d96836a|69414891||t20059.9371058805s|c21ee471495c94e6|1218127633|qs|local|vector|||90.508||
+t_df|stem|b9834e4d39312b2d|0f6880e199d81df0|12897c94dd16b776|559891333||t20059.9376745291s|db495f075b95c9d3|595949490|qs|local|vector|||38.642||
+t_rast|stem|793997420214a77d|af583eb1f7aa1d08|587cf7251d491215|1312219073||t20059.9128705444s|d5a674b7f4dd0c5b|507|qs|local|vector|||0.068||
+t_rast_truth|stem|12e889e58bb04ce8|ea5963aaf38772f4|8067bd9df23ce16d|-784390666||t20059.9400775538s|0ff37da4534a4516|568|qs|local|vector|||5.206||
+terra_fmt|object|a7748ea9c507035c|||||||||||||||
+v_b02|stem|de255b6ecc2821ef|e382a05505e95266|c26d23ab1b061905|658427514|/Volumes/T7 Shield/Remote sensing/NRVST/B02.jp2|t19999.6006944444s|b42124ecb655ddea|103888669|file|local|vector|||0||
+v_b03|stem|c8cb7fe50bc8efb5|700bd5743ee0b816|c26d23ab1b061905|-1182917092|/Volumes/T7 Shield/Remote sensing/NRVST/B03.jp2|t19999.6007407407s|9ecc8dccd2489326|102014092|file|local|vector|||0||
+v_b04|stem|0ab343c2e3857883|073cc55576493aa1|c26d23ab1b061905|38875868|/Volumes/T7 Shield/Remote sensing/NRVST/B04.jp2|t19999.6007638889s|d332d14049b02a51|98286805|file|local|vector|||0||
+v_b08|stem|c0aa3838781a6e2e|648b0efd44d5ce90|c26d23ab1b061905|1188632753|/Volumes/T7 Shield/Remote sensing/NRVST/B08.jp2|t19999.6007175926s|9c8c05bb011a5f7e|110164725|file|local|vector|||0||
+v_data|stem|af0f3a28b5d1fabd|21e1946bb8cd097b|5e06dc7d0ca5fcda|93140912||t20059.9398539839s|d26c8be9da62aad2|1227995434|qs|local|vector|||80.285||
+v_data_truth|stem||1260b572a066ccd9|a29f9b7ba5bdb476|-111286739||t20059.9404151722s||0|qs|local|vector|||0.014|privatevarfolderss2pdz2gh0s799cyw9wsj1ltptr0000gnTRtmpD1jXZjspat_88f6b808c4c_2191_CjcR62DykkoqBId.tif No such file or directory GDAL error 4|rast file does not exist privatevarfolderss2pdz2gh0s799cyw9wsj1ltptr0000gnTRtmpD1jXZjspat_88f6b808c4c_2191_CjcR62DykkoqBId.tif
+v_df|stem|d5cb9a716eb5ffc5|31cba95e9f472e75|d274c08278d4b15d|1861300004||t20059.9386777622s|98ea3fee79726126|582457102|qs|local|vector|||37.423||
+v_rast|stem|11e6cfe0f9cd9e1f|83d46b1ea1d9b438|35aa0e2b517e0c3f|-1342370092||t20059.9128710006s|c5bb5d828e920a89|506|qs|local|vector|||0.036||
+v_rast_truth|stem|f498c09d944d116d|bdfb923e9481b3b5|8a657709f5f52b13|1622838293||t20059.940017227s|2b6ef2a85b3fd189|565|qs|local|vector|||5.175||
+windmill_file|stem|6fd1a30ee1aede8c|16de8520d989f1e4|5011add827fe76a8|591588126|data/anlaeg_2.xlsx|t20059.9128696487s|aa2dfab5153aaab3|4649651|file|local|vector|||0.46||
+windmill_file_url|stem|079c02aa09ac7693|b4338a73d50a6f00|2c530c1562a7fbd1|1577799223|https://ens.dk/sites/ens.dk/files/Statistik/anlaeg_2.xlsx|t20059.9128097572s||0|url|local|vector|||0.001||
+windmills|stem|1ccbc9a1776f2cfb|bcbc6b060713b84c|37225e638f5ce7a8|-1923770648||t20059.9128788572s|4b857c7bc1860ff9|111355|qs|local|vector|||0.669|Expecting numeric in BK9  R9C63 got a date. Expecting numeric in BL9  R9C64 got a date. Expecting numeric in BM9  R9C65 got a date. Expecting numeric in BN9  R9C66 got a date. Expecting numeric in BP9  R9C68 got a date. Expecting numeric in BQ9  R9C69 got a date. Expecting numeric in BR9  R9C70 got a date. Expecting numeric in BK14  R14C63 got a date. Expecting numeric in BL14  R14C64 got a date. Expecting numeric in BM14  R14C65 got a date. Expecting numeric in BN14  R14C66 got a date. Expecting numeric in BP14  R14C68 got a date. Expecting numeric in BQ14  R14C69 got a date. Expecting numeric in BR14  R14C70 got a date. The value argument of names must be a character vector as of tibble3.0.0.|

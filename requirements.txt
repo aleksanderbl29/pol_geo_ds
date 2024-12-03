@@ -7,7 +7,7 @@ click==8.1.7
 decorator==5.1.1
 dm-tree==0.1.8
 docstring_parser==0.16
-etils==1.10.0
+etils==1.11.0
 exceptiongroup==1.2.2
 executing==2.1.0
 flatbuffers==24.3.25
@@ -19,9 +19,9 @@ h5py==3.12.1
 idna==3.10
 immutabledict==4.2.1
 importlib_resources==6.4.5
-ipython==8.29.0
+ipython==8.30.0
 jedi==0.19.2
-keras==3.6.0
+keras==3.7.0
 libclang==18.1.1
 Markdown==3.7
 markdown-it-py==3.0.0
@@ -44,7 +44,7 @@ protobuf==3.20.3
 psutil==6.1.0
 ptyprocess==0.7.0
 pure_eval==0.2.3
-pyarrow==18.0.0
+pyarrow==18.1.0
 pydot==3.0.2
 Pygments==2.18.0
 pyparsing==3.2.0
@@ -64,7 +64,7 @@ tensorflow-io-gcs-filesystem==0.37.1
 tensorflow-metadata==1.16.1
 termcolor==2.5.0
 toml==0.10.2
-tqdm==4.67.0
+tqdm==4.67.1
 traitlets==5.14.3
 typing_extensions==4.12.2
 tzdata==2024.2
