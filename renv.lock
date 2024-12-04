@@ -151,6 +151,19 @@
       ],
       "Hash": "6b868847b365672d6c1677b1608da9ed"
     },
+    "RcppEigen": {
+      "Package": "RcppEigen",
+      "Version": "0.3.4.0.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "Rcpp",
+        "stats",
+        "utils"
+      ],
+      "Hash": "4ac8e423216b8b70cb9653d1b3f71eb9"
+    },
     "RcppParallel": {
       "Package": "RcppParallel",
       "Version": "5.1.9",
@@ -2112,6 +2125,19 @@
         "textshaping"
       ],
       "Hash": "0595fe5e47357111f29ad19101c7d271"
+    },
+    "ranger": {
+      "Package": "ranger",
+      "Version": "0.17.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "Matrix",
+        "R",
+        "Rcpp",
+        "RcppEigen"
+      ],
+      "Hash": "9fe0f505fe36cac3207e0790d21b3676"
     },
     "rappdirs": {
       "Package": "rappdirs",
