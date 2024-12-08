@@ -65,18 +65,6 @@
       ],
       "Hash": "29a7dccade1fd037c8262c2a239775eb"
     },
-    "IRdisplay": {
-      "Package": "IRdisplay",
-      "Version": "1.1",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "methods",
-        "repr"
-      ],
-      "Hash": "5ea7862cfcd8b146f233ed1ac9fb8eda"
-    },
     "KernSmooth": {
       "Package": "KernSmooth",
       "Version": "2.23-24",
@@ -1008,34 +996,6 @@
       ],
       "Hash": "0e81e7f976441581680fa2ebc5866212"
     },
-    "ggmap": {
-      "Package": "ggmap",
-      "Version": "4.0.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "bitops",
-        "cli",
-        "digest",
-        "dplyr",
-        "ggplot2",
-        "glue",
-        "grid",
-        "httr",
-        "jpeg",
-        "magrittr",
-        "plyr",
-        "png",
-        "purrr",
-        "rlang",
-        "scales",
-        "stringr",
-        "tibble",
-        "tidyr"
-      ],
-      "Hash": "031b5eab3c43bf1a7cea0498e4d89233"
-    },
     "ggplot2": {
       "Package": "ggplot2",
       "Version": "3.5.1",
@@ -1172,6 +1132,20 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "7a0051eef852c301b5efe2f7913dd45f"
+    },
+    "gridExtra": {
+      "Package": "gridExtra",
+      "Version": "2.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "grDevices",
+        "graphics",
+        "grid",
+        "gtable",
+        "utils"
+      ],
+      "Hash": "7d7f283939f563670a697165b2cf5560"
     },
     "gt": {
       "Package": "gt",
@@ -1491,16 +1465,6 @@
         "tidyselect"
       ],
       "Hash": "5baae149f1082f466df9d1442ba7aa65"
-    },
-    "jpeg": {
-      "Package": "jpeg",
-      "Version": "0.1-10",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R"
-      ],
-      "Hash": "031a0b683d001a7519202f0628fc0358"
     },
     "jquerylib": {
       "Package": "jquerylib",
@@ -1861,26 +1825,6 @@
       ],
       "Hash": "df58958f293b166e4ab885ebcad90e02"
     },
-    "openeo": {
-      "Package": "openeo",
-      "Version": "1.3.1",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "IRdisplay",
-        "R",
-        "R6",
-        "base64enc",
-        "htmltools",
-        "httr2",
-        "jsonlite",
-        "lubridate",
-        "methods",
-        "rlang",
-        "sf"
-      ],
-      "Hash": "3a9a7b7d47eede3e5d8159a913e90f5d"
-    },
     "openssl": {
       "Package": "openssl",
       "Version": "2.2.2",
@@ -1993,17 +1937,6 @@
         "utils"
       ],
       "Hash": "01f28d4278f15c76cddbea05899c5d6f"
-    },
-    "plyr": {
-      "Package": "plyr",
-      "Version": "1.8.9",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "Rcpp"
-      ],
-      "Hash": "6b8177fd19982f0020743fadbfdbd933"
     },
     "png": {
       "Package": "png",
@@ -2325,22 +2258,6 @@
         "utils"
       ],
       "Hash": "397b7b2a265bc5a7a06852524dabae20"
-    },
-    "repr": {
-      "Package": "repr",
-      "Version": "1.1.7",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "base64enc",
-        "grDevices",
-        "htmltools",
-        "jsonlite",
-        "pillar",
-        "utils"
-      ],
-      "Hash": "1393acc49816f4fe143d87fb33e75631"
     },
     "reprex": {
       "Package": "reprex",
@@ -3272,6 +3189,19 @@
         "rlang"
       ],
       "Hash": "c03fa420630029418f7e6da3667aac4a"
+    },
+    "viridis": {
+      "Package": "viridis",
+      "Version": "0.6.5",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "ggplot2",
+        "gridExtra",
+        "viridisLite"
+      ],
+      "Hash": "acd96d9fa70adeea4a5a1150609b9745"
     },
     "viridisLite": {
       "Package": "viridisLite",
