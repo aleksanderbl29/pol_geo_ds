@@ -1,4 +1,4 @@
-define_model <- function(input_shape) {
+define_cnn <- function(input_shape) {
   input_layer <- layer_input(shape = input_shape)
 
   output_layer <- input_layer |>

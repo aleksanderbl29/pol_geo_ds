@@ -23,17 +23,21 @@ assign_windmills <- function(raster, windmills, crs) {
   # Ændrer NaN (ingen vindmølle) til 0
   new_layer <- subst(new_layer, NaN, 0)
 
-  # Duplikerer lag til 2 lag
-  add(new_layer) <- new_layer
-  # Duplikerer de 2 lag til oveni 2 lag = 4 lag
-  add(new_layer) <- new_layer
+  # # Duplikerer lag til 2 lag
+  # add(new_layer) <- new_layer
+  # # Duplikerer de 2 lag til oveni 2 lag = 4 lag
+  # add(new_layer) <- new_layer
+  #
+  # # Giver nye lag navn
+  # names(new_layer) <- c(
+  #   "Vindmølle_b02", "Vindmølle_b03", "Vindmølle_b04", "Vindmølle_b08"
+  # )
 
-  # Giver nye lag navn
-  names(new_layer) <- c(
-    "Vindmølle_b02", "Vindmølle_b03", "Vindmølle_b04", "Vindmølle_b08"
-  )
+  names(new_layer) <- "Vindmølle"
+
+  return_raster <- resample(new_layer, output_raster)
 
   # Returnerer raster
-  terra::wrap(new_layer)
+  terra::wrap(return_raster)
 
 }

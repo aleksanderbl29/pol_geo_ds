@@ -1,6 +1,6 @@
 get_crs <- function(raster) {
   # Find CRS for raster
-  raster |>
+  terra::rast(raster) |>
     terra::unwrap() |>
     terra::crs()
 }
