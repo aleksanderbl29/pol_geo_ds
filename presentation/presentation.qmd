@@ -1,20 +1,22 @@
 ---
-title: Klassifikation og geokodning af vindmøller i <br> Sentinel-2 billeder
+title: Klassifikation og geokodning af vindmøller <br> med Sentinel-2 billeder
 authors: 
   - name: Aleksander Bang-Larsen
-date: last-modified
+date: 12-06-2024
 format: 
   clean-revealjs:
+    embed-resources: true
     title-slide-attributes: 
-      data-background-image: https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Sentinel_2-IMG_5873-white_%28crop%29.jpg/2560px-Sentinel_2-IMG_5873-white_%28crop%29.jpg
+      data-background-image: content/Sentinel_2-.jpg
       data-background-position: 75% 75%
       data-background-size: 30%
-    # embed-resources: true          # Slå dette til når du er klar til at præsentere
     # height: 1080
     # width: 1500
     slide-number: c/t
 # footer: Klassifikation og geokodning af vindmøller i Sentinel-2 billeder
 number-sections: false
+bibliography: ../references.bib
+suppress-bibliography: true
 execute: 
   echo: true
   output: true
@@ -26,69 +28,80 @@ library(targets)
 library(tarchetypes)
 ```
 
-# Hvordan registrerer, og geokoder, man mest optimalt vindmølle- og/eller solcelleanlæg ud fra satellitbilleder?
+# Hvordan registrerer, og geokoder, man mest optimalt vindmølleanlæg ud fra satellitbilleder?
 
-## Min to do liste {auto-animate=true}
-
-:::: {.columns}
-
-::: {.column width=45%}
-### Data 
-- [x] Find raster-billeder og vindmølledata
-- [x] Tilføj indikator til raster med vindmølle
-
-### Design
-- [ ] Beslut evalueringsstrategi
-
+::: notes
+Spørgsmålet kunne lige så godt hedde noget med *klassifikation*, fordi jeg prøver at tildele an kategorisk label (vs. regression der er kontinuer).
 :::
-::: {.column width=45%}
 
-### Visualiseringer
-- [ ] Tegn visualiseringer
+## Formål
 
-:::
-::::
+F.eks. analyser som @stokes2016 i områder, hvor der ikke er gode registerdata.
 
-## Jeg mangler {auto-animate=true}
+Blæret data science.
 
-### Data 
-- [ ] Lav slides til præsentation
+## Tilgange {auto-animate="true"}
 
-### Design
-- [ ] Beslut evalueringsstrategi
+-   `logistic_reg()`
+-   `rand_forest()`
+-   Convolutional Neural Network
 
-### Visualiseringer
-- [ ] Tegn visualiseringer
+## Tilgange {auto-animate="true"}
 
-## Pipeline
+-   `logistic_reg()`
+-   `rand_forest()`
+-   Convolutional Neural Network
+-   Resten af `{tidymodels}`
+
+## Raster
 
 ```{r}
-# targets::tar_glimpse()
+terra::rast("/Volumes/T7 Shield/Remote sensing/VESTJ/B08.jp2") |> 
+  terra::plot()
 ```
 
 ## Raster
 
 ```{r}
-# tar_read(v_rast) |> 
-#   terra::unwrap() |>
-#   terra::plot()
+terra::rast("/Volumes/T7 Shield/Remote sensing/NRVST/B08.jp2") |> 
+  terra::plot()
 ```
 
-# Import
+
+## Visualiseringer
 
 ```{r}
-
-{{< include ../R/import_images.R >}}
-
+#| echo: false
+tar_read(eval_score_plot) +
+  cowplot::theme_map() +
+  ggplot2::theme_classic()
 ```
+
+## Visualiseringer
+
+![](content/Skærmbillede 2024-12-05 kl. 14.01.12.png)
+
+## Visualiseringer
+
+![](content/Skærmbillede 2024-12-06 kl. 08.31.03.png)
 
 ## Udfordringer
 
-- Resultater måske?
-
 ![](content/Skærmbillede 2024-12-02 kl. 19.38.27.png)
 
-## Spørgsmål
+- Løsning:
+  - Begrænse raster til område omkring mølle (punkt/buffer)
 
-- Hvor reproducerbart skal script være?
-  - F.eks. authentication til API?
+
+## Spørgsmål / feedback
+
+Feedbackpunkter:
+
+- Forslag til visualisering
+  - Af rasterdata
+  - Sammenligning af model-performance
+- Noget jeg har misset?
+
+Spørgsmål:
+
+- Hvor meget skal hver model-type forklares?
