@@ -1,0 +1,5 @@
+*
+!*.qmd
+!content
+!presentation.html
+!.gitignore
