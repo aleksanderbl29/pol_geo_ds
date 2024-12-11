@@ -47,7 +47,7 @@ tar_option_set(
   packages = c(
     "tidyverse", "glue", "quarto",
     "ggthemes", "cowplot", "gt", "patchwork", "viridis", "ggridges",
-    "sf", "terra", "tidyterra", "spatialsample", "stars",
+    "sf", "terra", "spatialsample", "stars",
     "keras3", "tidymodels", "ranger",
     "crew.aws.batch", "targets", "tarchetypes"
   ),
