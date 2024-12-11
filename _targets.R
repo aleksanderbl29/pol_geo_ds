@@ -59,12 +59,12 @@ tar_option_set(
   #   seconds_idle = 3
   # ),
 
-  controller = controller_aws,
+  # controller = controller_aws,
 
   # memory = "transient",
   garbage_collection = TRUE,
-  # storage = "worker",
-  # retrieval = "worker",
+  storage = "main",
+  retrieval = "main",
 
   # Definer seed til tilfældige taludtræk
   seed = 42
@@ -78,24 +78,24 @@ list(
   tar_download(windmill_file,
                "https://ens.dk/sites/ens.dk/files/Statistik/anlaeg_2.xlsx",
                paths = "data/anlaeg_2.xlsx",
-               error = "continue"),
+               error = "continue", deployment = "main"),
   tar_target(windmills, get_windmills(windmill_file, t_b02)),
 
   # Deklarer mappe med rasters
-  tar_target(base_folder, "/Volumes/T7 Shield/Remote sensing/"),
+  tar_target(base_folder, "/Volumes/T7 Shield/Remote sensing/", deployment = "main"),
   # Importer træningsdata
-  tar_target(t_b02, paste0(base_folder, "VESTJ/B02.jp2"), format = "file"),
-  tar_target(t_b03, paste0(base_folder, "VESTJ/B03.jp2"), format = "file"),
-  tar_target(t_b04, paste0(base_folder, "VESTJ/B04.jp2"), format = "file"),
-  tar_target(t_b08, paste0(base_folder, "VESTJ/B08.jp2"), format = "file"),
+  tar_target(t_b02, paste0(base_folder, "VESTJ/B02.jp2"), format = "file", deployment = "main"),
+  tar_target(t_b03, paste0(base_folder, "VESTJ/B03.jp2"), format = "file", deployment = "main"),
+  tar_target(t_b04, paste0(base_folder, "VESTJ/B04.jp2"), format = "file", deployment = "main"),
+  tar_target(t_b08, paste0(base_folder, "VESTJ/B08.jp2"), format = "file", deployment = "main"),
   # Importer valideringsdata
-  tar_target(v_b02, paste0(base_folder, "NRVST/B02.jp2"), format = "file"),
-  tar_target(v_b03, paste0(base_folder, "NRVST/B03.jp2"), format = "file"),
-  tar_target(v_b04, paste0(base_folder, "NRVST/B04.jp2"), format = "file"),
-  tar_target(v_b08, paste0(base_folder, "NRVST/B08.jp2"), format = "file"),
+  tar_target(v_b02, paste0(base_folder, "NRVST/B02.jp2"), format = "file", deployment = "main"),
+  tar_target(v_b03, paste0(base_folder, "NRVST/B03.jp2"), format = "file", deployment = "main"),
+  tar_target(v_b04, paste0(base_folder, "NRVST/B04.jp2"), format = "file", deployment = "main"),
+  tar_target(v_b08, paste0(base_folder, "NRVST/B08.jp2"), format = "file", deployment = "main"),
   # Importer raster
-  tar_target(import_raster, import_images(t_b02, t_b03, t_b04, t_b08)),
-  tar_target(import_raster2, import_images(v_b02, v_b03, v_b04, v_b08)),
+  tar_target(import_raster, import_images(t_b02, t_b03, t_b04, t_b08), deployment = "main"),
+  tar_target(import_raster2, import_images(v_b02, v_b03, v_b04, v_b08), deployment = "main"),
   # Find CRS for den importerede raster
   tar_target(crs, st_crs(import_raster)),
   # Tilføj lag med vindmøller
