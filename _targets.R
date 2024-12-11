@@ -45,7 +45,7 @@ controller_aws <- crew.aws.batch::crew_controller_aws_batch(
 
 tar_option_set(
   packages = c(
-    "tidyverse", "glue", "quarto", "data.table", "duckplyr",
+    "tidyverse", "glue", "quarto",
     "ggthemes", "cowplot", "gt", "patchwork", "viridis", "ggridges",
     "sf", "terra", "tidyterra", "spatialsample", "stars",
     "keras3", "tidymodels", "ranger",
