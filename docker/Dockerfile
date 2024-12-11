@@ -4,4 +4,4 @@ RUN R -e "pkgs = c('tidyverse', 'glue', 'quarto', 'ggthemes', 'cowplot', 'gt', '
 
 RUN R -e "pkgs = c('sf', 'terra', 'spatialsample', 'stars');for (pkg in pkgs) {install.packages(pkg, repos = 'https://cloud.r-project.org', quiet = TRUE)}"
 
-# RUN R -q -e "keras3::install_keras(backend = 'tensorflow')"
+RUN R -e "keras3::install_keras(backend = 'tensorflow')"
