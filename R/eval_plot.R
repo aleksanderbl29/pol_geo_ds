@@ -190,3 +190,18 @@ create_square <- function(center, res) {
   ), ncol = 2, byrow = TRUE)
   st_polygon(list(coords))
 }
+
+ggridge_distance_render <- function(data) {
+
+  ref_point <- st_sfc(st_point(c(0,0)))
+
+  data |>
+    st_as_sf(coords = c("long", "lat")) |>
+    mutate(distance = st_distance(geometry, ref_point)) |>
+    ggplot(aes(distance, model, fill = model)) +
+    geom_density_ridges(show.legend = FALSE) +
+    scale_fill_viridis_d(name = "Delta distance (m.)") +
+    labs(x = "Distance (m.)", y = NULL) +
+    theme_ridges()
+}
+

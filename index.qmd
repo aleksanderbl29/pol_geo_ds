@@ -1,4 +1,14 @@
 
+# Data
+
+## Inddeling i trænings- og testdata
+
+Jeg har valgt at udvælge et raster-billede der dækker over dele af vestjylland som mit træningsdata og 
+
+# Performance
+
+Det tager ca. 45 minutter at omdanne rasteren med fire lag til en sf data frame.
+
 # Evaluering
 
 For at evaluere modellen vil jeg vurdere hvor præcist der geokodes i forhold til den *sande* værdi fra registerdata hos @energistyrelsen2024. Det gør jeg ved, som fremvist i @fig-eval-exmpl, at indplacere alle geokodninger i en afstand fra det *sande* punkt. Afstanden hertil er en klassifikation af, hvor godt modellen har klaret sig.
@@ -18,6 +28,14 @@ tar_read(eval_score_plot) +
   cowplot::theme_map() +
   ggplot2::theme_classic()
 ```
+
+```{r ridgeplot}
+#| label: fig-ridge
+#| fig-cap: Distanceforskel mellem forudsagt placering og faktisk placering pr model.
+
+tar_read(ridgeplot)
+```
+
 
 
 # Software

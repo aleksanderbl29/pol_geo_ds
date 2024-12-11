@@ -1,8 +1,8 @@
 define_recipe <- function(training) {
   recipe(training) |>
     update_role(everything(), new_role = "support") |>
-    update_role(Vindmølle, new_role = "outcome") |>
-    update_role(B02, B03, B04, B08, new_role = "predictor") |>
+    update_role(vindmll, new_role = "outcome") |>
+    update_role(b02, b03, b04, b08, new_role = "predictor") |>
     step_normalize(all_numeric_predictors(), -all_outcomes())
 }
 

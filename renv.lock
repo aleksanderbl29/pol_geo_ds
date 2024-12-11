@@ -594,6 +594,25 @@
       ],
       "Hash": "40745863e75317c534992c4796af8c58"
     },
+    "crew.aws.batch": {
+      "Package": "crew.aws.batch",
+      "Version": "0.0.7",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "R6",
+        "cli",
+        "crew",
+        "paws.common",
+        "paws.compute",
+        "paws.management",
+        "rlang",
+        "tibble",
+        "utils"
+      ],
+      "Hash": "640d2310921c4422a8c0a1b6e091d134"
+    },
     "curl": {
       "Package": "curl",
       "Version": "6.0.1",
@@ -1924,6 +1943,45 @@
         "utils"
       ],
       "Hash": "e23fb9ecb1258207bcb763d78d513439"
+    },
+    "paws.common": {
+      "Package": "paws.common",
+      "Version": "0.7.7",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "Rcpp",
+        "base64enc",
+        "curl",
+        "digest",
+        "httr",
+        "jsonlite",
+        "methods",
+        "stats",
+        "utils",
+        "xml2"
+      ],
+      "Hash": "d184fea5f7f48426720b84f5b488380d"
+    },
+    "paws.compute": {
+      "Package": "paws.compute",
+      "Version": "0.7.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "paws.common"
+      ],
+      "Hash": "ff7b5df4fe6a395bc007bee9fe66e35b"
+    },
+    "paws.management": {
+      "Package": "paws.management",
+      "Version": "0.7.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "paws.common"
+      ],
+      "Hash": "825160604065040b1927448b4ff74ee5"
     },
     "pillar": {
       "Package": "pillar",

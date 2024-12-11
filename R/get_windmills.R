@@ -1,4 +1,4 @@
-get_windmills <- function(windmill_file) {
+get_windmills <- function(windmill_file, rasterimage) {
 
   # Indlæser XLSX
   import <- readxl::read_xlsx(windmill_file)
@@ -29,7 +29,9 @@ get_windmills <- function(windmill_file) {
       d_wind = 1) |>
     select(ends_with("koord"), starts_with("dato"), d_wind) |>
     filter(!is.na(x_koord) & !is.na(y_koord)) |>
-    st_as_sf(coords = c("x_koord", "y_koord"), crs = "EPSG:25832")
+    st_as_sf(coords = c("x_koord", "y_koord"), crs = "EPSG:25832") |>
+    st_transform(st_crs(read_stars(rasterimage))) |>
+    st_crop(st_bbox(read_stars(rasterimage)))
 
 }
 
