@@ -24,5 +24,18 @@ define_rand_forest_model <- function() {
 }
 
 define_rand_forest_grid <- function() {
-  expand_grid(trees = seq(100, 1500, by = 100), mtry = 1:4)
+  expand_grid(trees = seq(100, 1500, length.out = 5), mtry = 1:4)
+}
+
+fit_model <- function(workflow, params, train) {
+  workflow |>
+    finalize_workflow(
+      select_by_pct_loss(params, metrix = "rmse", limit = 5)
+    ) |>
+    fit(train)
+}
+
+model_pred <- function(model, test) {
+  model |>
+    predict(test)
 }
