@@ -1,4 +1,4 @@
-reshape <- function(b02, b03, b04, b08, stars) {
+reshape <- function(b02, b03, b04, b08, stars, windmills) {
 
   # Importerer rasters
   b2_rast <- rast(b02)
@@ -11,6 +11,11 @@ reshape <- function(b02, b03, b04, b08, stars) {
 
   # Crop rasteren så den passer med star
   raster <- crop(raster, st_bbox(stars))
+
+  points <- rasterize(windmills,
+                      raster)
+
+  raster <- c(raster, points)
 
   # Konverter til array
   data <- raster |>
