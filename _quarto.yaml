@@ -16,6 +16,9 @@ project:
 no-browse: true
 
 title: Klassifikation og geokodning af vindmøller med Sentinel-2 billeder
+subtitle: Optimal compute, geokodning og machine learning teknikker
+
+kursus: "261E24 Politisk geo-data-science med R: analyse, modellering og visualisering"
 
 authors:
   - name: Aleksander Bang-Larsen
@@ -26,11 +29,17 @@ format:
   pdf:
     fig-pos: "tbh"
     tbl-pos: "tb"
+    lof: false
+    lot: false
+    toc: false
     latex-auto-install: true
     keep-tex: true
     include-in-header:
       - file: tex/pagenumbers.tex
       - file: tex/in-header.tex
+    template-partials:
+      - "tex/before-body.tex"
+      - "tex/_titlepage.tex"
     geometry:
       - top=2cm
       - bottom=4cm
@@ -43,8 +52,7 @@ format:
 cap-location: top
 number-sections: true
 
-sansfont: Times New Roman
-mainfont: Times New Roman
+fontsize: 11pt
 
 execute:
   echo: false
