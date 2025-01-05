@@ -362,6 +362,25 @@
       ],
       "Hash": "8fcc818f3b9887aebaf206f141437cc9"
     },
+    "broomstick": {
+      "Package": "broomstick",
+      "Version": "0.1.2.9200",
+      "Source": "Repository",
+      "Repository": "https://njtierney.r-universe.dev",
+      "RemoteUrl": "https://github.com/njtierney/broomstick",
+      "RemoteSha": "5215feed37c47d31f3a6a422e1e54525c66f3ce1",
+      "Requirements": [
+        "broom",
+        "dplyr",
+        "generics",
+        "magrittr",
+        "purrr",
+        "rlang",
+        "tibble",
+        "tidyr"
+      ],
+      "Hash": "3aedb75521856ecd8491c9d18c7c0f12"
+    },
     "bslib": {
       "Package": "bslib",
       "Version": "0.8.0",
