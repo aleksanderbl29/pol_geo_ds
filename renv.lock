@@ -273,6 +273,22 @@
       ],
       "Hash": "0c54cf3a08cc0e550fbd64ad33166143"
     },
+    "bayestestR": {
+      "Package": "bayestestR",
+      "Version": "0.15.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "datawizard",
+        "graphics",
+        "insight",
+        "methods",
+        "stats",
+        "utils"
+      ],
+      "Hash": "d7c05ccb9d60d87dbbe8b4042c385f01"
+    },
     "bigD": {
       "Package": "bigD",
       "Version": "0.3.0",
@@ -403,6 +419,18 @@
         "tibble"
       ],
       "Hash": "f61dbaec772ccd2e17705c1e872e9e7c"
+    },
+    "checkmate": {
+      "Package": "checkmate",
+      "Version": "2.3.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "backports",
+        "utils"
+      ],
+      "Hash": "0e14e01ce07e7c88fd25de6d4260d26b"
     },
     "class": {
       "Package": "class",
@@ -641,6 +669,19 @@
         "methods"
       ],
       "Hash": "38bbf05fc2503143db4c734a7e5cab66"
+    },
+    "datawizard": {
+      "Package": "datawizard",
+      "Version": "0.13.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "insight",
+        "stats",
+        "utils"
+      ],
+      "Hash": "303aeace6f3554ce2d62e5d1df6fcd6e"
     },
     "dawaR": {
       "Package": "dawaR",
@@ -1481,6 +1522,19 @@
       ],
       "Hash": "8d30ac9c5e21efd8575f934bdb5c3029"
     },
+    "insight": {
+      "Package": "insight",
+      "Version": "1.0.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "methods",
+        "stats",
+        "utils"
+      ],
+      "Hash": "bee0c3abb5eea6c4170ea2a7c334893f"
+    },
     "ipred": {
       "Package": "ipred",
       "Version": "0.9-15",
@@ -1984,6 +2038,26 @@
       ],
       "Hash": "4f50122dc256b1b6996a4703fecea821"
     },
+    "modelsummary": {
+      "Package": "modelsummary",
+      "Version": "2.2.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "checkmate",
+        "data.table",
+        "generics",
+        "glue",
+        "insight",
+        "methods",
+        "parameters",
+        "performance",
+        "tables",
+        "tinytable"
+      ],
+      "Hash": "b4b1ed61d9bfdc897a5a163a5db4b779"
+    },
     "munsell": {
       "Package": "munsell",
       "Version": "0.5.1",
@@ -2079,6 +2153,23 @@
       ],
       "Hash": "f5ae11e8e15ee84950752e7b01c55295"
     },
+    "parameters": {
+      "Package": "parameters",
+      "Version": "0.24.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "bayestestR",
+        "datawizard",
+        "graphics",
+        "insight",
+        "methods",
+        "stats",
+        "utils"
+      ],
+      "Hash": "42e4417823caf935fcc47a88ad4706e7"
+    },
     "parsnip": {
       "Package": "parsnip",
       "Version": "1.2.1",
@@ -2165,6 +2256,21 @@
         "paws.common"
       ],
       "Hash": "825160604065040b1927448b4ff74ee5"
+    },
+    "performance": {
+      "Package": "performance",
+      "Version": "0.12.4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "bayestestR",
+        "datawizard",
+        "insight",
+        "stats",
+        "utils"
+      ],
+      "Hash": "64e61921ea6b2a4d76c81290d5ecce25"
     },
     "pillar": {
       "Package": "pillar",
@@ -3031,6 +3137,20 @@
         "lifecycle"
       ],
       "Hash": "213b6b8ed5afbf934843e6c3b090d418"
+    },
+    "tables": {
+      "Package": "tables",
+      "Version": "0.9.31",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "htmltools",
+        "knitr",
+        "stats",
+        "utils"
+      ],
+      "Hash": "75c4d11d0b824c4c5d774cd659138bb6"
     },
     "tarchetypes": {
       "Package": "tarchetypes",
