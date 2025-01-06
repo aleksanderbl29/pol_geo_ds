@@ -1,49 +1,23 @@
-crop_raster <- function(raster) {
-  raster <- unwrap(raster)
+crop_raster <- function(raster, cells) {
+  crop_area <- cells |>
+    # Find cellen med højest antal vindmøller
+    slice_max(point_count) |>
+    # Slice igen for kun at tage den øverste
+    slice(1)
 
-  raster |> plot()
-
-  raster |>
-    ext()
-
-  bbox <- dawaR::get_map_data("regioner") |>
-    st_bbox() |>
-    st_transform(3035)
-
-  bbox <- c(
-    get_bbox("xmin"),
-    get_bbox("xmax"),
-    get_bbox("ymin"),
-    get_bbox("ymax")
-  ) |>
-    st_as_sf()
-    st_transform(crs = st_crs(raster))
-
-
-    terra::project("EPSG:3035") |>
-    terra::ext()
-
-  cropped <- crop(raster, bbox)
-  cropped <- crop(raster, data)
-  plot(cropped)
+  raster[crop_area]
 }
 
-get_bbox <- function(type) {
-  type <- match.arg(type, choices = c("ymin", "ymax", "xmin", "xmax"))
+get_cells <- function(windmills, file, n = 10) {
+  # Read the raster and create grid
+  grid <- st_make_grid(read_stars(file), n = n)
 
-  # Henter data og trækker bbox var ud.
-  # CRS = WGS84
-  # EPSG:4326
-  data <- dawaR::get_data("kommuner") |>
-    filter(navn == "Ringkøbing-Skjern") |>
-    pull(paste0("bbox_", type))
+  # Convert grid to sf object with cell ID
+  grid_sf <- st_sf(cell_id = 1:length(grid), geometry = grid)
 
-  if (substr(type, 2, 5) == "max") {
-    data |> max()
-  } else if (substr(type, 2, 5) == "min") {
-    data |> min()
-  }
+  # Count points in each grid cell
+  intersects <- st_intersects(grid_sf, windmills)
+  grid_sf$point_count <- lengths(intersects)
+
+  return(grid_sf)
 }
-
-
-

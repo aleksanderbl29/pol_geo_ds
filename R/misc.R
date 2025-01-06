@@ -16,13 +16,15 @@ plot_sample_eval_map <- function(sat_map, sf_data) {
 }
 
 sim_data <- function(cat_1_m) {
+  n <- 800
   tibble::tibble(
-    id = seq(1, 400, 1),
-    score = rnorm(400, mean = 0, sd = cat_1_m),
-    long = rnorm(400, mean = 0, sd = cat_1_m),
-    lat = rnorm(400, mean = 0, sd = cat_1_m),
+    id = seq(1, n, 1),
+    score = rnorm(n, mean = 0, sd = cat_1_m),
+    long = rnorm(n, mean = 0, sd = cat_1_m),
+    lat = rnorm(n, mean = 0, sd = cat_1_m),
     model = sample(
-      c("Logistic Regression", "Random Forest", "Convulitional Neural Network"),
-      400, replace = TRUE)
+      c("Logistic Regression", "Random Forest", "Convolutional Neural Network"),
+      n, replace = TRUE),
+    buffer = sample(c(TRUE, FALSE), n, replace = TRUE)
   )
 }

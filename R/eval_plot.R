@@ -193,15 +193,11 @@ create_square <- function(center, res) {
 
 ggridge_distance_render <- function(data) {
 
-  ref_point <- st_sfc(st_point(c(0,0)))
-
   data |>
-    st_as_sf(coords = c("long", "lat")) |>
-    mutate(distance = st_distance(geometry, ref_point)) |>
-    ggplot(aes(distance, model, fill = model)) +
-    geom_density_ridges(show.legend = FALSE) +
+    ggplot(aes(distance + 1, model, fill = model)) +
+    geom_density_ridges2(show.legend = FALSE) +
     scale_fill_viridis_d(name = "Delta distance (m.)") +
-    labs(x = "Distance (m.)", y = NULL) +
-    theme_ridges()
+    labs(x = "Distance (m)", y = NULL) +
+    scale_x_log10() +
+    theme_classic()
 }
-
