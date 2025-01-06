@@ -70,14 +70,15 @@ plot_band <- function(file_path) {
 
   # Definer farvepaletter baseret på filnavnet (udtrukket fra filstien)
   get_palette <- function(band_file) {
+    n_colors <- 15
     if (grepl("B02", band_file)) {
-      return(colorRampPalette(c("white", "blue"))(100))  # Blå for Bånd 2
+      return(colorRampPalette(c("white", "blue"))(n_colors))  # Blå for Bånd 2
     } else if (grepl("B03", band_file)) {
-      return(colorRampPalette(c("white", "green"))(100))  # Grøn for Bånd 3
+      return(colorRampPalette(c("white", "green"))(n_colors))  # Grøn for Bånd 3
     } else if (grepl("B04", band_file)) {
-      return(colorRampPalette(c("white", "red"))(100))  # Rød for Bånd 4
+      return(colorRampPalette(c("white", "red"))(n_colors))  # Rød for Bånd 4
     } else if (grepl("B08", band_file)) {
-      return(colorRampPalette(c("white", "purple"))(100))  # Lilla for Bånd 8
+      return(colorRampPalette(c("white", "purple"))(n_colors))  # Lilla for Bånd 8
     }
   }
 
@@ -87,7 +88,16 @@ plot_band <- function(file_path) {
   # Få farvepaletten baseret på båndfilens navn
   palette <- get_palette(band_file)
 
-  # Plot båndet uden titel og uden unødvendige elementer som akser og legender
-  par(mar = c(2,2,1,1))
-  plot(band, col = palette, axes = FALSE, ann = FALSE, main = NULL)
+  # Fjern margin og print minimalistisk plot
+  par(mar = c(0,0,0,0))
+
+  plot(
+    band,
+    col = palette,
+    axes = FALSE,
+    ann = FALSE,
+    main = NULL,
+    key.pos = NULL,
+    reset = FALSE
+  )
 }

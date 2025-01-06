@@ -1,276 +1,66 @@
-# fit_cnn <- function(cnn_path, train_x, train_y, epochs, batch_size, validation_split = 0.2, cnn_definition) {
-#   model <- load_model(cnn_path)
-#
-#   # Define callbacks
-#   callbacks <- list(
-#     callback_reduce_lr_on_plateau(
-#       monitor = "val_loss",
-#       factor = 0.5,
-#       patience = 3,
-#       min_lr = 1e-6
-#     ),
-#     callback_early_stopping(
-#       monitor = "val_loss",
-#       patience = 10,
-#       restore_best_weights = TRUE
-#     )
-#   )
-#
-#   # Fit with callbacks
-#   model |> fit(
-#     x = train_x,
-#     y = train_y,
-#     epochs = epochs,
-#     batch_size = batch_size,
-#     validation_split = validation_split,
-#     callbacks = callbacks#,
-#     # verbose = 0
-#   )
-#
-#   new_path <- "data/model_fitted.keras"
-#
-#   model |> save_model(new_path, overwrite = TRUE)
-#
-#   return(new_path)
-# }
-
-# fit_cnn <- function(cnn_path, train_x, train_y, epochs, batch_size, cnn_definition) {
-#   # Load model
-#   model <- load_model(cnn_path)
-#
-#   # Define callbacks
-#   callbacks <- list(
-#     callback_reduce_lr_on_plateau(
-#       monitor = "loss",  # Changed from val_loss since we're not using validation
-#       factor = 0.5,
-#       patience = 3,
-#       min_lr = 1e-6
-#     ),
-#     callback_early_stopping(
-#       monitor = "loss",  # Changed from val_loss
-#       patience = 10,
-#       restore_best_weights = TRUE
-#     )
-#   )
-#
-#   # Fit without validation split
-#   model |> fit(
-#     x = train_x,
-#     y = train_y,
-#     epochs = epochs,
-#     batch_size = batch_size,
-#     callbacks = callbacks
-#   )
-#
-#   new_path <- "data/model_fitted.keras"
-#   model |> save_model(new_path, overwrite = TRUE)
-#
-#   return(new_path)
-# }
-
 fit_cnn <- function(cnn_path, train_x, train_y, epochs, batch_size, cnn_definition) {
-  # Print shapes for debugging
-  cat("train_x shape:", paste(dim(train_x), collapse = " x "), "\n")
-  cat("train_y shape:", paste(dim(train_y), collapse = " x "), "\n")
+  cat("Training CNN model...\n")
 
   # Load model
   model <- load_model(cnn_path)
 
-  # Define callbacks - removed validation monitoring
+  # Define callbacks
   callbacks <- list(
     callback_reduce_lr_on_plateau(
-      monitor = "loss",  # Changed from val_loss
+      monitor = "loss",
       factor = 0.5,
       patience = 3,
       min_lr = 1e-6
     ),
     callback_early_stopping(
-      monitor = "loss",  # Changed from val_loss
+      monitor = "loss",
       patience = 10,
       restore_best_weights = TRUE
     )
   )
 
-  # Fit without validation split
+  # Fit model
   history <- model |> fit(
     x = train_x,
     y = train_y,
     epochs = epochs,
     batch_size = batch_size,
-    callbacks = callbacks
+    callbacks = callbacks,
+    verbose = 0
   )
 
-  new_path <- "data/model_fitted.keras"
-  model |> save_model(new_path, overwrite = TRUE)
+  # Save fitted model
+  fitted_path <- "data/model_fitted.keras"
+  model |> save_model(fitted_path, overwrite = TRUE)
 
   return(list(
-    path = new_path,
+    path = fitted_path,
     history = history
   ))
 }
 
-# Helper function to check input shape compatibility
-check_model_compatibility <- function(model_path, train_x, train_y) {
-  model <- load_model(model_path)
-  expected_shape <- model$input_shape
-  actual_shape <- dim(train_x)
-
-  cat("Expected shape:", paste(expected_shape, collapse = " x "), "\n")
-  cat("Actual shape:", paste(actual_shape, collapse = " x "), "\n")
-
-  return(all(expected_shape[-1] == actual_shape[-1]))
-}
-
-# Helper function to check and fix dimensions
-check_dimensions <- function(x, y) {
-  cat("Input shapes:\n")
-  cat("train_x:", paste(dim(x), collapse = " x "), "\n")
-  cat("train_y:", paste(dim(y), collapse = " x "), "\n")
-
-  # Return TRUE if dimensions are correct, FALSE otherwise
-  return(length(dim(x)) == 4 && length(dim(y)) == 4)
-}
-
-get_cnn_split <- function(data) {
-  split <- split_cells(data)
-  target_dim <- 2196
-
-  # Prepare input (4 channels)
-  train <- split$train[1:target_dim, 1:target_dim, 1:4, , drop = FALSE]
-  test <- split$test[1:target_dim, 1:target_dim, 1:4, , drop = FALSE]
-
-  # Prepare truth data (4 channels)
-  train_truth <- split$train[1:target_dim, 1:target_dim, 1:4, , drop = FALSE]
-  test_truth <- split$test[1:target_dim, 1:target_dim, 1:4, , drop = FALSE]
-
-  # Ensure 4D tensors (height, width, channels, samples)
-  if (length(dim(train)) == 3) {
-    dim(train) <- c(dim(train), 1)
-  }
-  if (length(dim(test)) == 3) {
-    dim(test) <- c(dim(test), 1)
-  }
-  if (length(dim(train_truth)) == 3) {
-    dim(train_truth) <- c(dim(train_truth), 1)
-  }
-  if (length(dim(test_truth)) == 3) {
-    dim(test_truth) <- c(dim(test_truth), 1)
-  }
-
-  list(
-    train = list(
-      x = train,      # Should be (2196, 2196, 4, 1)
-      y = train_truth # Should be (2196, 2196, 4, 1)
-    ),
-    test = list(
-      x = test,       # Should be (2196, 2196, 4, 1)
-      y = test_truth  # Should be (2196, 2196, 4, 1)
-    )
-  )
-}
-
-predict_cnn <- function(cnn_path, test_x, test_y, threshold = 0.5, max_lag = 10, chunk_size = 10000) {
-
-  cat("Loading CNN model...\n")
-  # Load the CNN model from the provided path
-  cnn_model <- load_model(cnn_path$path)
+predict_cnn <- function(cnn_path, test_x, test_y, threshold = 0.5) {
+  cat("Loading fitted CNN model...\n")
+  model <- load_model(cnn_path$path)
 
   cat("Predicting on test data...\n")
-  # Predict probabilities on the test data
-  probabilities <- cnn_model %>% predict(test_x, verbose = 0)
+  probabilities <- model |> predict(test_x, verbose = 0)
 
-  # Remove batch dimension if present and flatten the prediction
-  if (length(dim(probabilities)) == 4) {
-    probabilities <- probabilities[,,1,]  # Removing the batch dimension if present
-  }
-
-  # Apply the threshold to convert probabilities to binary outcomes (0 or 1)
-  binary_predictions <- ifelse(probabilities > threshold, 1, 0)
-
-  # Collapse the 4 channels into one column (e.g., using the sum or max)
-  collapsed_predictions <- apply(binary_predictions, c(1, 2), max)  # You can also use `sum()` instead of `max()`
-
-  # Flatten predictions to 1D
-  flattened_predictions <- as.vector(collapsed_predictions)
-
-  # Convert actual labels (test_y) to binary as well and collapse the 4 channels
-  binary_actual <- ifelse(test_y > threshold, 1, 0)
-  collapsed_actual <- apply(binary_actual, c(1, 2), max)  # You can also use `sum()` instead of `max()`
-
-  # Flatten the actual labels to 1D
-  flattened_true_labels <- as.vector(collapsed_actual)
-
-  # Create a dataframe with two columns: 'prediction' and 'actual'
-  result_df <- data.frame(
-    prediction = flattened_predictions,
-    actual = flattened_true_labels
-  )
-
-  # Get indices of actual '1' values
-  actual_indices <- which(flattened_true_labels == 1)
-
-  # Get indices of predicted '1' values
-  predicted_indices <- which(flattened_predictions == 1)
-
-  # If there are no actual '1' values, return an empty dataframe (or handle as needed)
-  if (length(actual_indices) == 0) {
-    result_df$distance_rows <- NA
-    cat("No actual '1' values found in test data.\n")
-    return(result_df)
-  }
-
-  # Preallocate the distance column
-  result_df$distance_rows <- NA
-
-  # Print how many indices will need to be calculated
-  total_indices_to_calculate <- length(predicted_indices) * length(actual_indices)
-  cat("Total indices to calculate (predicted '1' vs actual '1'): ", total_indices_to_calculate, "\n")
-
-  # Process the data in chunks
-  cat("Processing in chunks...\n")
-  total_length <- length(flattened_predictions)
-  for (start_idx in seq(1, total_length, by = chunk_size)) {
-    cat("Processing chunk starting at index ", start_idx, "...\n")
-
-    # Get the end index for the chunk
-    end_idx <- min(start_idx + chunk_size - 1, total_length)
-
-    # Get the current chunk of predicted and actual indices
-    chunk_predicted_indices <- predicted_indices[predicted_indices >= start_idx & predicted_indices <= end_idx]
-    chunk_actual_indices <- actual_indices[actual_indices >= start_idx & actual_indices <= end_idx]
-
-    # For each predicted '1' value in the chunk, check within a window of size `max_lag` for the nearest actual '1'
-    for (pred_idx in chunk_predicted_indices) {
-      if (pred_idx %% 100 == 0) {
-        cat("Processing prediction at index ", pred_idx, "\n")
-      }
-
-      # Define the range of indices to check (lag from 1 to max_lag)
-      possible_lags <- pred_idx + seq(-max_lag, max_lag)
-
-      # Remove out-of-bounds indices
-      possible_lags <- possible_lags[possible_lags > 0 & possible_lags <= length(flattened_true_labels)]
-
-      # Check if any of the lagged positions contain an actual '1'
-      nearby_actuals <- which(flattened_true_labels[possible_lags] == 1)
-
-      # If there are any nearby actuals, calculate the minimum distance
-      if (length(nearby_actuals) > 0) {
-        # Find the closest actual index
-        closest_actual <- possible_lags[nearby_actuals[which.min(abs(pred_idx - possible_lags[nearby_actuals]))]]
-
-        # Compute the distance to the closest actual
-        result_df$distance_rows[pred_idx] <- abs(pred_idx - closest_actual)
-      }
-    }
-  }
-
-  cat("Completed distance calculation.\n")
-  return(result_df)
+  # Convert to binary predictions and merge with test data
+  ifelse(probabilities > threshold, 1, 0)
 }
 
+# Helper function to merge predictions
+merge_cnn_predictions <- function(test_data, predictions) {
+  # Ensure predictions vector matches test data length
+  pred_vec <- as.vector(predictions)[1:nrow(test_data)]
 
+  # Add predictions as new column
+  test_data$cnn_pred <- pred_vec
 
+  test_data |>
+    st_centroid()
+}
 
 flatten_predictions <- function(predictions) {
   dims <- dim(predictions)

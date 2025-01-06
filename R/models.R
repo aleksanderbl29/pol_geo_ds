@@ -61,7 +61,7 @@ fit_model <- function(workflow, split, params = NULL) {
   if (!is.null(params)) {
   workflow |>
     finalize_workflow(
-      select_by_pct_loss(params, metrix = "rmse", limit = 5)
+      select_by_pct_loss(params, metric = "roc_auc", limit = 5)
     ) |>
     fit(split)
   } else if (is.null(params)) {
@@ -87,7 +87,7 @@ get_predictions <- function(pred, test, crs) {
     select(.pred_class, geometry)
 }
 
-merge_predictions <- function(raster, lr, rf) {
+merge_predictions <- function(raster, lr, rf, cnn) {
   raster |>
     st_join(
       lr |> rename(logistic = .pred_class)
@@ -95,13 +95,16 @@ merge_predictions <- function(raster, lr, rf) {
     st_join(
       rf |> rename(randomforest = .pred_class)
     ) |>
+    st_join(
+      cnn = rename(cnn = cnn_pred)
+    ) |>
     na.omit() |>
     st_centroid()
 }
 
 get_predicted_points <- function(predictions) {
   predictions |>
-    filter(logistic == 1 | randomforest == 1) |>
+    filter(logistic == 1 | randomforest == 1, cnn == 1) |>
     unique() |>
     st_centroid()
 }
@@ -133,4 +136,8 @@ define_rand_forest_model <- function() {
 define_rand_forest_grid <- function() {
   expand_grid(trees = seq(100, 1500, length.out = 5), mtry = 1:4)
 }
+
+
+## Evaluation plots
+get_roc_curve
 

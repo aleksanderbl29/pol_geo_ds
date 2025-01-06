@@ -11,13 +11,18 @@ calc_distances <- function(import_raster, pred_points, cnn) {
     filter(randomforest == 1) |>
     select(randomforest)
 
+  cnn_points <- pred_points |>
+    filter(cnn == 1) |>
+    select(cnn)
+
   log_distances <- st_distance(log_points, raster) |>
     apply(1, min)
 
   rf_distances <- st_distance(rf_points, raster) |>
     apply(1, min)
 
-  cnn_distances <- cnn |> pull(distance_rows) * 10 # antal rækker fra ganget med pixelstørrelse
+  cnn_distances <- st_distance(cnn_points, raster) |>
+    apply(1, min)
 
   tibble(
     model = c(
@@ -30,7 +35,11 @@ calc_distances <- function(import_raster, pred_points, cnn) {
       rf_distances,
       cnn_distances
     )
-  )
+  ) |>
+    mutate(
+      model = factor(model, levels = c("Logistisk Regression", "Random Forest",
+                                       "Convolutional Neural Network"))
+    )
 
 }
 
@@ -47,9 +56,14 @@ plot_predictions <- function(import_raster, pred_points) {
     filter(!buffer & randomforest == 1) |>
     select(randomforest)
 
+  cnn_points <- pred_points |>
+    filter(cnn == 1) |>
+    select(cnn)
+
   ggplot() +
     geom_sf(data = log_points, color = "red") +
     geom_sf(data = rf_points, color = "green") +
+    geom_sf(data = cnn_points, color = "blue") +
     geom_sf(data = raster["vindmll" == 1], shape = 21) +
     theme_void()
 }

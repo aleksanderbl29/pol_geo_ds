@@ -1,6 +1,6 @@
 get_input_shape <- function(data) {
-  # c(dim(data)[2], dim(data)[3] - 1, 1)
-  c(round_down_to_nearest_four(dim(data)[1]), dim(data)[2], 1)
+  # Return shape for 1D convolution (features, channels)
+  dim(data)[2:3]
 }
 
 round_down_to_nearest_four <- function(x) {
