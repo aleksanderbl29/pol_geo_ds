@@ -20,26 +20,16 @@ get_tuning_set <- function(train, windmills) {
     st_crop(crop_area)
 }
 
-define_recipe <- function(training, type = "single") {
+define_recipe <- function(training) {
 
-  training <- training |>
-    st_drop_geometry()
+  training |>
+    st_drop_geometry() |>
+    recipe() |>
+    update_role(everything(), new_role = "support") |>
+    update_role(vindmll, new_role = "outcome") |>
+    update_role(b02, b03, b04, b08, new_role = "predictor") |>
+    step_normalize(all_numeric_predictors(), -all_outcomes())
 
-  if (type == "single") {
-    recipe(training) |>
-      update_role(everything(), new_role = "support") |>
-      # Outcome variabel med enkelt celle
-      update_role(vindmll, new_role = "outcome") |>
-      update_role(b02, b03, b04, b08, new_role = "predictor") |>
-      step_normalize(all_numeric_predictors(), -all_outcomes())
-  } else if (type == "buffer") {
-    recipe(training) |>
-      update_role(everything(), new_role = "support") |>
-      # Outcome variabel med buffer
-      update_role(vindmll_w_buff, new_role = "outcome") |>
-      update_role(b02, b03, b04, b08, new_role = "predictor") |>
-      step_normalize(all_numeric_predictors(), -all_outcomes())
-  }
 }
 
 define_workflow <- function(recipe, model) {
@@ -59,11 +49,12 @@ fit_model <- function(workflow, split, params = NULL) {
     st_drop_geometry()
 
   if (!is.null(params)) {
-  workflow |>
-    finalize_workflow(
-      select_by_pct_loss(params, metric = "roc_auc", limit = 5)
-    ) |>
-    fit(split)
+    best_params <- params |>
+      select_best(metric = "roc_auc")
+
+    workflow |>
+      finalize_workflow(best_params) |>
+      fit(split)
   } else if (is.null(params)) {
     workflow |>
       fit(split)
@@ -84,38 +75,37 @@ get_predictions <- function(pred, test, crs) {
     st_make_valid() |>
     st_set_crs(crs) |>
     st_centroid() |>
-    select(.pred_class, geometry)
+    select(.pred_class, geometry) |>
+    unique()
 }
 
 merge_predictions <- function(raster, lr, rf, cnn) {
   raster |>
     st_join(
-      lr |> rename(logistic = .pred_class)
+      lr |>
+        rename(logistic = .pred_class) |>
+        unique()
     ) |>
     st_join(
-      rf |> rename(randomforest = .pred_class)
+      rf |>
+        rename(randomforest = .pred_class) |>
+        unique()
     ) |>
     st_join(
-      cnn = rename(cnn = cnn_pred)
+      cnn |>
+        rename(cnn = cnn_pred) |>
+        unique()
     ) |>
+    unique() |>
     na.omit() |>
     st_centroid()
 }
 
 get_predicted_points <- function(predictions) {
   predictions |>
-    filter(logistic == 1 | randomforest == 1, cnn == 1) |>
+    filter(logistic == 1 | randomforest == 1 | cnn == 1) |>
     unique() |>
     st_centroid()
-}
-
-get_modelsummary <- function(logistic, rand_forest) {
-  modelsummary(
-    list(
-      "Logistisk regression" = logistic,
-      "Random Forest" = rand_forest
-    )
-  )
 }
 
 # Logistisk regression
@@ -129,7 +119,6 @@ define_logistic_model <- function() {
 define_rand_forest_model <- function() {
   rand_forest(trees = tune(), mtry = tune()) |>
     set_engine("randomForest") |>
-    # set_engine("ranger") |>
     set_mode("classification")
 }
 
@@ -137,7 +126,135 @@ define_rand_forest_grid <- function() {
   expand_grid(trees = seq(100, 1500, length.out = 5), mtry = 1:4)
 }
 
+select_params <- function(params) {
+  out <- params |> select_best(metric = "roc_auc") |>
+    select(-.config) |>
+    as.list()
 
-## Evaluation plots
-get_roc_curve
+  out$roc_auc <- params |>
+    collect_metrics() |>
+    filter(.metric == "roc_auc") |>
+    slice_max(mean) |>
+    pull(mean) |>
+    vec_fmt_number(decimals = 2, locale = "da")
 
+  return(out)
+}
+
+evaluate_confusion <- function(predictions, model_name) {
+  # Convert predictions to factors if they aren't already
+  true_values <- as.factor(predictions$vindmll)
+  pred_values <- as.factor(predictions[[model_name]])
+
+  # Manually create confusion matrix
+  true_neg <- sum(true_values == "0" & pred_values == "0")
+  false_pos <- sum(true_values == "0" & pred_values == "1")
+  false_neg <- sum(true_values == "1" & pred_values == "0")
+  true_pos <- sum(true_values == "1" & pred_values == "1")
+
+  # Create table with gt
+  conf_mat_table <- tibble(
+    faktisk = c("0", "1"),
+    `0` = c(true_neg, false_neg),
+    `1` = c(false_pos, true_pos)
+  ) %>%
+    gt() %>%
+    tab_spanner(
+      label = "Forudsagt",
+      columns = c("0", "1")
+    ) %>%
+    cols_label(
+      faktisk = "Faktisk"
+    ) %>%
+    fmt_number(
+      columns = c("0", "1"),
+      decimals = 0,
+      dec_mark = ",",
+      sep_mark = "."
+    )
+
+  return(conf_mat_table)
+}
+
+evaluate_metrics <- function(predictions) {
+  # Define model name mapping
+  model_names <- c(
+    "logistic" = "Logistisk regression",
+    "randomforest" = "Random forest",
+    "cnn" = "Convolutional neural network"
+  )
+
+  # Calculate metrics for each model
+  models <- c("logistic", "randomforest", "cnn")
+  metrics_list <- lapply(models, function(model) {
+    true_values <- as.factor(predictions$vindmll)
+    pred_values <- as.factor(predictions[[model]])
+
+    # Calculate basic metrics
+    acc <- mean(true_values == pred_values)
+    tp <- sum(true_values == "1" & pred_values == "1")
+    fp <- sum(true_values == "0" & pred_values == "1")
+    fn <- sum(true_values == "1" & pred_values == "0")
+    precision <- tp / (tp + fp)
+    recall <- tp / (tp + fn)
+    f1 <- 2 * (precision * recall) / (precision + recall)
+
+    # Calculate AUC
+    # Note: roc() expects numeric probabilities for pred, so we need to ensure
+    # the predictions are numeric probabilities if they aren't already
+    roc_obj <- roc(as.numeric(true_values) - 1,
+                   as.numeric(pred_values) - 1)
+    auc_value <- auc(roc_obj)
+
+    tibble(
+      Model = model_names[model],
+      Accuracy = acc,
+      Precision = precision,
+      Recall = recall,
+      F1 = f1,
+      AUC = as.numeric(auc_value)  # Convert from roc object to numeric
+    )
+  })
+
+  # Combine all metrics into one table
+  bind_rows(metrics_list) %>%
+    gt() %>%
+    fmt_number(columns = -Model,
+               decimals = 3) %>%
+    tab_style(
+      style = cell_text(weight = "bold"),
+      locations = cells_column_labels()
+    ) |>
+    fmt_number(
+      columns = c("Accuracy", "Precision", "Recall", "F1", "AUC"),
+      decimals = 3,
+      dec_mark = ",",
+      sep_mark = "."
+    )
+}
+
+get_metrics <- function(predictions, model_name) {
+  true_values <- as.factor(predictions$vindmll)
+  pred_values <- as.factor(predictions[[model_name]])
+
+  acc <- mean(true_values == pred_values)
+  tp <- sum(true_values == "1" & pred_values == "1")
+  fp <- sum(true_values == "0" & pred_values == "1")
+  fn <- sum(true_values == "1" & pred_values == "0")
+
+  precision <- tp / (tp + fp)
+  recall <- tp / (tp + fn)
+  f1 <- 2 * (precision * recall) / (precision + recall)
+
+  roc_obj <- roc(as.numeric(true_values) - 1,
+                 as.numeric(pred_values) - 1)
+  auc_value <- auc(roc_obj)
+
+  list(
+    ac = acc |> vec_fmt_number(decimals = 3, locale = "da"),
+    p = precision |> vec_fmt_number(decimals = 3, locale = "da"),
+    r = recall |> vec_fmt_number(decimals = 3, locale = "da"),
+    f = f1 |> vec_fmt_number(decimals = 3, locale = "da"),
+    auc = as.numeric(auc_value) |> vec_fmt_number(decimals = 3, locale = "da")
+  )
+}

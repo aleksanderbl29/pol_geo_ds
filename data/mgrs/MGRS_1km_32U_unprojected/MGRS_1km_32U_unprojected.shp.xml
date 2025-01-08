@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<metadata>
+	<idinfo>
+		<citation>
+			<citeinfo>
+				<origin>Coordinate Systems Analysis Team (SNAC) of the National Geospatial-Intelligence Agency (NGA)</origin>
+				<pubdate>2009</pubdate>
+				<title Sync="TRUE">MGRS_1km_32U_unproject</title>
+				<geoform Sync="TRUE">vector digital data</geoform>
+				<serinfo>
+					<sername>MGRS 100kmSQ_ID shapefiles</sername>
+				</serinfo>
+				<pubinfo>
+					<pubplace>NGA St. Louis</pubplace>
+					<publish>SNAC</publish>
+				</pubinfo>
+				<ftname Sync="TRUE">MGRS_1km_32U_unproject</ftname><onlink Sync="TRUE">\\STLC056605G\E\ReferenceSystems\UGS\MGRS\WWProject\Set_2\U\MGRS_1km_32U_unprojected.gdb</onlink></citeinfo>
+		</citation>
+		<descript>
+			<abstract>This is an MGRS 1km polygon shapefile.  The polygons are grouped into GZD-size areas based on UTM zone and MGRS band letters into mostly 6ºx8º areas.  There are no classification restrictions on this information.  This information was created by the National Geospatial-Intelligence Agency (NGA) Coordinate Systems Analysis Team (SNAC).  This information was created in 2009.  Acronyms used in the attribute table include: CM = central meridian, GZD = grid zone designator, n = northern hemisphere, s = southern hemisphere.  Abbreviations used in the attribute table include: LAT = latitude, LONG = longitude.</abstract>
+			<purpose>The purpose of this file is for GIS use, reference graphics, and instruction.  It is intended to be projected using Transverse Mercator projection into its appropriate UTM zone and hemisphere.</purpose>
+			<langdata Sync="TRUE">en</langdata></descript>
+		<timeperd>
+			<timeinfo>
+				<sngdate>
+					<caldate>2011</caldate>
+				</sngdate>
+			</timeinfo>
+			<current>publication date</current>
+		</timeperd>
+		<status>
+			<progress>Complete</progress>
+			<update>None planned</update>
+		</status>
+		<spdom>
+			<bounding>
+				<westbc Sync="TRUE">5.412575</westbc>
+				<eastbc Sync="TRUE">12.587425</eastbc>
+				<northbc Sync="TRUE">56.036494</northbc>
+				<southbc Sync="TRUE">47.960866</southbc>
+			</bounding>
+			<lboundng><leftbc Sync="TRUE">276224.093423</leftbc><rightbc Sync="TRUE">723775.906577</rightbc><bottombc Sync="TRUE">5316300.221117</bottombc><topbc Sync="TRUE">6210141.324322</topbc></lboundng></spdom>
+		<keywords>
+			<theme>
+				<themekt>ISO 19115</themekt>
+				<themekey>Location</themekey>
+				<themekey>Polygon</themekey>
+				<themekey>Grid</themekey>
+				<themekey>Reference System</themekey>
+				<themekey>Grid System</themekey>
+				<themekey>Grid Reference System</themekey>
+				<themekey>UTM</themekey>
+				<themekey>MGRS</themekey>
+				<themekey>6x8</themekey>
+				<themekey>6ºx8º</themekey>
+				<themekey>GZD</themekey>
+				<themekey>grid zone designator</themekey>
+			</theme>
+		</keywords>
+		<accconst>none</accconst>
+		<useconst>There are no use constraints on this information.  There are no classification restrictions on this information.</useconst>
+		<ptcontac>
+			<cntinfo>
+				<cntorgp>
+					<cntorg>Coordinate Systems Analysis Team (SNAC) of National Geospatial-Intelligence Agency</cntorg>
+				</cntorgp>
+				<cntaddr>
+					<addrtype>mailing address</addrtype>
+					<address>SNAC, Mail Stop L-41</address>
+					<address>NGA St. Louis</address>
+					<address>3838 Vogel Rd.</address>
+					<city>Arnold</city>
+					<state>MO</state>
+					<postal>63010-6238</postal>
+					<country>USA</country>
+				</cntaddr>
+				<cntvoice>314.676.9124</cntvoice>
+				<cntfax>314.676.3113</cntfax>
+				<cntemail>brian.n.akers@nga.mil</cntemail>
+				<cntemail>kurt.j.schulz@nga.mil</cntemail>
+			</cntinfo>
+		</ptcontac>
+		<browse>
+			<browsen>MGRS_1km_32U</browsen>
+			<browsed>Shapefile of the MGRS_1km in UTM zone 32, latitude band letter U.</browsed>
+			<browset>Shapefile</browset>
+		</browse>
+		<secinfo>
+			<secsys>Unclassified</secsys>
+			<secclass>Unclassified</secclass>
+			<sechandl>no restrictions</sechandl>
+		</secinfo>
+		<native Sync="TRUE">Microsoft Windows XP Version 5.1 (Build 2600) Service Pack 3; ESRI ArcCatalog 9.3.1.3000</native>
+		<natvform Sync="TRUE">File Geodatabase Feature Class</natvform></idinfo>
+	<spdoinfo>
+		<direct Sync="TRUE">Vector</direct>
+		<ptvctinf><esriterm Name="MGRS_1km_32U_unproject"><efeatyp Sync="TRUE">Simple</efeatyp><efeageom Sync="TRUE">4</efeageom><esritopo Sync="TRUE">FALSE</esritopo><efeacnt Sync="TRUE">0</efeacnt><spindex Sync="TRUE">FALSE</spindex><linrefer Sync="TRUE">FALSE</linrefer></esriterm></ptvctinf></spdoinfo>
+	<spref>
+		<horizsys>
+			<geodetic>
+				<horizdn Sync="TRUE">D_WGS_1984</horizdn>
+				<ellips Sync="TRUE">WGS_1984</ellips>
+				<semiaxis Sync="TRUE">6378137.000000</semiaxis>
+				<denflat Sync="TRUE">298.257224</denflat>
+			</geodetic>
+			<cordsysn><geogcsn Sync="TRUE">GCS_WGS_1984</geogcsn></cordsysn><geograph><geogunit Sync="TRUE">Decimal degrees</geogunit><latres Sync="TRUE">0.000000</latres><longres Sync="TRUE">0.000000</longres></geograph></horizsys>
+	</spref>
+	<eainfo>
+		<detailed Name="MGRS_1km_32U_unproject">
+			<enttyp>
+				<enttypl Sync="TRUE">MGRS_1km_32U_unproject</enttypl>
+				<enttypt Sync="TRUE">Feature Class</enttypt><enttypc Sync="TRUE">0</enttypc></enttyp>
+			<attr><attrlabl Sync="TRUE">FID</attrlabl><attalias Sync="TRUE">FID</attalias><attrtype Sync="TRUE">OID</attrtype><attwidth Sync="TRUE">4</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale><attrdef Sync="TRUE">Internal feature number.</attrdef><attrdefs Sync="TRUE">ESRI</attrdefs><attrdomv><udom Sync="TRUE">Sequential unique whole numbers that are automatically generated.</udom></attrdomv></attr><attr>
+				<attrlabl>Shape</attrlabl>
+				<attrdef>Feature geometry.</attrdef>
+				<attrdefs>ESRI</attrdefs>
+				<attrdomv>
+					<udom>Coordinates defining the features.</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">Shape</attalias><attrtype Sync="TRUE">Geometry</attrtype><attwidth Sync="TRUE">0</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr>
+			<attr>
+				<attrlabl>GZD</attrlabl>
+				<attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">3</attwidth><attalias Sync="TRUE">GZD</attalias><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr>
+			<attr><attrlabl Sync="TRUE">EASTING</attrlabl><attalias Sync="TRUE">EASTING</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">10</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">kmSQ_ID</attrlabl><attalias Sync="TRUE">kmSQ_ID</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">3</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">NORTHING</attrlabl><attalias Sync="TRUE">NORTHING</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">10</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">MGRS</attrlabl><attalias Sync="TRUE">MGRS</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">15</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">MGRS_10km</attrlabl><attalias Sync="TRUE">MGRS_10km</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">254</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">Shape_Leng</attrlabl><attalias Sync="TRUE">Shape_Leng</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">Shape_Area</attrlabl><attalias Sync="TRUE">Shape_Area</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale><attrdef Sync="TRUE">Area of feature in internal units squared.</attrdef><attrdefs Sync="TRUE">ESRI</attrdefs><attrdomv><udom Sync="TRUE">Positive real numbers that are automatically generated.</udom></attrdomv></attr></detailed>
+	</eainfo>
+	<distinfo>
+		<distrib>
+			<cntinfo>
+				<cntorgp>
+					<cntorg>Coordinate Systems Analysis Team (SNAC) of the National Geospatial Intelligence Agency (NGA)</cntorg>
+				</cntorgp>
+				<cntvoice>314.676.9124</cntvoice>
+				<cntfax>314.676.3113</cntfax>
+				<cntemail>brian.n.akers@nga.mil</cntemail>
+				<cntemail>kurt.j.schulz@nga.mil</cntemail>
+			</cntinfo>
+		</distrib>
+		<resdesc>Downloadable Data</resdesc>
+		<distliab>none</distliab>
+		<stdorder>
+			<digform>
+				<digtinfo>
+					<transize>1.755</transize>
+					<dssize Sync="TRUE">47.861</dssize></digtinfo>
+			</digform>
+			<fees>none</fees>
+			<ordering>web download, email contact, phone contact</ordering>
+		</stdorder>
+		<custom>contact shapefile producer</custom>
+		<techpreq>ESRI</techpreq>
+	</distinfo>
+	<metainfo>
+		<metd Sync="TRUE">20120323</metd>
+		<metc>
+			<cntinfo>
+				<cntorgp>
+					<cntorg>SNAC</cntorg>
+					<cntper>REQUIRED: The person responsible for the metadata information.</cntper></cntorgp>
+				<cntaddr>
+					<addrtype>mailing address</addrtype>
+					<address>SNAC, Mail Stop L-41</address>
+					<address>NGA St. Louis</address>
+					<address>3838 Vogel Rd.</address>
+					<city>Arnold</city>
+					<state>MO</state>
+					<postal>63010-6238</postal>
+					<country>USA</country>
+				</cntaddr>
+				<cntvoice>314.676.9124</cntvoice>
+				<cntfax>314.676.3113</cntfax>
+				<cntemail>brian.n.akers@nga.mil</cntemail>
+				<cntemail>kurt.j.schulz@nga.mil</cntemail>
+			</cntinfo>
+		</metc>
+		<metstdn Sync="TRUE">FGDC Content Standards for Digital Geospatial Metadata</metstdn>
+		<metstdv Sync="TRUE">FGDC-STD-001-1998</metstdv>
+		<mettc Sync="TRUE">local time</mettc>
+		<metsi>
+			<metscs>unclassified</metscs>
+			<metsc>Unclassified</metsc>
+			<metshd>no restrictions</metshd>
+		</metsi>
+		<metextns>
+			<onlink>http://www.esri.com/metadata/esriprof80.html</onlink>
+			<metprof>ESRI Metadata Profile</metprof>
+		</metextns>
+		<langmeta Sync="TRUE">en</langmeta></metainfo>
+	<Esri><CreaDate>20120323</CreaDate><CreaTime>12211600</CreaTime><SyncOnce>FALSE</SyncOnce><SyncDate>20120731</SyncDate><SyncTime>19453300</SyncTime><ModDate>20120731</ModDate><ModTime>19453300</ModTime><DataProperties><lineage><Process Name="Add Field (168)" ToolSource="C:\Program Files\ArcGIS\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20120222" Time="140912">AddField E:\ReferenceSystems\UGS\MGRS\WWProject\Set_1\G\MGRS_1km_19G.shp MGRS_10km TEXT # # # # NON_NULLABLE NON_REQUIRED # E:\ReferenceSystems\UGS\MGRS\WWProject\Set_1\G\MGRS_1km_19G.shp</Process><Process Name="Calculate Field (168)" ToolSource="C:\Program Files\ArcGIS\ArcToolbox\Toolboxes\Data Management Tools.tbx\CalculateField" Date="20120222" Time="141130">CalculateField E:\ReferenceSystems\UGS\MGRS\WWProject\Set_1\G\MGRS_1km_19G.shp MGRS_10km "[GZD] &amp; [kmSQ_ID] &amp; Left (Right ([EASTING],5),1) &amp;  Left (Right ([NORTHING],5),1)" VB # E:\ReferenceSystems\UGS\MGRS\WWProject\Set_1\G\MGRS_1km_19G.shp</Process><Process Name="Delete Field (7)" ToolSource="C:\Program Files\ArcGIS\ArcToolbox\Toolboxes\Data Management Tools.tbx\DeleteField" Date="20120323" Time="121609">DeleteField E:\ReferenceSystems\UGS\MGRS\WWProject\Set_2\U\MGRS_1km_32U.shp MGRS_10km E:\ReferenceSystems\UGS\MGRS\WWProject\Set_2\U\MGRS_1km_32U.shp</Process><Process Name="Add Field (8)" ToolSource="C:\Program Files\ArcGIS\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20120323" Time="121620">AddField E:\ReferenceSystems\UGS\MGRS\WWProject\Set_2\U\MGRS_1km_32U.shp MGRS_10km TEXT # # # # NON_NULLABLE NON_REQUIRED # E:\ReferenceSystems\UGS\MGRS\WWProject\Set_2\U\MGRS_1km_32U.shp</Process><Process Name="Calculate Field (8)" ToolSource="C:\Program Files\ArcGIS\ArcToolbox\Toolboxes\Data Management Tools.tbx\CalculateField" Date="20120323" Time="121832">CalculateField E:\ReferenceSystems\UGS\MGRS\WWProject\Set_2\U\MGRS_1km_32U.shp MGRS_10km "[GZD] &amp; [100kmSQ_ID] &amp; Left (Right ([EASTING],7),1) &amp;  Left (Right ([NORTHING],7),1)" VB # E:\ReferenceSystems\UGS\MGRS\WWProject\Set_2\U\MGRS_1km_32U.shp</Process><Process Name="Project (8)" ToolSource="C:\Program Files\ArcGIS\ArcToolbox\Toolboxes\Data Management Tools.tbx\Project" Date="20120323" Time="122651">Project E:\ReferenceSystems\UGS\MGRS\WWProject\Set_2\U\MGRS_1km_32U.shp E:\ReferenceSystems\UGS\MGRS\WWProject\Set_2\U\MGRS_1km_32U_unprojected.shp GEOGCS['GCS_WGS_1984',DATUM['D_WGS_1984',SPHEROID['WGS_1984',6378137.0,298.257223563]],PRIMEM['Greenwich',0.0],UNIT['Degree',0.0174532925199433]] # PROJCS['WGS_1984_UTM_Zone_1S',GEOGCS['GCS_WGS_1984',DATUM['D_WGS_1984',SPHEROID['WGS_1984',6378137.0,298.257223563]],PRIMEM['Greenwich',0.0],UNIT['Degree',0.0174532925199433]],PROJECTION['Transverse_Mercator'],PARAMETER['False_Easting',500000.0],PARAMETER['False_Northing',10000000.0],PARAMETER['Central_Meridian',-177.0],PARAMETER['Scale_Factor',0.9996],PARAMETER['Latitude_Of_Origin',0.0],UNIT['Meter',1.0]]</Process><Process Name="Feature Class to Feature Class (7)" ToolSource="C:\Program Files\ArcGIS\ArcToolbox\Toolboxes\Conversion Tools.tbx\FeatureClassToFeatureClass" Date="20120323" Time="122946">FeatureClassToFeatureClass E:\ReferenceSystems\UGS\MGRS\WWProject\Set_2\U\MGRS_1km_32U_unprojected.shp E:\ReferenceSystems\UGS\MGRS\WWProject\Set_2\U\MGRS_1km_32U_unprojected.gdb MGRS_1km_32U_unproject # "EASTING 'EASTING' true true false 10 Text 0 0 ,First,#,E:\ReferenceSystems\UGS\MGRS\WWProject\Set_2\U\MGRS_1km_32U_unprojected.shp,EASTING,-1,-1;NORTHING 'NORTHING' true true false 10 Text 0 0 ,First,#,E:\ReferenceSystems\UGS\MGRS\WWProject\Set_2\U\MGRS_1km_32U_unprojected.shp,NORTHING,-1,-1;kmSQ_ID 'kmSQ_ID' true true false 3 Text 0 0 ,First,#,E:\ReferenceSystems\UGS\MGRS\WWProject\Set_2\U\MGRS_1km_32U_unprojected.shp,100kmSQ_ID,-1,-1;GZD 'GZD' true true false 3 Text 0 0 ,First,#,E:\ReferenceSystems\UGS\MGRS\WWProject\Set_2\U\MGRS_1km_32U_unprojected.shp,GZD,-1,-1;MGRS 'MGRS' true true false 15 Text 0 0 ,First,#,E:\ReferenceSystems\UGS\MGRS\WWProject\Set_2\U\MGRS_1km_32U_unprojected.shp,MGRS,-1,-1;MGRS_10km 'MGRS_10km' true true false -1 Text -1 -2 ,First,#,E:\ReferenceSystems\UGS\MGRS\WWProject\Set_2\U\MGRS_1km_32U_unprojected.shp,MGRS_10km,-1,-1" # E:\ReferenceSystems\UGS\MGRS\WWProject\Set_2\U\MGRS_1km_32U_unprojected.gdb\MGRS_1km_32U_unproject</Process><Process ToolSource="C:\Program Files\ArcGIS\Desktop10.0\ArcToolbox\Toolboxes\Data Management Tools.tbx\CopyFeatures" Date="20120731" Time="194744">CopyFeatures F:\FactorM_backup\SNAC\Shapefiles\MGRS_1km_Polygons\Set_2_Geodatabases\MGRS_1km_32U_unprojected.gdb\MGRS_1km_32U_unproject F:\FactorM_backup\SNAC\Shapefiles\MGRS_1km_Polygons\Set_2_Shapefiles\MGRS_1km_32U_unproject.shp # 0 0 0</Process></lineage><itemProps><itemName Sync="TRUE">MGRS_1km_32U_unproject</itemName><imsContentType Sync="TRUE">002</imsContentType><itemSize Sync="TRUE">0.000</itemSize><itemLocation><linkage Sync="TRUE">file://\\IECSTLGA186\F\FactorM_backup\SNAC\Shapefiles\MGRS_1km_Polygons\Set_2_Shapefiles\MGRS_1km_32U_unproject.shp</linkage><protocol Sync="TRUE">Local Area Network</protocol></itemLocation></itemProps><coordRef><type Sync="TRUE">Geographic</type><geogcsn Sync="TRUE">GCS_WGS_1984</geogcsn><peXml Sync="TRUE">&lt;GeographicCoordinateSystem xsi:type='typens:GeographicCoordinateSystem' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xs='http://www.w3.org/2001/XMLSchema' xmlns:typens='http://www.esri.com/schemas/ArcGIS/10.0'&gt;&lt;WKT&gt;GEOGCS[&amp;quot;GCS_WGS_1984&amp;quot;,DATUM[&amp;quot;D_WGS_1984&amp;quot;,SPHEROID[&amp;quot;WGS_1984&amp;quot;,6378137.0,298.257223563]],PRIMEM[&amp;quot;Greenwich&amp;quot;,0.0],UNIT[&amp;quot;Degree&amp;quot;,0.0174532925199433]]&lt;/WKT&gt;&lt;XOrigin&gt;-399.99999999999989&lt;/XOrigin&gt;&lt;YOrigin&gt;-399.99999999999989&lt;/YOrigin&gt;&lt;XYScale&gt;11258999068426.24&lt;/XYScale&gt;&lt;ZOrigin&gt;-100000&lt;/ZOrigin&gt;&lt;ZScale&gt;10000&lt;/ZScale&gt;&lt;MOrigin&gt;-100000&lt;/MOrigin&gt;&lt;MScale&gt;10000&lt;/MScale&gt;&lt;XYTolerance&gt;8.9831528411952133e-009&lt;/XYTolerance&gt;&lt;ZTolerance&gt;0.001&lt;/ZTolerance&gt;&lt;MTolerance&gt;0.001&lt;/MTolerance&gt;&lt;HighPrecision&gt;true&lt;/HighPrecision&gt;&lt;LeftLongitude&gt;-180&lt;/LeftLongitude&gt;&lt;WKID&gt;4326&lt;/WKID&gt;&lt;/GeographicCoordinateSystem&gt;</peXml></coordRef></DataProperties><MetaID>{2F173866-9802-4F7F-BEA9-4F47CA46E6F5}</MetaID></Esri><dataqual><lineage><procstep><procdesc Sync="TRUE">Metadata imported.</procdesc><srcused Sync="TRUE">C:\DOCUME~1\akersbn\LOCALS~1\Temp\xmlCA.tmp</srcused><date Sync="TRUE">20090710</date><time Sync="TRUE">16020500</time></procstep><procstep><procdesc Sync="TRUE">Metadata imported.</procdesc><srcused Sync="TRUE">E:\ReferenceSystems\UGS\MGRS\100km_SQ_ID\Zone02\n\MGRS_100kmSQ_ID_02n.shp.xml</srcused><date Sync="TRUE">20091026</date><time Sync="TRUE">11574100</time></procstep><procstep><procdesc Sync="TRUE">Metadata imported.</procdesc><srcused Sync="TRUE">E:\Projects\SouthWestAsia_Shapefiles\Pakistan\Zone41\MGRS_100km_41R.shp.xml</srcused><date Sync="TRUE">20091026</date><time Sync="TRUE">14304100</time></procstep><procstep><procdesc Sync="TRUE">Metadata imported.</procdesc><srcused Sync="TRUE">E:\Projects\SouthWestAsia_Shapefiles\Pakistan\Zone41\MGRS_1km_41R.shp.xml</srcused><date Sync="TRUE">20091027</date><time Sync="TRUE">13570400</time></procstep><procstep><procdesc Sync="TRUE">Metadata imported.</procdesc><srcused Sync="TRUE">E:\Projects\SouthWestAsia_Shapefiles\Iraq\Zone37\MGRS_1km_37S.shp.xml</srcused><date Sync="TRUE">20091027</date><time Sync="TRUE">15163700</time></procstep><procstep><procdesc Sync="TRUE">Metadata imported.</procdesc><srcused Sync="TRUE">E:\Projects\SouthWestAsia_Shapefiles\Iran\Zone38\S\MGRS_1km_38S.shp.xml</srcused><date Sync="TRUE">20091029</date><time Sync="TRUE">09484100</time></procstep><procstep><procdesc Sync="TRUE">Metadata imported.</procdesc><srcused Sync="TRUE">E:\Projects\SouthWestAsia_Shapefiles\39R\MGRS_1km_39R.shp.xml</srcused><date Sync="TRUE">20091102</date><time Sync="TRUE">16440000</time></procstep><procstep><procdesc Sync="TRUE">Metadata imported.</procdesc><srcused Sync="TRUE">E:\Projects\SouthWestAsia_Shapefiles\38S\MGRS_1km_38S.shp.xml</srcused><date Sync="TRUE">20091102</date><time Sync="TRUE">16510500</time></procstep><procstep><procdesc Sync="TRUE">Metadata imported.</procdesc><srcused Sync="TRUE">E:\Projects\SouthWestAsia_Shapefiles\38R\MGRS_1km_38R.shp.xml</srcused><date Sync="TRUE">20091102</date><time Sync="TRUE">16514100</time></procstep><procstep><procdesc Sync="TRUE">Metadata imported.</procdesc><srcused Sync="TRUE">E:\Projects\SouthWestAsia_Shapefiles\37S\MGRS_1km_37S.shp.xml</srcused><date Sync="TRUE">20091102</date><time Sync="TRUE">16533100</time></procstep><procstep><procdesc Sync="TRUE">Metadata imported.</procdesc><srcused Sync="TRUE">E:\Projects\HotSpots\36R\MGRS_1km_36R.shp.xml</srcused><procdate Sync="TRUE">20111104</procdate><proctime Sync="TRUE">15085000</proctime></procstep><procstep><procdesc Sync="TRUE">Metadata imported.</procdesc><srcused Sync="TRUE">E:\Projects\HotSpots\28P\MGRS_1km_28P.shp.xml</srcused><procdate Sync="TRUE">20111215</procdate><proctime Sync="TRUE">14204200</proctime></procstep><procstep><procdesc Sync="TRUE">Metadata imported.</procdesc><srcused Sync="TRUE">E:\ReferenceSystems\UGS\MGRS\WWProject\Set_6\F\18F\MGRS_1km_18F.shp.xml</srcused><procdate Sync="TRUE">20111215</procdate><proctime Sync="TRUE">14302000</proctime></procstep><procstep><procdesc Sync="TRUE">Dataset moved.</procdesc><srcused Sync="TRUE">E:\ReferenceSystems\UGS\MGRS\WWProject\Set_1\G\19G\MGRS_1km_19G</srcused><procdate Sync="TRUE">20111221</procdate><proctime Sync="TRUE">07370200</proctime></procstep><procstep><procdesc Sync="TRUE">Metadata imported.</procdesc><srcused Sync="TRUE">E:\ReferenceSystems\UGS\MGRS\WWProject\Set_1\G\MGRS_1km_19G.shp.xml</srcused><procdate Sync="TRUE">20120229</procdate><proctime Sync="TRUE">10592000</proctime></procstep><procstep><procdesc Sync="TRUE">Metadata imported.</procdesc><srcused Sync="TRUE">E:\ReferenceSystems\UGS\MGRS\WWProject\Set_1\T\MGRS_1km_13T.shp.xml</srcused><procdate Sync="TRUE">20120301</procdate><proctime Sync="TRUE">08195200</proctime></procstep><procstep><procdesc Sync="TRUE">Metadata imported.</procdesc><srcused Sync="TRUE">E:\ReferenceSystems\UGS\MGRS\WWProject\Set_2\U\MGRS_1km_02U.shp.xml</srcused><procdate Sync="TRUE">20120301</procdate><proctime Sync="TRUE">08213000</proctime></procstep><procstep><procdesc Sync="TRUE">Dataset copied.</procdesc><srcused Sync="TRUE"></srcused><procdate Sync="TRUE">20120323</procdate><proctime Sync="TRUE">12211600</proctime></procstep></lineage></dataqual><dataIdInfo><envirDesc Sync="TRUE">Microsoft Windows XP Version 5.1 (Build 2600) Service Pack 3; ESRI ArcGIS 10.0.0.2414</envirDesc><dataLang><languageCode Sync="TRUE" value="en" country="US"></languageCode></dataLang><idCitation><resTitle Sync="TRUE">MGRS_1km_32U_unproject</resTitle><presForm><PresFormCd Sync="TRUE" value="005"></PresFormCd></presForm></idCitation><spatRpType><SpatRepTypCd Sync="TRUE" value="001"></SpatRepTypCd></spatRpType><dataExt><geoEle><GeoBndBox esriExtentType="native"><westBL Sync="TRUE">276224.093423</westBL><eastBL Sync="TRUE">723775.906577</eastBL><northBL Sync="TRUE">6210141.324322</northBL><southBL Sync="TRUE">5316300.221117</southBL><exTypeCode Sync="TRUE">1</exTypeCode></GeoBndBox></geoEle></dataExt><geoBox esriExtentType="decdegrees"><westBL Sync="TRUE">5.412575</westBL><eastBL Sync="TRUE">12.587425</eastBL><northBL Sync="TRUE">56.036494</northBL><southBL Sync="TRUE">47.960866</southBL><exTypeCode Sync="TRUE">1</exTypeCode></geoBox><descKeys><thesaName uuidref="723f6998-058e-11dc-8314-0800200c9a66"></thesaName><keyword Sync="TRUE">002</keyword></descKeys></dataIdInfo><mdLang><languageCode Sync="TRUE" value="en"></languageCode></mdLang><mdStanName Sync="TRUE">ISO 19115 Geographic Information - Metadata</mdStanName><mdStanVer Sync="TRUE">DIS_ESRI1.0</mdStanVer><mdChar><CharSetCd Sync="TRUE" value="006"></CharSetCd></mdChar><mdHrLv><ScopeCd Sync="TRUE" value="005"></ScopeCd></mdHrLv><mdHrLvName Sync="TRUE">dataset</mdHrLvName><distInfo><distributor><distorTran><onLineSrc><orDesc Sync="TRUE">002</orDesc><linkage Sync="TRUE">file://\\STLC056605G\E\ReferenceSystems\UGS\MGRS\WWProject\Set_2\U\MGRS_1km_32U_unprojected.gdb</linkage><protocol Sync="TRUE">Local Area Network</protocol></onLineSrc><transSize Sync="TRUE">47.861</transSize></distorTran><distorFormat><formatName Sync="TRUE">File Geodatabase Feature Class</formatName></distorFormat></distributor><distFormat><formatName Sync="TRUE">Shapefile</formatName></distFormat><distTranOps><transSize Sync="TRUE">0.000</transSize></distTranOps></distInfo><refSysInfo><RefSystem><refSysID><identCode Sync="TRUE" code="0">GCS_WGS_1984</identCode></refSysID></RefSystem></refSysInfo><spatRepInfo><VectSpatRep><topLvl><TopoLevCd Sync="TRUE" value="001"></TopoLevCd></topLvl><geometObjs Name="MGRS_1km_32U_unproject"><geoObjTyp><GeoObjTypCd Sync="TRUE" value="002"></GeoObjTypCd><geoObjCnt Sync="TRUE">0</geoObjCnt></geoObjTyp><geoObjCnt Sync="TRUE">0</geoObjCnt></geometObjs></VectSpatRep></spatRepInfo><mdDateSt Sync="TRUE">20120731</mdDateSt></metadata>

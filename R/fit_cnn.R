@@ -1,8 +1,9 @@
 fit_cnn <- function(cnn_path, train_x, train_y, epochs, batch_size, cnn_definition) {
   cat("Training CNN model...\n")
 
-  # Load model
-  model <- load_model(cnn_path)
+  # Load model and get class weights
+  model <- cnn_definition$model
+  class_weight <- cnn_definition$class_weight
 
   # Define callbacks
   callbacks <- list(
@@ -14,19 +15,20 @@ fit_cnn <- function(cnn_path, train_x, train_y, epochs, batch_size, cnn_definiti
     ),
     callback_early_stopping(
       monitor = "loss",
-      patience = 10,
+      patience = 20,
       restore_best_weights = TRUE
     )
   )
 
-  # Fit model
+  # Fit model with class weights
   history <- model |> fit(
     x = train_x,
     y = train_y,
     epochs = epochs,
     batch_size = batch_size,
     callbacks = callbacks,
-    verbose = 0
+    class_weight = class_weight,  # Add class weights
+    verbose = 2  # Change verbose from 1 to 0
   )
 
   # Save fitted model
@@ -40,13 +42,8 @@ fit_cnn <- function(cnn_path, train_x, train_y, epochs, batch_size, cnn_definiti
 }
 
 predict_cnn <- function(cnn_path, test_x, test_y, threshold = 0.5) {
-  cat("Loading fitted CNN model...\n")
   model <- load_model(cnn_path$path)
-
-  cat("Predicting on test data...\n")
-  probabilities <- model |> predict(test_x, verbose = 0)
-
-  # Convert to binary predictions and merge with test data
+  probabilities <- model |> predict(test_x, verbose = 2)
   ifelse(probabilities > threshold, 1, 0)
 }
 
@@ -59,7 +56,8 @@ merge_cnn_predictions <- function(test_data, predictions) {
   test_data$cnn_pred <- pred_vec
 
   test_data |>
-    st_centroid()
+    st_centroid() |>
+    select(cnn_pred, geometry)
 }
 
 flatten_predictions <- function(predictions) {
@@ -180,3 +178,4 @@ repeat_outcome_to_predictors <- function(outcome, n_rows, n_cols, n_predictors) 
 
   return(resized_outcome)
 }
+

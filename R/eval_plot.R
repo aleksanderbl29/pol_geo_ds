@@ -194,10 +194,20 @@ create_square <- function(center, res) {
 ggridge_distance_render <- function(data) {
 
   data |>
+    mutate(model = if_else(model == "Convolutional neural network",
+                           "Convolutional\nneural network", model)) |>
+    mutate(model = factor(model, levels = c(
+      "Convolutional\nneural network", "Random forest", "Logistisk regression"
+    ))) |>
     ggplot(aes(distance + 1, model, fill = model)) +
     geom_density_ridges2(show.legend = FALSE) +
     scale_fill_viridis_d(name = "Delta distance (m.)") +
     labs(x = "Distance (m)", y = NULL) +
-    scale_x_log10() +
-    theme_classic()
+    scale_x_log10(
+      breaks = scales::breaks_log(n = 6),
+      labels = scales::label_number_auto()) +
+    theme_classic() +
+    theme(
+      axis.text = element_text(color = "black")
+    )
 }

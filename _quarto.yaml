@@ -16,7 +16,7 @@ project:
 no-browse: true
 
 title: Klassifikation og geokodning af vindmøller med Sentinel-2 billeder
-subtitle: Optimal compute, geokodning og machine learning teknikker
+subtitle: Om geokodning, machine learning og en overkompleks model
 
 kursus: "261E24 Politisk geo-data-science med R: analyse, modellering og visualisering"
 
@@ -26,6 +26,7 @@ authors:
 
 format:
   html: default
+  docx: default
   pdf:
     fig-pos: "tbh"
     tbl-pos: "tb"

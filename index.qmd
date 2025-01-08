@@ -1,46 +1,324 @@
-
-# Data
-
-## Inddeling i trænings- og testdata
-
-Jeg har valgt at udvælge et raster-billede der dækker over dele af vestjylland som mit træningsdata og 
-
-# Performance
-
-Det tager ca. 45 minutter at omdanne rasteren med fire lag til en sf data frame.
-
-# Evaluering
-
-For at evaluere modellen vil jeg vurdere hvor præcist der geokodes i forhold til den *sande* værdi fra registerdata hos @energistyrelsen2024. Det gør jeg ved, som fremvist i @fig-eval-exmpl, at indplacere alle geokodninger i en afstand fra det *sande* punkt. Afstanden hertil er en klassifikation af, hvor godt modellen har klaret sig.
-
-```{r fig-eval_ex}
-#| label: fig-eval-exmpl
-#| fig-cap: Eksempel på evaluering af geokodning
-
-tar_read(eval_score_plot_example)
+```{r load-objects}
+#| echo: false
+#| output: false
+# source("_targets_packages.R")
+library(stars)
+tar_source()
+tar_load(c(n_rast_cells, n_vindm_cells, mem_size, v32_x, v32_y, pot_size, r_m_s,
+           n_crop, r_m_s_sf, b02, b03, b04, b08, rand_forest_params_specific,
+           lr, rf, cn))
+v32_x <- v32_x |> gt::vec_fmt_number(decimals = 0, locale = "da")
+v32_y <- v32_y |> gt::vec_fmt_number(decimals = 0, locale = "da")
+rfp <- rand_forest_params_specific
 ```
 
-```{r fig-eval}
-#| label: fig-eval
-#| fig-cap: Fordeling af geokodninger
+# Indledning
 
-tar_read(eval_score_plot) +
-  cowplot::theme_map() +
-  ggplot2::theme_classic()
+Med fremdriften af klimaforandringer er det essentielt for politikere at kunne lovgive samfundet væk fra unødig brug af fossile brændsler. En af måderne at bevæge sig væk fra disse er ved brug af vindenergi. Inden en vindmølle(-park) kan konstrueres må der tages hensyn til de borgere der bor omkring. Blandt andre Leah C. @stokes2016 og @larsen2021 har undersøgt, hvordan vælgere reagerer på vindmøllekonstruktioner i lokalområdet. For at kunne lave denne analyse kræves det, at man 1) har adgang til vælgeradfærdsdata på et lille og geografisk relevant niveau (eksempelvis individ, sogn eller afstemningssted) og 2) har adgang til registerdata over vindmølleplaceringer og konstruktionstidspunkt eller 3) har mulighed for at udregne vindmøllernes placering på anden vis. I dette projekt vil jeg beskæftige mig med at løse det tredje punkt, for at finde ud af, hvordan vi optimalt finder vindmøllers placering uden registerdata. Til det vil jeg bruge satellitbilleder fra Copernicus-projektets Sentinel-2 satellit.
+
+## Problemstilling
+
+Det leder mig til det overordnede spørgsmål jeg vil forsøge at svare på:
+
+- Hvordan registrerer, og geokoder, man mest optimalt vindmølleanlæg ud fra satellitbilleder?
+
+For at undersøge dette har jeg struktureret denne opgave som følger. Først vil jeg kort beskrive, hvorfor det er relevant at undersøge mulighederne for klassifikation af vindmøller i satellitbilleder, og hvilke typer politologiske undersøgelser der vil have gavn af mine fund. Herefter vil jeg kort gennemgå *udfordringen* i at skulle binært klassificere vindmøller med Sentinel-2 billeder. Dernæst vil jeg præsentere de data jeg vil bruge i undersøgelsen og særligt, hvordan jeg har begrænset mit dataområde. Herefter vil jeg introducere de tre typer modeller jeg vil lade løse denne klassifikationsopgave. Efter dette vil jeg evaluere modellernes performance og vurdere mine resultater. Slutteligt vil jeg, på baggrund af resultaterne, diskutere hvilken model, der fungerer mest optimalt til klassifikation af vindmøller, samt kort gennemgå andre muligheder end dem jeg har undersøgt.
+
+# Empiri, udfordring og relevans
+
+## Empirisk relevans
+
+I litteraturen om NIMBY'isme og elektoral respons på ændringer i lokalområdet er det relevant at kunne registrere disse lokale ændringer. En af de typer ændringer, der i litteraturen har været fokus på, er vindmøllekonstruktion. Her har eksempelvis @stokes2016 samt @larsen2021 undersøgt, hvordan det at der konstrueres en vindmølle indenfor en stemmekreds, påvirker stemmeadfærden ved det lokalvalg der kommer efter. Til denne analyse kræves det, at man har relativt præcise geografiske placeringer for vindmøllerne. Disse er offentligt tilgængelige i Danmark, hvorfor det er en god case at teste på. Hvis man vil lave denne analyse i et land eller område, der ikke har vindmølleplaceringer let tilgængeligt er det relevant at undersøge andre metoder til at geokode disse.
+
+I sydeuropa har @tertre2022 lavet en undersøgelse af, hvordan man kan klassificere vindmøller i Sentinel-2 satellitbilleder, hvor de brugte et convolutional neural network til at klassificere vindmøllernes placering. Derudover findes der en bred litteratur omkring klassifikation af landoverfladen med satellitbilleder og *machine learning* [@ferreira2022], hvor eksempelvis [@wegmann2016] benytter en random forest.
+
+## Udfordringen
+
+I @fig-vindmll-billede ses en sammenligning af det samme område i Danmark. Til højre i @fig-sub-vhr ser vi et billede i høj opløsning (pixels af $2x2$ meter). Denne type billede er ikke bredt tilgængeligt og er dyre at få adgang til i mængder der gør dem relevant til et projekt som dette. Til venstre, derimod, ser vi i @fig-sub-raster et udsnit af det rastermateriale der vil blive brugt i dette projekt. Her er skåret ind til det samme område og i den højest mulige opløsning, men det er betydeligt sværere at genkende vindmøllerne i dette billede. I hvert fald for det menneskelige øje! Derfor vil jeg forsøge om en maskine kan finde dem for os.
+
+::: {#fig-vindmll-billede layout="[[1,1], [1]]"}
+
+```{r showing-raster}
+#| label: fig-sub-raster
+#| fig-cap: Udsnit af raster
+tar_read(showing_raster) |> plot(main = NULL)
 ```
 
-```{r ridgeplot}
-#| label: fig-ridge
-#| fig-cap: Distanceforskel mellem forudsagt placering og faktisk placering pr model.
 
+```{r windmill-vhr}
+#| label: fig-sub-vhr
+#| fig-cap: Høj-opløsningsbillede af samme område som i raster
+tar_read(windmill_vhr) |> plot(main = NULL)
+```
+
+\raggedright
+\footnotesize
+\setstretch{1}
+Kilde: Copernicus Land Monitoring Service Very High Resolution Image Mosaic 2021 [@clms2021].
+
+Sammenligning af udsnit af raster og VHR-billede
+:::
+
+# Metode
+
+I dette afsnit vil jeg beskrive, hvordan jeg forsøge at klassificere og geokode vindmøller med Sentinel-2 billeder. Først gennemgår jeg de data jeg har udvalgt til formålet, mens jeg også beskriver, hvordan jeg kommer fra satellitbillede til raster-data til tabulært data, der kan klassificeres. Derefter beskriver jeg hver af de tre typer modeller jeg har udvalgt, nemlig en logistisk regression, en random forest og et convolutional neural network. I den forbindelse beskriver jeg også min fordeling i validerings- og træningsmateriale, samt en kort gennemgang af de `R`-pakker jeg har valgt til opgaven. Til slut vil jeg beskrive min strategi for, hvordan jeg vil evaluere modellernes resultater.
+
+## Datagrundlag
+
+Rasterdataene jeg vil bruge til at klassificere vindmøllerne, stammer fra Copernicus-projektets Sentinel-2 satellit. Disse billeder tages for hver MGRS celle på 100 kilometer-niveau. Det betyder altså cellerne er $100x100$ kilometer. For rasteren henter jeg data for de fire bånd 2, 3, 4 og 8. Jeg har udvalgt disse fire bånd da det er dem der har den højeste opløsning på 10m, altså hvor pixelen er $10x10m$. Båndene 2, 3, og 4 udgør farveregistrering i blå, grøn og rød mens bånd 8 er nær-infrarød [@sentinel-hub2024]. I @fig-bplot har jeg tegnet hvert bånd ved deres placering i og ved siden af det synlige spektrum. Hver pixel i satellitbilledet læses ind som en celle i en raster og i @fig-bands kan det ses, hvordan hvert bånd opfanger forskellig information fra jordens overflade. Dette skyldes at forskellige overflader og materialer reflekterer lys forskelligt, mens også forskellige distancer til satellitens sensor påvirker mængden af lys. Denne forskel i, hvad der registereres vil jeg lade modellerne udnytte i forsøget på at klassificere vindmøllers placering.
+
+::: {#fig-bplot}
+
+```{r bands-plot}
+#| fig-height: 1
+tar_read(bands_plot)
+```
+
+\raggedright
+\footnotesize
+\setstretch{1}
+Kilde: Egen tilvirkning på baggrund af informationer fra @sentinel-hub2024.
+
+Sentinel-2 båndenes bølgelængder
+:::
+
+::: {#fig-bands layout="[[1,1,1,1], [1]]"}
+
+```{r}
+#| message: false
+#| label: fig-b2
+#| fig-cap: Bånd 2
+plot_band(b02)
+```
+
+```{r}
+#| message: false
+#| label: fig-b3
+#| fig-cap: Bånd 3
+plot_band(b03)
+```
+
+```{r}
+#| message: false
+#| label: fig-b4
+#| fig-cap: Bånd 4
+plot_band(b04)
+```
+
+```{r}
+#| message: false
+#| label: fig-b8
+#| fig-cap: Bånd 8
+plot_band(b08)
+```
+
+\raggedright
+\footnotesize
+\setstretch{1}
+Kilde: Rasterbillederne er hentet hos @clms2021.
+
+De fire udvalgte bånd præsenteret som raster
+:::
+
+Udover rasterbillederne vil jeg benytte mig af registerdata fra @energistyrelsen2024 til at placere punkter, hvor vindmøller er placeret. I @fig-area-select nedenfor kan alle vindmøllepunkterne ses; både vindmøller på land og vand. Disse punkter kan bruges til dels validering af modellernes forudsigelser og dels superviseret træning af de modeller, der kræver det.
+
+### Udvælgelse af område
+
+Jeg har begrænset mit undersøgelsesområde til fastlandsdanmark. Jeg har udeladt havvindmøller fra mine beregninger fordi det geografiske område omkring havvindmøllerne, altså havet, er meget forskelligt fra fastlandet. Se eksempelvis på forskellen i niveauerne mellem land og vand i @fig-bands ovenfor. Derudover har jeg systematisk valgt det område der indeholder flest vindmøller. I @fig-area-select kan det ses, hvordan der er flest vidmøller placeret i MGRS-cellen 32VMH. 
+
+::: {#fig-area-select}
+
+```{r data-selection-plot}
+tar_read(data_selection_plot)
+```
+
+\raggedright
+\footnotesize
+\setstretch{1}
+Kilde: Danmarkskortet er hentet hos @dawaR3. Vindmøllernes placering stammer fra @energistyrelsen2024. MGRS-cellerne er hentet fra @mgrs.
+
+MGRS områder over Danmark med vindmøller som punkter
+:::
+
+Med den nævnte opløsning på 10m pixels er der i denne raster `r v32_x` gange `r v32_y` celler for hvert af de fire bånd. Hver af disse celler fylder `r mem_size` i maskinens hukommelse. Sammenlagt vil en MGRS celle med fire bånd fylde cirka `r pot_size`, hvilket er mange gange større end den mængde hukommelse der er tilgængelig for de fleste. For at give et forhold til denne størrelse er min laptop eksempelvis udstyret med 16 GB ram. Selvom `R` opbevarer elementer i hukommelsen meget effektivt [@wickham2023] og denne simple udregning af hukommelsesforbruget ikke er fuldstændigt repræsentativ til virkeligheden, er det vigtigt at understrege *hvor* stor denne oprindelige raster er. Derfor er der behov for at skære den til.
+
+For at beholde den systematiske tilgang har jeg opdelt MGRS cellen 32VMH i et `r n_crop`x`r n_crop` grid hvorefter jeg har udvalgt den celle med flest vindmøller. Det giver en endelig raster med `r n_rast_cells` rasterceller, hvoraf `r n_vindm_cells` indeholder vindmøller. Denne endelige raster fylder `r r_m_s` i min maskines hukommelse. Når den er konverteret til en `sf`-dataframe, for at kunne bruges til modellering, fylder den `r r_m_s_sf`.
+
+## Modellering
+
+For at undersøge hvordan jeg *mest optimalt* kan klassificere vindmøllerne i Sentinel-2 billederne vil jeg prøve tre forskellige modeltyper. Jeg vil først benytte mig af en logistisk regression, dernæst en random forest model og til sidst et såkaldt convolutional neural network. Først vil jeg kort forklare opdelingen i trænings- og valideringsdata og derefter vil min fremgangsmåde og overvejelser blive uddybet i et afsnit for hver model.
+
+### Trænings- og valideringsdata
+
+For den logistiske regression, random forest modellen og mit convolutional neural network, har jeg brugt funktionen `initial_split()` fra `rsample`-pakken [@rsample]. Med den har jeg specificeret at $3/5$ af data skal bruges til træning og de sidste $2/5$ skal bruges til validering af modellerne. Derudover har jeg for hele kodens kørsel sat et *seed* på $42$ for at sikre at de tilfældige udtræk er reproducerbare mellem kørsler.
+
+### Logistisk regression
+
+Først og fremmest vil jeg forsøge om en logistisk regression kan løse vores problem. Denne model vil være den klart mindst omkostningsfyldte at benytte sig af, og hvis en logistisk regression kan klassificere vindmøllerne i vores billede vil det være at foretrække - Udelukkende af hensyn til kompleksitet. Den logistiske regression er længe blevet brugt som klassifikationsværktøj, eksempelvis i @green1998, hvor de argumenterer for brugen af en logistisk regression til at løse et to-gruppe klassifikationsproblem. Jeg vil bruge den til præcis dette, hvor jeg vil indplacere hver enkelt rastercelle i to grupper; vindmølle og ingen vindmølle. Disse vil senere blive omtalt som positive (vindmølle) og negative (ingen vindmølle) klassifikationer.
+
+### Random forest
+
+Til klassifikation af satellitbilleder er en random forest model at foretrække til de fleste klassifikationsopgaver [@wegmann2016 178-179]. Her opnår man en meget parsimonisk model i et kompromis mellem kompleksitet og performance. En random forest model bygger, lidt populært, på en *skov af beslutningstræer*, hvor der til hvert beslutningstræ tilfældigt udtrækkes et subset af datamaterialet. Random forest algoritmen blev først præsenteret af @breiman2001. Det foregår således at der for det $k$'ne træ genereres en input-vector $\theta{k}$ (eller subset) der indeholder et tilfældigt udvalg af predictor-variable for en tilfældig mængde af træningsdataet, for hvilken der foretages en klassifikation. Klassifikationerne for hele denne *skov af beslutningstræer* bliver til sidst samlet og flertallets klassifikation bliver returneret som modellens klassifikation. Til træning af denne model vil jeg benytte en superviseret træning [@wegmann2016 174-175], hvor jeg inputter geografiske punkter for alle vindmøller, hentet fra @energistyrelsen2024, og konstruerer en binær outcomevariabel i træningsmaterialet. Ligesom i den logistiske regression vil jeg bruge denne model til at foretage enten en positiv eller negativ klassifikation af hver enkelt rastercelle.
+
+#### Hyperparametertuning
+
+Til hyperparametertuning af random forest modellen har jeg med `spatialsample::spatial_block_cv()` [@spatialsample; @roberts2017] udtrukket fem grupper af geografiske blokke, der vil blive brugt til krydsvalidering. Hyperparametrene får altså lov at blive vurderet på disse fem subset af træningsmaterialet.
+
+Jeg kører et såkaldt *grid-tune*, der automatisk tester alle kombinationer af parametrene og returnerer metrikker, så jeg kan vurdere, hvilke, der fungerer bedst til præcis dette træningsmateriale. Her fandt jeg, at `r rfp$mtry` `mtry` og `r rfp$trees` træer fungerede bedst, der for træningsmaterialet gav en *ROC-AUC* på `r rfp$roc_auc`.
+
+### Convolutional neural network
+
+Et convolutional neural network er en algoritme i familien af kunstige neurale netværk (artificial neural network), der er modelleret efter biologiske nervesystemer [@oshea2015]. Den kraftige inspiration artificial neural networks har taget fra faktiske biologiske nervesystemer gør dem dels mere komplicerede at udvikle og dels mere performante i avancerede modelleringssituationer. Et convolutional neural network bruges primært til genkendelse af mønstre i billeder, hvor det er særligt godt til at genkende specifikke *features* i billeder. Det er det, der gør den type model egnet til mit forsøg på at klassificere vindmøller fra satellitbilleder. Når et convolutional neural network trænes, giver man den en række datapunkter i en såkaldt *batch*, hvor den bruger de relative værdier for hver observation til at opbygge sine egenskaber. Hvor et traditionelt kunstigt neuralt netværk kan håndtere to-dimensionelt input er et convolutional neural network optimeret i det, det kan håndtere både højde, bredde og dybde af et billede [@chollet2018 111-121]. Det gør det oplagt til at analysere raster-billeder, der som bekendt har x-koordinater (bredde) og y-koordinater (højde) samt en værdi (dybde) per celle. Nætværket fungerer ved at analysere hver batch for sig og genkende mere simple strukturer (eller *lokale features*), hvorefter disse lægges sammen til en evne til at registrere mere komplekse *features*. En mulig udfordring jeg ser for mig, med denne type model, er at opløsningen på Sentinel-2 billederne ikke er høj nok. Som vi så i @fig-sub-raster var det svært at genkende den enkelte vindmølle i biledet med $10m$ opløsning.
+
+Denne model kan også tunes, hvor jeg har ladet bruge op til 75 *epochs* (iterationer) til at konvergere. Jeg skriver "op til", fordi jeg også her har tilføjet et automatisk stop, hvor træningen stopper af sig selv, hvis modellens læring begynder at stagnere. Jeg har givet den *batches* på 256 observationer, hvilket med en tommelfingerregel om mellem 100 og 200 *batches* per *epoch* passer perfekt til træningsmaterialet, der har lige over under million observationer, så jeg sikrer at der ikke er for meget materiale der trænes dobbelt på.
+
+## Valg af `R`-pakker
+
+Denne undersøgelse af, hvordan man mest optimalt klassificerer og geokoder vindmøller i satellitbilleder bliver gennemført med `R`. Til dette vil jeg bruge en række pakker, hvoraf jeg vil fremhæve de af pakkerne der har været aktive tilvalg.
+
+Først og fremmest behandler jeg rasteren med `stars` og `sf` [@stars; @sf2]. Det betyder også at jeg har fravalgt `terra` [@terra] til fordel for Edzer Pebesmas `sf`-økosystem. Det giver mulighed for at benytte mig af `spatialsample` [@spatialsample; @roberts2017] i forbindelse med krydsvalidering i træningsfasen af random forest modellen og mit convolutional neural network. Den logistiske regression og random forest modellen køres gennem `tidymodels` [@tidymodels], med henholdsvis `stats` [@stats] og `randomForest` [@randomForest] som backend. Som nævnt benytter jeg `rsample` til tilfældigt udtræk af trænings- og valideringsdata [@rsample]. Til mit convolutional neural network vil jeg benytte mig af `keras3` og `reticulate` [@keras3; @reticulate]. Jeg har sat `keras3` op til at benytte `tensorflow` i python til selve modelleringen [@tensorflow]. Det giver mulighed for at skrive hele projektet i `R` og nemt overføre dataframes fra `R` til `python`. Til slut er koden til dette projekt skrevet som en `targets`-pipeline, for 1) at udnytte parallelisering, 2) sikre at kun de nødvendige dele af koden køres og 3) højne læsbarheden i koden ved at bryde hvert trin ned til en `R`-funktion med fast input og output [@targets].
+
+## Evalueringsstrategi
+
+Til at evaluere modellen vil jeg bruge to strategier. Den første er en evaluering af modellernes performance på en række klassiske metrikker, der for denne binære klassifikationsopgave tager udgangspunkt i de sande og falske positive og negative. Her har jeg udvalgt *accuracy*, *precision*, *recall*, *F1 score* og det såkaldte *Receiver Operating Characteristic Area Under the Curve* (*ROC-AUC*).
+
+*Accuracy* er et overordnet udtryk for, hvor godt modellen har klaret sig. Den udregnes ved antallet af korrekte positive og negative divideret med antallet af klassifikationer [@sokolova2009 430]. For denne opgave er der altså tale om antallet af rasterceller der korrekt er klassificeret til at indeholde, eller ikke indeholde, en vindmølle divideret med det samlede antal celler. Dette mål kan dog være misledende ved ubalancerede datasæt som det jeg arbejder med. *Precision* er et udtryk for, hvor stor en del af de samlede positive klassifikationer er sande positive [@sokolova2009 430]. Det er altså, hvor mange af de vindmøller hver model registrerer, som faktisk findes i den rastercelle. *Recall* kaldes også for modellens sensitivitet, er udtryk for modellens evne til at korrekt klassificere sande positive. Det er for denne opgave et udtryk for, hvor stor en andel af de rasterceller, der indeholder vindmøller, modellen har registreret som vindmøller. *F1 scoren* beskriver relationen mellem modellens *precision* og *recall* og kan bruges til at evaluere hvor god modellen er til at undgå falske klassifikationer. Til slut er *ROC-AUC* en værdi der fortæller os, hvor god modellen er til skelne mellem klassifikationer, altså hvor præcist den rammer den rigtige værdi [@kuhn2023].
+
+Udover den metriske evaluering vil jeg også substantielt evaluere resultaterne. Hvis vi husker tilbage til det litteratur der kan have gavn af denne undersøgelse er der klart, at det ikke er den præcise lokation af vindmøllen der er vigtigst. I mange af disse undersøgelser, eksempelvis @stokes2016 og @larsen2021 er der brugt aggregerede valgdata. Det kan være barmhjertigt for modellerne, da de i stedet for at skulle placere vindmøllen præcist, blot behøver at placere vindmøllen i det geografiske område som valgdata aggregeres på. I Danmark er det ofte på afstemningsstedsniveau, hvilket jeg har tegnet ind i Figurerne [-@fig-lr]-[-@fig-cnn]. Det er mig dog stadig usandsynligt, at en model reliabelt kan placere vindmøller "ved siden af", hvor de bør være. Den agregerede natur af undersøgelsernes data er altså værd at have in mente under den substantielle evaluering, men det er ikke et fripas til dårlig klassifikation.
+
+I den substantielle evaluering vil jeg fokusere dels på afstanden til den nærmest vindmølle og på modellernes faktiske klassifikationer gennem en såkaldt *confusion matrix*. I en *confusion matrix* fremlægges alle de klassifikationer der kommer ud af en model, hvorefter de sande og falske positive og negative klassifikationer sammenlignes. Det giver et overordnet billede på, hvor god en model har været til at klassificere værdierne.
+
+# Resultater
+
+I dette afsnit vil jeg gennemgå, hvordan modellerne klarede sig i forhold til klassifikationsopgaven. Her vil jeg først lave en substantiel fortolkning af modellernes resultater. Dernæst vil jeg opsummere modellernes performance ved at præsentere og vurdere de udvalgte metrikker, som beskrevet ovenfor. Herefter vil jeg bruge distancen fra modellens forudsagte vindmølleplacering til den nærmeste faktiske vindmølle til at sammenligne modellerne og vurdere, hvor brugbare resultaterne er. 
+
+## Substantiel evaluering
+
+Til denne substantielle evaluering vil jeg gennemgå, for hver model, hvor præcist vindmøllernes lokation er geokodet. Det gør jeg på baggrund af de forudsigelser hver model har gjort og sammenligner med de faktiske placeringer af vindmøllerne fra @energistyrelsen2024. Jeg vil forholde mig til, hvordan hver model har klaret sig i forhold til falske positive og mængden af vindmøller der ikke er blevet klassificeret (falske negative).
+
+For hver model har jeg tegnet et kort, der indeholder både de vindmøller der var med i testmaterialets lokationer samt lokationerne for de registrerede vindmøller. Disse punkter er lagt over et grundkort hentet fra @dawaR3, hvor afstemningsområderne er tegnet.
+
+### Logistisk regression
+
+Som forventet klarede den logistiske regression sig dårligt i forhold til at klassificere vindmøller. I @fig-lr ses cirkler for alle de vindmøller, der var inkluderet i testmaterialet, og gule prikker for de vindmøller der er registreret. I @tbl-tf-lr kan vi også se at den logistiske regression har registreret syv falske positive og ikke en eneste rigtig vindmølle. I @fig-lr ligger der en lille klynge af fire forudsagte vindmøller øverst, hvor der altså ikke er en vindmølle i virkeligheden.
+De vindmøller den logistiske regression har klassificeret (som ikke findes) er dog placeret indenfor et afstemningsområde, hvor der er vindmøller. På trods af det vurderer jeg dog, at der er registreret så få vindmøller, og i så få afstemningsområder, at det ikke er til at stole på.
+
+::: {layout="[65,35]" layout-valign="top"}
+
+```{r}
+#| label: fig-lr
+#| fig-cap: Placering af vindmøller geokodet med logistisk regression
+#| fig-pos: H
+tar_read(fig_eval_lr)
+```
+
+```{r}
+#| label: tbl-tf-lr
+#| tbl-cap: Confusion Matrix for logistisk regression
+tar_read(true_false_tbl_lr)
+```
+
+:::
+
+### Random Forest
+
+Modsat den logistiske regression har random forest modellen klaret sig rigtig godt. Som vi ser af @fig-rf har modellen klassificeret alle vindmøller i træningsmaterialet. Det stemmer også overens med det resultat jeg fremlagde i det tidligere afsnit og @tbl-mdl-perf. I @tbl-tf-rf kan vi yderligere bekræfte, at der ikke er registreret en eneste falsk positiv eller falsk negativ med random forest modellen. Det er imponerende og stemmer helt overens med den *AUC* vi ser i @tbl-mdl-perf nedenfor.
+
+::: {layout="[65,35]" layout-valign="top"}
+
+```{r}
+#| label: fig-rf
+#| fig-cap: Placering af vindmøller geokodet med random forest
+#| fig-pos: H
+tar_read(fig_eval_rf)
+```
+
+```{r}
+#| label: tbl-tf-rf
+#| tbl-cap: Confusion Matrix for random forest
+tar_read(true_false_tbl_rf)
+```
+
+:::
+
+### Convolutional neural network
+
+Mit convolutional neural network klarede sig bedre end den logistiske regression, men dårligere end random forest modellen. I @tbl-tf-cnn kan vi se, at der er registreret mange faktiske vindmøller, men at der samtidig er registreret endnu flere falske positive og falske negative. Den har altså kun registreret omkring en tiendedel af de faktiske vindmøller, mens kun cirka 10 procent af de positive klassifikationer er sande. Det forklarer også alle prikkerne der er spredt i @fig-cnn, hvor det er tydeligt, at modellen har korrekt klassificeret nogle vindmøller, men også har registreret vindmøller mange steder, hvor de ikke findes. I forhold til relevansen for NIMBY-litteraturen kan denne model dog være brugbar, da der er klassificeret vindmøller i alle de afstemningsområder, hvor der faktisk er vindmøller. Der er dog også registreret et par vindmøller i områder, hvor der ikke er vindmøller i træningsmaterialet.
+
+::: {layout="[65,35]" layout-valign="top"}
+
+```{r}
+#| label: fig-cnn
+#| fig-cap: Placering af vindmøller geokodet med convolutional neural network
+#| fig-pos: H
+tar_read(fig_eval_cnn)
+```
+
+```{r}
+#| label: tbl-tf-cnn
+#| tbl-cap: Confusion Matrix for convolutional neural network
+tar_read(true_false_tbl_cnn)
+```
+
+:::
+
+## Modellernes performance
+
+For hver model har jeg udregnet fem mål jeg vil bruge til at evaluere, hvor gode den er til at klassificere vindmøller i rasterbilledet. Her har jeg, som nævnt, udvalgt *accuracy*, *precision*, *recall*, *F1 score* og *ROC-AUC*.
+
+Af @tbl-mdl-perf ser vi, at alle tre modeller opnår en *accuracy* på tæt på 1. Det betyder altså, at op mod 100% af klassifikationerne er korrekte, hvilket lyder positivt. Dog, skyldes denne høje værdi for både den logistiske regression og mit convolutional neural network, at der er mere end $760.000$ rasterceller, hvor der ikke er vindmøller. Den logistiske regression lavede ingen korrekte klassifikationer, mens mit convolutional neural network lavede lige over 200 korrekte. Når *accuracy* udregnes ved andelen af korrekte klassifikationer divideret med det samlede klassifikationer, er det altså tydeligt at målet er misledende, når den logistiske regression kan have `r lr$ac` *accuracy* ved ikke at klassificere rigtigt en eneste gang. For min random forest model er en *accuracy* på `r rf$ac` derimod meget positiv, i det vi fra @tbl-tf-rf ovenfor ved at den klassificerede alle rasterceller rigtigt. Det samme gør sig gældende for mit Convolutional Nerual Network som det gør for den logistiske regression, nemlig at den blotte mængde af korrekte negative klassifikationer gør *accuracy*-målet skævt, når den kan opnå `r cn$ac` ved så mange falske positive og negative.
+
+De tre modeller klarer sig meget varierende på *precision*-målet, der er udtryk for hvor stor en andel af de positive klassifikationer er korrekte. Her ser vi i @tbl-mdl-perf, at den logistiske regression klarede en *precision* på `r lr$p`, hvor mit convolutional neural network opnåede en *precision* på `r cn$p`. Disse lave værdier skyldes, at modellerne havde store andele forkerte positive klassifikationer. Min random forest model opnåede en *precision* på `r rf$p`, da alle vindmøller, der blev klasssificeret, faktisk findes på de placeringer.
+
+For *recall* ses det samme mønster som med *precision*. Det er et mål for modellens evne til at registrere alle vindmøller i rasteren. I @tbl-mdl-perf opnår random forest modellen `r rf$r`, fordi alle vindmøller er korrekt registreret. Den logistiske regression scorer `r lr$r`, fordi ingen vindmøller er korrekt registreret, mens mit convolutional neural network opnår `r cn$r`, fordi cirka en fjerdedel af vindmøllerne er registreret.
+
+Forholdet mellem *precision* og *recall* finder vi i *F1 scoren*, der beskriver forholdet mellem de faktiske positive klassifikationer og dem givet af modellen. Altså, dette mål samler modellens ydeevne i både *precision* og *recall*. For den logistiske regression har det ikke været muligt at udregne denne score, da både *precision* og *recall* var $0$. For min random forest model får vi en *F1 score* på `r rf$f`, hvilket fortæller os, at modellen er rigtig god til både at klassificere de vindmøller der findes, og at den ikke klassificerer nogoen der ikke findes. Mit convolutional neural network opnår en *F1 score* på `r cn$f`, hvilket tyder på en rimeligt dårlig ydeevne.
+
+```{r}
+#| label: tbl-mdl-perf
+#| tbl-cap: Modelperformance
+tar_read(model_perf_tbl)
+```
+
+\newpage
+
+Til sidst har vi i @tbl-mdl-perf *AUC*, der beskriver, hvor god modellen er til at ramme den sande værdi for en given rastercelle. For den logistiske model har vi en *AUC* på `r lr$auc`, hvilket svarer til samme performance som et tilfældigt gæt. Det betyder substantielt (og lidt populært), at modellen er lige så god til at forudsige om en rastercelle indeholder en vindmølle som et slag plat eller krone. Min random forest model derimod har en *AUC* på `r rf$auc`, hvilket fortæller os, at den rammer rigtigt hver gang, når den skal klassificere om en rastercelle indeholder en vindmølle. Til slut har mit convolutional neural network en *AUC* på `r cn$auc`, hvilket indikerer en ydeevne der er en smule bedre end tilfældige gæt, men langt fra den for random forest modellen.
+
+## Evaluering på distance
+
+I @fig-ridge ses det, ligesom i @fig-lr, hvordan den logistiske regression har geokodet vindmøllerne op mod $10.000m$ fra den nærmeste vindmølle. For random forest modellen kan vi igen se, at den var rigtig god til at ramme møllernes placering præcist. Vi ser også at mit convolutional neural network har lidt blandet ydeevne, da nogle klassifikationer er præcist hvor de skal være, mens andre er langt fra den nærmeste vindmølle. Det tyder på, og som vi har set tidligere, at modellen har produceret mange falske positive.
+
+::: {#fig-ridge}
+
+```{r}
+#| message: false
+#| fig-height: 3
 tar_read(ridgeplot)
 ```
 
+\raggedright
+\footnotesize
+\setstretch{1}
+Note: Vær opmærksom på, at x-aksen er logaritmisk. Alle observationer er præsenteret som $distance + 1m$ for at lade random forest observationerne logistisk transformere. $1m$ er altså det samme som at ramme vindmøllens lokation perfekt.
 
+Distanceforskel mellem forudsagt placering og faktisk placering pr model.
+:::
 
-# Software
+# Diskussion
 
-Jeg har brugt en række pakker til deep learning og til geospatialt arbejde [@keras3;@sf1;@sf2;@ggmap].
+I dette afsnit vil jeg diskutere de resultater jeg har fundet og de udfordringer jeg er stødt på under dette projekt. Først vil jeg give nogle bud på, hvorfor mit convolutional neural network skuffede, hvorefter jeg vil beskrive en alternativ metode til at klassificere og geokode vindmøller.
+
+## Skuffende convolutional neural network
+
+Jeg har svært ved at udlede, hvorfor mit convolutional neural network ikke var så overlegent som jeg havde forventet. Et bud kan være at der ikke har været nok variation i datamaterialet til at inferere optimalt. Et andet kan være, at netværket havde trives bedre med mere data, eksempelvis flere bånd fra satelliten. En tredje mulighed er, at mit *computation* budget ikke har været stort nok, og derfor har netværket ikke nået at konvergere med det hardware jeg har til rådighed. @dodge2019 foreslår at resultater kan variere på tværs af forskningsbudgetter i evalueringen af strategier til *Natural Language Processing*. Det er muligt, at denne forskel også kan findes i dette tilfælde. En fjerde muliged er, at datasættets ubalancerede natur også er en faktor for den dårlige ydeevne. En femte mulighed er, at der i opdelingen af trænings- og valideringsdata er gået noget information tabt i forhold til den geografiske nærhed af data. Et convolutional neural network fungerer som nævnt ved at sammenligne observationerne med hinanden og bruger dne *relative* forskel til at udlede informationer. Denne relation kan være forsvundet i det tilfældige udtræk. Det kunne være interessant at undersøge, hvordan et tilfældigt udtræk med et geografisk element ville påvirke træningen af denne model. Til sidst er det også en mulighed, som jeg frygtede, at opløsningen på Sentinel-2 billederne ikke er høj nok med $10m$ opløsning, til at et convolutional neural network kan genkende reelle *features*.
+
+## Alternative metoder
+
+I dette projekt har jeg klassificeret vindmøllers placering med et enkeltstående rasterbillede af det danske landskab. En alternativ metode er at sammenligne rasterbilleder over tid for at opfange ændringer mellem dem. Det gør @stephenson2021 i et forsøg på at registrere ødelagte bygninger i konfliktområder. Denne metode kræver, ligesom den jeg har valgt, store mængder computerkapacitet samtidig med reliable billeder af det samme område, og gerne med stabile mellemrum. Jeg forestiller mig dog også, at det med den bygningsudvikling der sker i Danmark kan være svært at skelne vindmøllekonstruktioner fra eksempelvis høje bygninger. Ikke desto mindre kan det være et forsøg værd, hvis man ønsker at klassificere vindmøller i et projekt der ikke har kapacitet til supervisereret træning, men derimod har adgang til satellitbilleder af høj frekvens.
+
+# Konklusion
+
+I dette projekt har jeg undersøgt, hvordan man *mest optimalt* klassificerer og geokoder vindmøllers placering fra Sentinel-2 satellitbilleder. Jeg har fundet ud af, at en random forest model er oplagt til den opgave, mens jeg også er blevet undervældet af mit convolutional neural network. Dennes ringe ydeevne kan skyldes blandt andet det skarpt ubalancerede datasæt og at modellen ikke har mulighed for at konvergere optimalt i den klasse af hardware der er til rådighed for helt almindelige studerende. Den logistiske regression var, som forventet, rigtigt dårlig til opgaven. Jeg konkluderer altså, at med den rette superviserede træning af en random forest model, kan man opnå imponerende klassifikationsresultater; selv med Sentinel-2-billeder, hvor det menneskelige øje kan have svært ved at se dem. Den *mest optimale* måde er altså ved en random forest der arbejder på rastere i høj opløsning.
 
 \newpage
 

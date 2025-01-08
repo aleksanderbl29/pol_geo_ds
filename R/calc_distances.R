@@ -1,4 +1,4 @@
-calc_distances <- function(import_raster, pred_points, cnn) {
+calc_distances <- function(import_raster, pred_points) {
   raster <- import_raster |>
     filter(vindmll == 1) |>
     st_centroid()
@@ -26,9 +26,9 @@ calc_distances <- function(import_raster, pred_points, cnn) {
 
   tibble(
     model = c(
-      rep("Logistisk Regression", length(log_distances)),
-      rep("Random Forest", length(rf_distances)),
-      rep("Convolutional Neural Network", length(cnn_distances))
+      rep("Logistisk regression", length(log_distances)),
+      rep("Random forest", length(rf_distances)),
+      rep("Convolutional neural network", length(cnn_distances))
     ),
     distance = c(
       log_distances,
@@ -37,35 +37,45 @@ calc_distances <- function(import_raster, pred_points, cnn) {
     )
   ) |>
     mutate(
-      model = factor(model, levels = c("Logistisk Regression", "Random Forest",
-                                       "Convolutional Neural Network"))
+      model = factor(model, levels = c("Convolutional neural network",
+                                       "Random forest", "Logistisk regression"))
     )
 
 }
 
-plot_predictions <- function(import_raster, pred_points) {
-  raster <- import_raster |>
+plot_predictions <- function(import_raster, pred_points, voting, test, type) {
+  raster <- test |>
+    select(geometry) |>
+    st_join(import_raster |> st_centroid()) |>
     filter(vindmll == 1) |>
     st_centroid()
 
-  log_points <- pred_points |>
-    filter(!buffer & logistic == 1) |>
-    select(logistic)
-
-  rf_points <- pred_points |>
-    filter(!buffer & randomforest == 1) |>
-    select(randomforest)
-
-  cnn_points <- pred_points |>
-    filter(cnn == 1) |>
-    select(cnn)
+  if (type == "lr") {
+    points <- pred_points |>
+      filter(logistic == 1) |>
+      select(logistic)
+    color <-  viridis(3)[3]
+    size <- 2
+  } else if (type == "rf") {
+    points <- pred_points |>
+      filter(randomforest == 1) |>
+      select(randomforest)
+    color <-  viridis(3)[2]
+    size <- 1
+  } else if (type == "cnn") {
+    points <- pred_points |>
+      filter(cnn == 1) |>
+      select(cnn)
+    color <-  viridis(3)[1]
+    size <- 1
+  }
 
   ggplot() +
-    geom_sf(data = log_points, color = "red") +
-    geom_sf(data = rf_points, color = "green") +
-    geom_sf(data = cnn_points, color = "blue") +
-    geom_sf(data = raster["vindmll" == 1], shape = 21) +
-    theme_void()
+    geom_sf(data = points, color = color, size = size, shape = 20) +
+    geom_sf(data = raster["vindmll" == 1], shape = 21, size = 2) +
+    geom_sf(data = voting, color = "black", aes(fill = kommunenavn),
+            alpha = 0.05, show.legend = FALSE) +
+    theme_map()
 }
 
 

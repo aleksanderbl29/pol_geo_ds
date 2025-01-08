@@ -1,70 +1,27 @@
 library(targets)
 library(tarchetypes)
-library(crew.aws.batch)
 
-job_queue_name <- "targets_fargate_queue"
-#
-# aws_definition <- crew.aws.batch::crew_definition_aws_batch(
-#   job_definition = "targets_pol_geo_ds",
-#   job_queue = job_queue_name
-# )
-#
-# aws_definition$register(
-#   image = "rocker/geospatial:dev-osgeo",
-#   # platform_capabilities = "EC2",
-#   platform_capabilities = "FARGATE",
-#   cpus = 4,
-#   memory_units = "mebibytes",
-#   memory = 16000
-# )
-
-controller_aws <- crew.aws.batch::crew_controller_aws_batch(
-  name = "pol_geo_ds",
-  workers = 4,
-  tasks_max = 2,
-  # seconds_launch = 600, # to allow a 10-minute startup window
-  seconds_idle = 60, # to release resources when they are not needed
-  # processes = 4, # See the "Asynchronous worker management" section below.
-  options_aws_batch = crew_options_aws_batch(
-    # job_definition = aws_definition$job_definition,
-    job_definition = "target_fargate_manual",
-    job_queue = job_queue_name,
-    cpus = 4,
-    # gpus = NULL,
-    # Launch workers with 4 GB memory, then 8 GB if the worker crashes,
-    # then 16 GB on all subsequent launches. Go back to 4 GB if the worker
-    # completes all its tasks before exiting.
-    memory = c(8192, 16384, 32768),
-    memory_units = "mebibytes"
-  )
+vis_pkgs <- c(
+  "ggthemes", "cowplot", "gt", "patchwork", "viridis", "ggridges",
+  "ggtext", "magick", "tmap", "modelsummary", "tinytable"
 )
 
+model_pkgs <- c(
+  "keras3", "tidymodels", "ranger", "stats", "rsample", "broomstick",
+  "randomForest", "pROC"
+)
 
-
-# controller_aws$start()
+geospatial_pkgs <- c(
+  "sf", "spatialsample", "stars", "dawaR", "terra"
+)
 
 tar_option_set(
-  packages = c(
-    "tidyverse", "glue", "quarto",
-    "ggthemes", "cowplot", "gt", "patchwork", "viridis", "ggridges",
-    "sf", "terra", "spatialsample", "stars",
-    "keras3", "tidymodels", "ranger",
-    "crew.aws.batch", "targets", "tarchetypes"
+  packages = c(vis_pkgs, model_pkgs, geospatial_pkgs,
+    "tidyverse", "glue", "quarto"
   ),
 
-  # Define controller to use distribute compute.
-  # controller = crew::crew_controller_local(
-  #   name = "my_controller",
-  #   workers = 10,
-  #   seconds_idle = 3
-  # ),
-
-  # controller = controller_aws,
-
-  # memory = "transient",
   garbage_collection = TRUE,
-  storage = "main",
-  retrieval = "main",
+  # error = "trim",
 
   # Definer seed til tilfældige taludtræk
   seed = 42
@@ -79,109 +36,150 @@ list(
                "https://ens.dk/sites/ens.dk/files/Statistik/anlaeg_2.xlsx",
                paths = "data/anlaeg_2.xlsx",
                error = "continue", deployment = "main"),
-  tar_target(windmills, get_windmills(windmill_file, t_b02)),
+  tar_target(windmills_full, get_windmills(windmill_file, b02, crop = FALSE)),
+  tar_target(windmills, get_windmills(windmill_file, b02, crop = TRUE)),
+
+  # Importerer mgrs grids
+  tar_target(mgrs32u_file, "data/mgrs/MGRS_1km_32U_unprojected/", format = "file"),
+  tar_target(mgrs32v_file, "data/mgrs/MGRS_1km_32V_unprojected/", format = "file"),
+  tar_target(mgrs33u_file, "data/mgrs/MGRS_1km_33U_unprojected/", format = "file"),
+  tar_target(mgrs33v_file, "data/mgrs/MGRS_1km_33V_unprojected/", format = "file"),
+  tar_target(mgrs, import_mgrs(mgrs32u_file, mgrs32v_file,
+                               mgrs33u_file, mgrs33v_file, b02)),
 
   # Deklarer mappe med rasters
-  tar_target(base_folder, "/Volumes/T7 Shield/Remote sensing/", deployment = "main"),
+  tar_target(base_folder, "data/VESTJ/", deployment = "main"),
   # Importer træningsdata
-  tar_target(t_b02, paste0(base_folder, "VESTJ/B02.jp2"), format = "file", deployment = "main"),
-  tar_target(t_b03, paste0(base_folder, "VESTJ/B03.jp2"), format = "file", deployment = "main"),
-  tar_target(t_b04, paste0(base_folder, "VESTJ/B04.jp2"), format = "file", deployment = "main"),
-  tar_target(t_b08, paste0(base_folder, "VESTJ/B08.jp2"), format = "file", deployment = "main"),
-  # Importer valideringsdata
-  tar_target(v_b02, paste0(base_folder, "NRVST/B02.jp2"), format = "file", deployment = "main"),
-  tar_target(v_b03, paste0(base_folder, "NRVST/B03.jp2"), format = "file", deployment = "main"),
-  tar_target(v_b04, paste0(base_folder, "NRVST/B04.jp2"), format = "file", deployment = "main"),
-  tar_target(v_b08, paste0(base_folder, "NRVST/B08.jp2"), format = "file", deployment = "main"),
+  tar_target(b02, paste0(base_folder, "B02.jp2"), format = "file", deployment = "main"),
+  tar_target(b03, paste0(base_folder, "B03.jp2"), format = "file", deployment = "main"),
+  tar_target(b04, paste0(base_folder, "B04.jp2"), format = "file", deployment = "main"),
+  tar_target(b08, paste0(base_folder, "B08.jp2"), format = "file", deployment = "main"),
   # Importer raster
-  tar_target(import_raster, import_images(t_b02, t_b03, t_b04, t_b08), deployment = "main"),
-  tar_target(import_raster2, import_images(v_b02, v_b03, v_b04, v_b08), deployment = "main"),
+  tar_target(import_raster, import_images(b02, b03, b04, b08), deployment = "main"),
+  tar_target(n_crop, 8),
+  tar_target(cells, get_cells(windmills, b02, n = n_crop)),
+  tar_target(cropped_raster, crop_raster(import_raster, cells)),
+  tar_target(no_proxy_raster, noproxy(cropped_raster)),
+  tar_target(raster_sf, get_raster_sf(no_proxy_raster)),
+  # Find memory størrelse på en celle
+  tar_target(mem_size, get_row_size(no_proxy_raster, fmt = TRUE)),
+  tar_target(v32_x, get_import_x(import_raster)),
+  tar_target(v32_y, get_import_y(import_raster)),
+  tar_target(v32_z, get_import_z(import_raster)),
+  tar_target(pot_size, (get_row_size(no_proxy_raster) * v32_x * v32_y * v32_z) |>
+               gt::vec_fmt_bytes()),
+  tar_target(r_m_s, no_proxy_raster |> lobstr::obj_size() |> as.numeric() |>
+               gt::vec_fmt_bytes()),
+  tar_target(r_m_s_sf, raster_sf |> lobstr::obj_size() |> as.numeric() |>
+               gt::vec_fmt_bytes()),
   # Find CRS for den importerede raster
   tar_target(crs, st_crs(import_raster)),
   # Tilføj lag med vindmøller
-  tar_target(raster, assign_windmills(import_raster, windmills, crs)),
-  # Sammensæt validation raster
-  # tar_target(v_rast, import_images(v_b02, v_b03, v_b04, v_b08, crop = TRUE, windmills, crs)),
-              # tar_target(v_rast_truth, assign_windmills(v_rast, windmills, crs)),
-  # # Vær sikker på raster-par har samme dimensioner
-  # tar_target(t_rast_check_dim, check_dims(t_rast, t_rast_truth)),
-  # tar_target(v_rast_check_dim, check_dims(v_rast, v_rast_truth)),
-  # Eksporter rasters til dataframes
-  # tar_target(t_df, raster_as_dataframe(t_rast)),
-  # tar_target(t_df_truth, raster_as_dataframe(t_rast_truth)),
-  # tar_target(training_df, merge_data(t_df, t_df_truth)),
-
-              # tar_target(training_df, raster_as_dataframe(t_b02, t_b03, t_b04, t_b08,
-              #                                             windmills, crs)),
-  tar_target(training_df, raster_as_dataframe(raster)),
-  # tar_target(validation_df, raster_as_dataframe(v_rast)),
-  # tar_target(v_df, raster_as_dataframe(v_rast)),
-  # tar_target(v_df_truth, raster_as_dataframe(v_rast_truth)),
-  # tar_target(validation_df, merge_data(v_df, v_df_truth)),
-
-
-              # tar_target(validation_df, raster_as_dataframe(v_b02, v_b03, v_b04, v_b08,
-              #                                               windmills, crs)),
+  tar_target(raster, assign_windmills(raster_sf, windmills, crs)),
+  # Lav raster til dataframe
+  tar_target(df, raster_as_dataframe(raster)),
   # Definer opskrift til modeller
-  tar_target(recipe, define_recipe(training_df)),
-  tar_target(init_split, initial_split(training_df)),
+  tar_target(split, initial_split(df, prop = 3/5)),
+  tar_target(train, training(split)),
+  tar_target(test, testing(split)),
+  tar_target(recipe, define_recipe(train)),
   # Definer cross-validation folds til hyperparameter-tuning
-  # tar_target(t_folds, vfold_cv(training_df, v = 5)),
-  # tar_target(t_folds, loo_cv(training_df)),
-  # tar_target(t_folds, bootstraps(training_df, times = 1)),
-  tar_target(t_folds, spatial_clustering_cv(training_df, v = 5)),
-  tar_target(fold_plot, autoplot(t_folds)),
+  tar_target(tuning_set, get_tuning_set(train, windmills)),
+  # tar_target(t_folds, cross_v(tuning_set)),
+  tar_target(t_folds, spatial_block_cv(tuning_set, v = 5, buffer = 1)),
+  tar_target(fold_plot, autoplot(t_folds) + coord_sf(expand = FALSE) +
+               theme_classic() +
+               theme(legend.position = "none")),
+  # Single cells
+  # Logistisk Regression
+  tar_target(logistic_model, define_logistic_model()),
+  tar_target(logistic_workflow, define_workflow(recipe, logistic_model)),
+  tar_target(logistic, fit_model(logistic_workflow, test)),
+  tar_target(logistic_prediction, model_pred(logistic, test)),
+  tar_target(logistic_pred_df, get_predictions(logistic_prediction,
+                                                   test, crs)),
   # Random Forest
   tar_target(rand_forest_model, define_rand_forest_model()),
   tar_target(rand_forest_grid, define_rand_forest_grid()),
   tar_target(rand_forest_workflow, define_workflow(recipe, rand_forest_model)),
   tar_target(rand_forest_params, hyp_par_tuning(rand_forest_workflow,
                                                 t_folds, rand_forest_grid)),
-  tar_target(rand_forest_param_plot, autoplot(rand_forest_params)),
-  ## Forbered rasters til CNN
-  # tar_target(t_data, reshape(t_rast)),
-  # tar_target(t_data_truth, reshape(t_rast_truth)),
-  # tar_target(v_data, reshape(v_rast)),
-  # tar_target(v_data_truth, reshape(v_rast_truth)),
-  # # Find input_layer fra data
-  # tar_target(input_shape, get_input_shape(t_data)),
+  tar_target(rand_forest_params_specific, select_params(rand_forest_params)),
+  tar_target(rand_forest_param_plot, autoplot(rand_forest_params) +
+               labs(fill = "Udvalgte predictors",
+                    color = "Udvalgte predictors") +
+               theme_classic()),
+  tar_target(rand_forest, fit_model(rand_forest_workflow, test, rand_forest_params)),
+  tar_target(rand_forest_prediction, model_pred(rand_forest, test)),
+  tar_target(rand_forest_pred_df, get_predictions(rand_forest_prediction,
+                                                  test, crs)),
+
+  # Reshape trænings og valideringsdata til array til keras3
+  tar_target(cnn_train_x, reshape(train, "x")),
+  tar_target(cnn_train_y, reshape(train, "y")),
+  tar_target(cnn_test_x, reshape(test, "x")),
+  tar_target(cnn_test_y, reshape(test, "y")),
+
+  # Find input_layer fra data
+  tar_target(input_shape, get_input_shape(cnn_train_x)),
+
   # # Definer og compile cnn
-  # tar_target(cnn_definition, define_cnn(input_shape)), #, format = keras_fmt),
-  # # Definer path til cnn - Kun hvis den findes
-  # tar_skip(cnn_path, "data/cnn.keras",
-  #          skip = !file.exists("data/cnn.keras"), format = "file"),
-  # # Fit cnn
-  # tar_target(cnn, fit_cnn(cnn_path, t_data, t_data_truth,
-  #                         epochs = 15, batch_size = 128,
-  #                         validation_data = list(v_data, v_data_truth))),
+  tar_target(cnn_definition, define_cnn(input_shape, cnn_train_y)),
+
+  # Definer path til cnn
+  tar_target(cnn_path, get_cnn_path("data/model.keras", cnn_definition),
+             format = "file"),
+  # Fit cnn
+  tar_target(cnn, fit_cnn(cnn_path,
+                          train_x = cnn_train_x,
+                          train_y = cnn_train_y,
+                          epochs = 100,
+                          batch_size = 256,
+                          cnn_definition)),
+  # Predict cnn
+  tar_target(cnn_prediction, predict_cnn(cnn, cnn_test_x,
+                                         cnn_test_y)),
+  tar_target(cnn_pred_df, merge_cnn_predictions(test, cnn_prediction)),
+
+  # Merge prediction data til endelige df
+  tar_target(predictions, merge_predictions(
+    raster, logistic_pred_df, rand_forest_pred_df, cnn_pred_df)),
+  tar_target(pred_points, get_predicted_points(predictions)),
+  tar_target(distances, calc_distances(raster, pred_points)),
+
+  tar_target(bands_plot, plot_wavelengths()),
+
+  tar_target(voting, get_voting_areas(raster)),
+
+  ## Prediction plots
+  tar_target(fig_eval_lr, plot_predictions(raster, pred_points, voting, test,
+                                           "lr")),
+  tar_target(fig_eval_rf, plot_predictions(raster, pred_points, voting, test,
+                                           "rf")),
+  tar_target(fig_eval_cnn, plot_predictions(raster, pred_points, voting, test,
+                                            "cnn")),
+
+  tar_target(lr, get_metrics(predictions, "logistic")),
+  tar_target(rf, get_metrics(predictions, "randomforest")),
+  tar_target(cn, get_metrics(predictions, "cnn")),
 
 
-  tar_target(point, st_point(c(0, 0))),
-  tar_target(cat_1_m, 4),
-  tar_target(cat_2_m, cat_1_m * 2),
-  tar_target(cat_3_m, cat_2_m * 1.5),
-  tar_target(eval_table, eval_cat_table_render(cat_1_m, cat_2_m, cat_3_m)),
-  tar_target(eval_raster_table, eval_cat_table_render(1, 2, 3)),
-  tar_target(
-    eval_score_plot_example,
-    eval_score_plot_example_render(
-      point,
-      cat_1_m = cat_1_m,
-      cat_2_m = cat_2_m,
-      cat_3_m = cat_3_m,
-      eval_table)),
-  tar_target(simulated_data, sim_data(cat_1_m)),
-  tar_target(eval_score_plot, eval_score_plot_render(simulated_data,
-                                                     point,
-                                                     cat_1_m = cat_1_m,
-                                                     cat_2_m = cat_2_m,
-                                                     cat_3_m = cat_3_m)),
-  # tar_target(
-  #   eval_cat_table,
-  #   eval_cat_table_render(
-  #     cat_1_m = cat_1_m,
-  #     cat_2_m = cat_2_m,
-  #     cat_3_m = cat_3_m)),
-  tar_target(ridgeplot, ggridge_distance_render(simulated_data)),
+  tar_target(data_selection_plot, plot_all_data(windmills_full, import_raster, mgrs)),
+  tar_target(n_vindm_cells, get_n_cells("vind", df)),
+  tar_target(n_rast_cells, get_n_cells("non-vind", df)),
+
+  tar_target(model_perf_tbl, evaluate_metrics(predictions)),
+
+  tar_target(true_false_tbl_lr, evaluate_confusion(predictions, "logistic")),
+  tar_target(true_false_tbl_rf, evaluate_confusion(predictions, "randomforest")),
+  tar_target(true_false_tbl_cnn, evaluate_confusion(predictions, "cnn")),
+
+  tar_target(showing_raster, extract_showing_raster(windmills, b02,
+                                                    import_raster)),
+  tar_target(vhr_mosaic_download, download_vhr_mosaic(showing_raster),
+             error = "continue"),
+  tar_target(vhr_mosaic, "data/vhr_mosaic.png", format = "file"),
+  tar_target(windmill_vhr, get_windmill_plot(vhr_mosaic)),
+  tar_target(ridgeplot, ggridge_distance_render(distances)),
   tar_quarto(render, "index.qmd")
 )

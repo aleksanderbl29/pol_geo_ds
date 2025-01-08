@@ -28,3 +28,9 @@ sim_data <- function(cat_1_m) {
     buffer = sample(c(TRUE, FALSE), n, replace = TRUE)
   )
 }
+
+get_voting_areas <- function(raster) {
+  get_map_data("afstemningsomraader") |>
+    st_transform(st_crs(raster)) |>
+    st_crop(st_bbox(raster))
+}
