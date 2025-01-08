@@ -19,15 +19,14 @@ knitr::opts_chunk$set(
 
 Denne repo er til for at holde styr på kode til kurset ***261E24 - Politisk geo-data-science med R: analyse, modellering og visualisering***.
 
-Den indeholder:
+Den endelige eksamensopgave findes i `index.qmd` og kan printes til pdf med `quarto`. Den bliver også printet ved `tar_make()`.
 
-```{r}
-list.files("./forberedelse")
+## Reproduktion af projekt.
+
+```{r, eval=FALSE}
+library(targets)
+renv::restore()
+tar_make()
 ```
 
-og 
-
-```{r}
-list.files("./timer")
-```
-
+Data findes i `data/` eller hentes automatisk fra internettet når pipelinen kører.

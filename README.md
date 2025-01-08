@@ -1,27 +1,28 @@
+---
+output: github_document
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
+
 
 # Politik geo-data-science med R
 
 <!-- badges: start -->
-
 [![lint-project.yaml](https://github.com/aleksanderbl29/pol_geo_ds/actions/workflows/lint-project.yaml/badge.svg)](https://github.com/aleksanderbl29/pol_geo_ds/actions/workflows/lint-project.yaml)
 <!-- badges: end -->
 
-Denne repo er til for at holde styr på kode til kurset ***261E24 -
-Politisk geo-data-science med R: analyse, modellering og
-visualisering***.
+Denne repo er til for at holde styr på kode til kurset ***261E24 - Politisk geo-data-science med R: analyse, modellering og visualisering***.
 
-Den indeholder:
+Den endelige eksamensopgave findes i `index.qmd` og kan printes til pdf med `quarto`. Den bliver også printet ved `tar_make()`.
 
-``` r
-list.files("./forberedelse")
-#> [1] "uge1.qmd"
-```
+## Reproduktion af projekt.
 
-og
 
 ``` r
-list.files("./timer")
-#> character(0)
+library(targets)
+renv::restore()
+tar_make()
 ```
+
+Data findes i `data/` eller hentes automatisk fra internettet når pipelinen kører.
