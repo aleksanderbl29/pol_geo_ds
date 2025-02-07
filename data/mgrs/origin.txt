@@ -1,0 +1,2 @@
+Filerne er hentet fra
+https://earth-info.nga.mil/index.php?dir=coordsys&action=mgrs-1km-polyline-dloads

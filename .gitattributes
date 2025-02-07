@@ -1,2 +1,10 @@
 .*jp2 filter=lfs diff=lfs merge=lfs -text
 .*dbf filter=lfs diff=lfs merge=lfs -text
+/data/VESTJ/B02.jp2 filter=lfs diff=lfs merge=lfs -text
+/data/VESTJ/B03.jp2 filter=lfs diff=lfs merge=lfs -text
+/data/VESTJ/B04.jp2 filter=lfs diff=lfs merge=lfs -text
+/data/VESTJ/B08.jp2 filter=lfs diff=lfs merge=lfs -text
+/data/mgrs/MGRS_1km_32U_unprojected/MGRS_1km_32U_unprojected.dbf filter=lfs diff=lfs merge=lfs -text
+/data/mgrs/MGRS_1km_32V_unprojected/MGRS_1km_32V_unprojected.dbf filter=lfs diff=lfs merge=lfs -text
+/data/mgrs/MGRS_1km_33U_unprojected/MGRS_1km_33U_unprojected.dbf filter=lfs diff=lfs merge=lfs -text
+/data/mgrs/MGRS_1km_33V_unprojected/MGRS_1km_33V_unprojected.dbf filter=lfs diff=lfs merge=lfs -text
